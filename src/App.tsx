@@ -12,6 +12,7 @@ import Footer from './components/Footer';
 import Background3D from './components/Background3D';
 import Loader from './components/Loader';
 import ChatBot from './components/ChatBot';
+import VisitorCounter from './components/VisitorCounter';
 
 function App() {
   const [loading, setLoading] = useState(true);
@@ -44,6 +45,7 @@ function App() {
         </main>
         <Footer />
         <ChatBot />
+        <VisitorCounter />
       </div>
     </>
   );
