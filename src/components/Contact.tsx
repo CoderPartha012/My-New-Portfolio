@@ -81,7 +81,7 @@ const Contact = () => {
     'absolute left-4 pointer-events-none subheading-font transition-all duration-300';
 
   return (
-    <section id="contact" className="py-20 section-accent relative overflow-hidden">
+    <section id="contact" className="py-14 section-accent relative overflow-hidden">
       {/* Dynamic background */}
       <div className="absolute inset-0 cyber-grid opacity-25 pointer-events-none" />
       <div className="scan-line" style={{ animationDelay: '7s' }} />
@@ -93,8 +93,8 @@ const Contact = () => {
       </div>
 
       <div className="container mx-auto px-6 relative z-10">
-        <div className="text-center mb-16 animate-fade-in-up">
-          <h2 className="text-5xl lg:text-6xl font-bold text-white mb-4 heading-font">Get in Touch</h2>
+        <div className="text-center mb-10 animate-fade-in-up">
+          <h2 className="text-4xl lg:text-5xl font-bold text-white mb-4 heading-font">Get in Touch</h2>
           <div className="w-24 h-1 bg-white/30 mx-auto rounded-full mb-6" />
           <p className="text-white/80 max-w-2xl mx-auto body-font text-lg">
             Let's connect and discuss how we can work together to create amazing software experiences

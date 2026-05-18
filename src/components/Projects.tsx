@@ -77,7 +77,7 @@ const Projects = () => {
   const otherProjects = filteredProjects.filter((p) => !p.featured);
 
   return (
-    <section id="projects" className="py-20 section-primary relative overflow-hidden">
+    <section id="projects" className="py-14 section-primary relative overflow-hidden">
       {/* Dynamic background */}
       <div className="absolute inset-0 cyber-grid opacity-35 pointer-events-none" />
       <div className="scan-line" style={{ animationDelay: '5s' }} />
@@ -90,16 +90,16 @@ const Projects = () => {
 
       <div className="container mx-auto px-6 relative z-10">
         {/* Header */}
-        <div className="text-center mb-16 animate-fade-in-up">
-          <div className="flex items-center justify-center gap-3 mb-4">
-            <Code className="w-8 h-8 text-cyan-400 animate-pulse" />
-            <h2 className="text-5xl lg:text-6xl font-bold gradient-text-primary heading-font">
-              Featured Projects
-            </h2>
-            <Code className="w-8 h-8 text-cyan-400 animate-pulse" />
+        <div className="text-center mb-10 animate-fade-in-up">
+          <div className="inline-flex items-center gap-2 bg-cyan-500/10 border border-cyan-400/20 rounded-full px-5 py-2 mb-6">
+            <Code className="w-4 h-4 text-cyan-400" />
+            <span className="text-sm text-cyan-400 font-medium tracking-widest uppercase body-font">Portfolio</span>
           </div>
+          <h2 className="text-4xl lg:text-5xl font-bold gradient-text-primary heading-font mb-4">
+            Featured Projects
+          </h2>
           <div className="section-divider max-w-24 mx-auto mb-6" />
-          <p className="text-xl text-slate-400 max-w-3xl mx-auto body-font">
+          <p className="text-lg text-slate-400 max-w-2xl mx-auto body-font">
             Explore my latest projects showcasing innovation in web development and testing automation
           </p>
         </div>
@@ -135,7 +135,7 @@ const Projects = () => {
 
         {/* Featured Projects */}
         {featuredProjects.length > 0 && (
-          <div className="mb-16">
+          <div className="mb-10">
             <div className="flex items-center gap-3 mb-8">
               <Star className="w-6 h-6 text-amber-400 fill-current" />
               <h3 className="text-2xl font-bold text-white subheading-font">Featured Projects</h3>

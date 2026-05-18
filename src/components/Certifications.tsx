@@ -181,7 +181,7 @@ const CertCard = ({ cert, index }: { cert: typeof certifications[0]; index: numb
 );
 
 const Certifications = () => (
-  <section id="certifications" className="py-24 section-secondary relative overflow-hidden">
+  <section id="certifications" className="py-14 section-secondary relative overflow-hidden">
     <div className="absolute inset-0 cyber-grid opacity-25 pointer-events-none" />
     <div className="scan-line" style={{ animationDelay: '3s' }} />
     <div className="absolute inset-0 overflow-hidden pointer-events-none">
@@ -193,16 +193,16 @@ const Certifications = () => (
     <div className="container mx-auto px-6 relative z-10">
 
       {/* Header */}
-      <div className="text-center mb-16 animate-fade-in-up">
+      <div className="text-center mb-10 animate-fade-in-up">
         <div className="inline-flex items-center gap-2 bg-amber-500/10 border border-amber-400/20 rounded-full px-5 py-2 mb-6">
           <Award className="w-4 h-4 text-amber-400" />
           <span className="text-sm text-amber-400 font-medium tracking-widest uppercase body-font">Credentials</span>
         </div>
-        <h2 className="text-5xl lg:text-6xl font-bold gradient-text-primary heading-font mb-4">
+        <h2 className="text-4xl lg:text-5xl font-bold gradient-text-primary heading-font mb-4">
           Certifications
         </h2>
         <div className="section-divider max-w-24 mx-auto mb-6" />
-        <p className="text-xl text-slate-400 max-w-2xl mx-auto body-font">
+        <p className="text-lg text-slate-400 max-w-2xl mx-auto body-font">
           Industry-recognized credentials validating my technical expertise
         </p>
       </div>

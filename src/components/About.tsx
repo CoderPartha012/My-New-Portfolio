@@ -34,7 +34,7 @@ const About = () => {
   return (
     <section
       id="about"
-      className="pt-8 pb-20 section-secondary relative overflow-hidden"
+      className="pt-2 pb-14 section-secondary relative overflow-hidden"
     >
       {/* Cyber grid */}
       <div className="absolute inset-0 cyber-grid opacity-30 pointer-events-none" />
@@ -48,7 +48,7 @@ const About = () => {
 
       <div className="container mx-auto px-6 relative z-10">
         {/* Section Header */}
-        <div className="text-center mb-16 animate-fade-in-up">
+        <div className="text-center mb-10 animate-fade-in-up">
           <div className="flex items-center justify-center gap-3 mb-4">
             <span className="w-8 h-8 rounded-full bg-gradient-to-br from-cyan-400 to-emerald-400 flex items-center justify-center text-[#050d1a] font-bold text-sm">✦</span>
             <h2 className="text-5xl lg:text-6xl font-bold gradient-text-primary heading-font">
@@ -64,7 +64,8 @@ const About = () => {
 
         <div className="grid lg:grid-cols-2 gap-16 items-center">
           {/* Photo Carousel */}
-          <div className="relative group w-full max-w-2xl mx-auto animate-slide-in-right">
+          <div className="flex justify-center animate-slide-in-right">
+            <div className="relative group w-64 md:w-72 lg:w-80 flex-shrink-0">
             <div className="absolute -inset-2 bg-gradient-to-r from-cyan-500 via-emerald-500 to-sky-500 rounded-3xl blur-lg opacity-50 group-hover:opacity-80 transition duration-1000 animate-pulse-glow" />
             <div className="relative rounded-3xl overflow-hidden w-full aspect-[3/4] shadow-2xl border border-cyan-400/20">
               {images.map((image, index) => (
@@ -95,6 +96,7 @@ const About = () => {
                 />
               ))}
             </div>
+          </div>
           </div>
 
           {/* Content */}
@@ -137,16 +139,6 @@ const About = () => {
               ))}
             </div>
 
-            {/* CTA */}
-            <div className="text-center pt-4">
-              <a
-                href="#contact"
-                className="inline-flex items-center gap-2 px-8 py-4 bg-gradient-to-r from-sky-500 to-cyan-400 hover:from-sky-600 hover:to-cyan-500 text-[#050d1a] rounded-xl font-bold transition-all duration-300 transform hover:scale-105 hover:shadow-lg hover:shadow-cyan-400/30 text-lg subheading-font"
-              >
-                <span className="w-2 h-2 bg-current rounded-full" />
-                Let's Connect
-              </a>
-            </div>
           </div>
         </div>
       </div>

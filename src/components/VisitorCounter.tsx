@@ -1,55 +1,77 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import { Eye } from 'lucide-react';
 
-const LS_KEY = 'pr-local-visits';
-const SS_KEY = 'pr-session-counted';
-const NAMESPACE = 'partha-rakshit-portfolio';
-const API_KEY = 'visitors';
+const SS_KEY   = 'pr-session-counted';   // sessionStorage — survives refresh, cleared on tab close
+const CACHE_KEY = 'pr-count-cache';      // localStorage   — last known API count for instant display
+const HIT_URL  = 'https://api.countapi.xyz/hit/partha-rakshit-portfolio/visitors';
+const GET_URL  = 'https://api.countapi.xyz/get/partha-rakshit-portfolio/visitors';
 
 const formatCount = (n: number): string => {
   if (n >= 1_000_000) return `${(n / 1_000_000).toFixed(1)}M`;
-  if (n >= 1_000) return `${(n / 1_000).toFixed(1)}K`;
-  return n.toString();
+  if (n >= 1_000)     return `${(n / 1_000).toFixed(1)}K`;
+  return n.toLocaleString();
 };
 
-const getLocalCount = (): number => {
+const readCache = (): number | null => {
   try {
-    return parseInt(localStorage.getItem(LS_KEY) || '0', 10) || 0;
+    const raw = localStorage.getItem(CACHE_KEY);
+    if (!raw) return null;
+    const n = parseInt(raw, 10);
+    return Number.isFinite(n) && n > 0 ? n : null;
   } catch {
-    return 0;
+    return null;
   }
 };
 
+const writeCache = (n: number) => {
+  try { localStorage.setItem(CACHE_KEY, String(n)); } catch { /* storage quota */ }
+};
+
 const VisitorCounter = () => {
-  const [count, setCount] = useState<number>(getLocalCount);
+  const [count, setCount]   = useState<number | null>(readCache);
   const [loading, setLoading] = useState(true);
+  const mounted = useRef(true);
 
   useEffect(() => {
-    const alreadyCounted = sessionStorage.getItem(SS_KEY);
+    mounted.current = true;
 
-    // Increment local count on a new session
+    // ── Step 1: Mark this session as counted SYNCHRONOUSLY ──────────────────
+    // Done before any async work so a fast re-mount cannot trigger a second hit.
+    const alreadyCounted = sessionStorage.getItem(SS_KEY) === '1';
     if (!alreadyCounted) {
-      const next = getLocalCount() + 1;
-      try { localStorage.setItem(LS_KEY, String(next)); } catch { /* ignore */ }
       sessionStorage.setItem(SS_KEY, '1');
-      setCount(next);
     }
 
-    // Try global API — update display if it works
-    const url = alreadyCounted
-      ? `https://api.countapi.xyz/get/${NAMESPACE}/${API_KEY}`
-      : `https://api.countapi.xyz/hit/${NAMESPACE}/${API_KEY}`;
+    // ── Step 2: Choose endpoint ──────────────────────────────────────────────
+    // HIT  → increments the counter by 1 and returns the new total
+    // GET  → reads the current counter without incrementing
+    const url = alreadyCounted ? GET_URL : HIT_URL;
 
+    // ── Step 3: Fetch ────────────────────────────────────────────────────────
     fetch(url)
-      .then((r) => r.json())
-      .then((data) => {
-        if (typeof data?.value === 'number' && data.value > 0) {
-          setCount(data.value);
+      .then((res) => {
+        if (!res.ok) throw new Error(`HTTP ${res.status}`);
+        return res.json();
+      })
+      .then((data: unknown) => {
+        if (!mounted.current) return;
+
+        const value = (data as { value?: number })?.value;
+        if (typeof value === 'number' && value > 0) {
+          setCount(value);
+          writeCache(value);   // keep localStorage in sync with real API count
         }
       })
-      .catch(() => { /* keep local count */ })
-      .finally(() => setLoading(false));
-  }, []);
+      .catch(() => {
+        // API down — keep showing the cached count already in state (from readCache)
+      })
+      .finally(() => {
+        if (mounted.current) setLoading(false);
+      });
+
+    // ── Cleanup: prevent setState on unmounted component ────────────────────
+    return () => { mounted.current = false; };
+  }, []); // runs exactly once per mount
 
   return (
     <div
@@ -62,20 +84,17 @@ const VisitorCounter = () => {
       }}
       title="Total portfolio visitors"
     >
-      {/* Eye icon with pulse ring */}
+      {/* Eye icon */}
       <div className="relative flex items-center justify-center w-5 h-5">
         <Eye className="w-3.5 h-3.5 text-cyan-400 relative z-10" />
         <span
           className="absolute inset-0 rounded-full"
-          style={{
-            background: 'rgba(0,212,255,0.15)',
-            animation: 'pulse 2.5s ease-in-out infinite',
-          }}
+          style={{ background: 'rgba(0,212,255,0.15)', animation: 'pulse 2.5s ease-in-out infinite' }}
         />
       </div>
 
-      {/* Count */}
-      {loading ? (
+      {/* Count — show cached value immediately, replace with fresh API value */}
+      {loading && count === null ? (
         <span className="flex gap-0.5 items-center h-4">
           {[0, 1, 2].map((n) => (
             <span
@@ -87,7 +106,7 @@ const VisitorCounter = () => {
         </span>
       ) : (
         <span className="text-xs font-bold text-white tabular-nums leading-none">
-          {formatCount(count)}
+          {count !== null ? formatCount(count) : '—'}
         </span>
       )}
 

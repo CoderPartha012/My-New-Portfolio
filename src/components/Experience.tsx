@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { MapPin, Calendar, ExternalLink, ChevronDown, ChevronUp } from 'lucide-react';
+import { MapPin, Calendar, ExternalLink, ChevronDown, ChevronUp, Briefcase } from 'lucide-react';
 
 const experiences = [
   {
@@ -210,7 +210,7 @@ const ExpCard = ({ exp, index }: { exp: Experience; index: number }) => {
 };
 
 const Experience = () => (
-  <section id="experience" className="py-20 section-secondary relative overflow-hidden">
+  <section id="experience" className="py-14 section-secondary relative overflow-hidden">
     <div className="absolute inset-0 cyber-grid opacity-30 pointer-events-none" />
     <div className="scan-line" style={{ animationDelay: '2s' }} />
     <div className="absolute inset-0 overflow-hidden pointer-events-none">
@@ -220,16 +220,16 @@ const Experience = () => (
 
     <div className="container mx-auto px-6 relative z-10">
       {/* Header */}
-      <div className="text-center mb-14 animate-fade-in-up">
-        <div className="flex items-center justify-center gap-3 mb-4">
-          <span className="text-3xl">💼</span>
-          <h2 className="text-5xl lg:text-6xl font-bold gradient-text-primary heading-font">
-            Experience
-          </h2>
-          <span className="text-3xl">💼</span>
+      <div className="text-center mb-10 animate-fade-in-up">
+        <div className="inline-flex items-center gap-2 bg-cyan-500/10 border border-cyan-400/20 rounded-full px-5 py-2 mb-6">
+          <Briefcase className="w-4 h-4 text-cyan-400" />
+          <span className="text-sm text-cyan-400 font-medium tracking-widest uppercase body-font">Work History</span>
         </div>
-        <div className="section-divider max-w-24 mx-auto mb-4" />
-        <p className="text-slate-400 body-font">
+        <h2 className="text-4xl lg:text-5xl font-bold gradient-text-primary heading-font mb-4">
+          Experience
+        </h2>
+        <div className="section-divider max-w-24 mx-auto mb-6" />
+        <p className="text-lg text-slate-400 max-w-2xl mx-auto body-font">
           Click <span className="text-cyan-400 font-semibold">"Show Responsibilities"</span> to expand each role
         </p>
       </div>

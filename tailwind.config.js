@@ -63,11 +63,11 @@ export default {
           '50%': { opacity: '0.5' },
         },
         pulseGlow: {
-          '0%, 100%': { 
-            boxShadow: '0 0 20px rgba(127, 0, 255, 0.3)' 
+          '0%, 100%': {
+            boxShadow: '0 0 20px rgba(0, 212, 255, 0.25)'
           },
-          '50%': { 
-            boxShadow: '0 0 40px rgba(225, 0, 255, 0.6)' 
+          '50%': {
+            boxShadow: '0 0 40px rgba(0, 212, 255, 0.5)'
           },
         },
         gradient: {
@@ -97,11 +97,11 @@ export default {
           }
         },
         glow: {
-          '0%, 100%': { 
-            boxShadow: '0 0 20px rgba(127, 0, 255, 0.3)' 
+          '0%, 100%': {
+            boxShadow: '0 0 20px rgba(0, 212, 255, 0.25)'
           },
-          '50%': { 
-            boxShadow: '0 0 30px rgba(225, 0, 255, 0.5)' 
+          '50%': {
+            boxShadow: '0 0 30px rgba(0, 212, 255, 0.5)'
           },
         }
       },
@@ -113,8 +113,8 @@ export default {
         xs: '2px',
       },
       boxShadow: {
-        'glow': '0 0 20px rgba(127, 0, 255, 0.3)',
-        'glow-lg': '0 0 40px rgba(127, 0, 255, 0.4)',
+        'glow': '0 0 20px rgba(0, 212, 255, 0.25)',
+        'glow-lg': '0 0 40px rgba(0, 212, 255, 0.4)',
       }
     },
   },

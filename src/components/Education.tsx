@@ -80,7 +80,7 @@ const Education = () => {
   ];
 
   return (
-    <section id="education" className="relative py-24 overflow-hidden section-primary">
+    <section id="education" className="relative py-14 overflow-hidden section-primary">
       {/* Background grid */}
       <div className="absolute inset-0 pointer-events-none cyber-grid opacity-20" />
       <div className="scan-line" style={{ animationDelay: '4s' }} />
@@ -95,16 +95,16 @@ const Education = () => {
       <div className="container relative z-10 px-6 mx-auto">
 
         {/* Section header */}
-        <div className="mb-20 text-center animate-fade-in-up">
+        <div className="mb-10 text-center animate-fade-in-up">
           <div className="inline-flex items-center gap-2 px-5 py-2 mb-6 border rounded-full bg-cyan-500/10 border-cyan-400/20">
             <BookOpen className="w-4 h-4 text-cyan-400" />
             <span className="text-sm font-medium tracking-widest uppercase text-cyan-400 body-font">Academic Record</span>
           </div>
-          <h2 className="mb-4 text-5xl font-bold lg:text-6xl gradient-text-primary heading-font">
+          <h2 className="mb-4 text-4xl font-bold lg:text-5xl gradient-text-primary heading-font">
             Educational Journey
           </h2>
           <div className="mx-auto mb-6 section-divider max-w-24" />
-          <p className="max-w-2xl mx-auto text-xl text-slate-400 body-font">
+          <p className="max-w-2xl mx-auto text-lg text-slate-400 body-font">
             Chapters of learning that shaped my technical foundation
           </p>
         </div>
@@ -121,7 +121,7 @@ const Education = () => {
             return (
               <div
                 key={index}
-                className="relative mb-16 lg:mb-20 animate-slide-up"
+                className="relative mb-10 lg:mb-12 animate-slide-up"
                 style={{ animationDelay: `${index * 200}ms` }}
               >
                 {/* Center node */}
