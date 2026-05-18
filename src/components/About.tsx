@@ -73,6 +73,9 @@ const About = () => {
                   key={index}
                   src={image}
                   alt={`Partha Rakshit ${index + 1}`}
+                  loading={index === 0 ? 'eager' : 'lazy'}
+                  width={320}
+                  height={427}
                   className={`absolute top-0 left-0 w-full h-full object-cover object-center transform transition-all duration-1000 ${
                     currentImageIndex === index ? 'opacity-100 scale-100' : 'opacity-0 scale-110'
                   }`}
@@ -86,6 +89,7 @@ const About = () => {
               {images.map((_, index) => (
                 <button
                   key={index}
+                  type="button"
                   onClick={() => setCurrentImageIndex(index)}
                   className={`h-3 rounded-full transition-all duration-300 hover:scale-125 ${
                     currentImageIndex === index

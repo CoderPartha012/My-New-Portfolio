@@ -167,7 +167,7 @@ const Skills = () => {
               >
                 {/* Icon */}
                 <div className="w-14 h-14 flex items-center justify-center bg-white rounded-xl shadow-md p-2 group-hover:shadow-lg transition-all duration-300">
-                  <img src={skill.image} alt={skill.name} className="w-full h-full object-contain" />
+                  <img src={skill.image} alt={skill.name} loading="lazy" width={48} height={48} className="w-full h-full object-contain" />
                 </div>
 
                 {/* Name */}

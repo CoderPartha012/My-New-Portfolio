@@ -110,6 +110,7 @@ const Projects = () => {
             {['all', 'web', 'testing'].map((category) => (
               <button
                 key={category}
+                type="button"
                 onClick={() => setFilter(category)}
                 className={`px-6 py-3 rounded-full transition-all duration-300 font-medium subheading-font transform hover:scale-105 ${
                   filter === category
@@ -200,6 +201,9 @@ const ProjectCard = ({ project, index, featured }: { project: any; index: number
       <img
         src={project.image}
         alt={project.title}
+        loading="lazy"
+        width={640}
+        height={360}
         className="w-full h-full object-cover transform group-hover:scale-110 transition-transform duration-500"
       />
       <div className="absolute inset-0 bg-gradient-to-t from-[#050d1a]/70 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300" />

@@ -45,6 +45,7 @@ const ScrollNavigation = () => {
       {/* Scroll Down Button */}
       {showScrollDown && (
         <button
+          type="button"
           onClick={scrollDown}
           className="group relative p-4 bg-gradient-to-br from-blue-900 to-teal-500 hover:from-blue-800 hover:to-teal-400 text-white rounded-full shadow-lg hover:shadow-xl transition-all duration-300 transform hover:scale-110 animate-bounce"
           aria-label="Scroll down"
@@ -65,6 +66,7 @@ const ScrollNavigation = () => {
       {/* Scroll to Top Button */}
       {showScrollTop && (
         <button
+          type="button"
           onClick={scrollToTop}
           className="group relative p-4 bg-gradient-to-br from-teal-500 to-yellow-600 hover:from-teal-400 hover:to-yellow-500 text-white rounded-full shadow-lg hover:shadow-xl transition-all duration-300 transform hover:scale-110"
           aria-label="Scroll to top"

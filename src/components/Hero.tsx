@@ -66,7 +66,7 @@ const Hero = () => {
               className="mb-4 text-4xl font-bold leading-tight md:text-5xl lg:text-6xl heading-font animate-fade-in-up"
               style={{ animationDelay: '0.15s' }}
             >
-              Hi, I'm{' '}
+              <span className="text-white">Hi, I'm</span>{' '}
               <span className="relative inline-block gradient-text-primary">
                 Partha Rakshit
                 <span className="absolute -bottom-1 left-0 right-0 h-0.5 bg-gradient-to-r from-cyan-400 to-emerald-400 rounded-full opacity-60" />

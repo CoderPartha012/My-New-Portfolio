@@ -102,6 +102,9 @@ const ExpCard = ({ exp, index }: { exp: Experience; index: number }) => {
                   <img
                     src={exp.companyLogo}
                     alt={exp.company}
+                    loading="lazy"
+                    width={48}
+                    height={48}
                     className="w-full h-full object-cover"
                   />
                 ) : (
@@ -163,6 +166,7 @@ const ExpCard = ({ exp, index }: { exp: Experience; index: number }) => {
 
         {/* ── Expand / collapse toggle ── */}
         <button
+          type="button"
           onClick={() => setExpanded(!expanded)}
           className="w-full flex items-center justify-center gap-2 py-2.5 text-xs text-slate-500 hover:text-slate-300 transition-colors border-t body-font"
           style={{ borderColor: exp.accent.border }}
