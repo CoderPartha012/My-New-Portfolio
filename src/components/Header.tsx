@@ -1,51 +1,47 @@
-import { useState, useEffect, useCallback } from 'react';
-import { X, Home, User, Zap, GraduationCap, Briefcase, Code2, Award, Mail, FileText } from 'lucide-react';
+/**
+ * Header — liquid-glass pill navbar (desktop) + full-screen serif overlay (mobile).
+ *
+ * Desktop (fixed top-4, px-8 / lg:px-16, z-50):
+ *   [pr monogram circle]   [Home · About · Skills · Projects · Contact | Download Resume]   [invisible spacer]
+ *
+ * Mobile: monogram + hamburger toggle → full-screen black overlay with serif nav links.
+ */
+import { useState, useCallback, useEffect } from 'react';
 
-const navItems = [
-  { name: 'Home',           id: 'hero',           Icon: Home },
-  { name: 'About',          id: 'about',          Icon: User },
-  { name: 'Skills',         id: 'skills',         Icon: Zap },
-  { name: 'Education',      id: 'education',      Icon: GraduationCap },
-  { name: 'Experience',     id: 'experience',     Icon: Briefcase },
-  { name: 'Projects',       id: 'projects',       Icon: Code2 },
-  { name: 'Certifications', id: 'certifications', Icon: Award },
-  { name: 'Contact',        id: 'contact',        Icon: Mail },
+const RESUME_URL =
+  'https://drive.google.com/file/d/1pSxUujwep6NO93flyU4FHG_vVke0efKl/view?usp=sharing';
+
+const NAV_LINKS = [
+  { label: 'Home',           id: 'hero'           },
+  { label: 'About',          id: 'about'          },
+  { label: 'Skills',         id: 'skills'         },
+  { label: 'Experience',     id: 'experience'     },
+  { label: 'Projects',       id: 'projects'       },
+  { label: 'Certifications', id: 'certifications' },
+  { label: 'Contact',        id: 'contact'        },
 ];
 
-const Header = () => {
+/* ── Inline SVG: ArrowUpRight ──────────────────────────────────────────── */
+function ArrowUpRight({ className = '' }: { className?: string }) {
+  return (
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor"
+      strokeWidth={2} strokeLinecap="round" strokeLinejoin="round"
+      className={className} aria-hidden="true">
+      <line x1="7" y1="17" x2="17" y2="7" />
+      <polyline points="7 7 17 7 17 17" />
+    </svg>
+  );
+}
+
+export default function Header() {
   const [menuOpen, setMenuOpen] = useState(false);
-  const [activeId, setActiveId] = useState('hero');
-  const [scrolled, setScrolled] = useState(false);
-
-  /* ── track scroll for pill shadow ── */
-  useEffect(() => {
-    const onScroll = () => setScrolled(window.scrollY > 30);
-    window.addEventListener('scroll', onScroll, { passive: true });
-    return () => window.removeEventListener('scroll', onScroll);
-  }, []);
-
-  /* ── IntersectionObserver: highlight active section ── */
-  useEffect(() => {
-    const observers: IntersectionObserver[] = [];
-    navItems.forEach(({ id }) => {
-      const el = document.getElementById(id);
-      if (!el) return;
-      const obs = new IntersectionObserver(
-        ([entry]) => { if (entry.isIntersecting) setActiveId(id); },
-        { threshold: 0.35 }
-      );
-      obs.observe(el);
-      observers.push(obs);
-    });
-    return () => observers.forEach((o) => o.disconnect());
-  }, []);
 
   const scrollTo = useCallback((id: string) => {
     document.getElementById(id)?.scrollIntoView({ behavior: 'smooth' });
     setMenuOpen(false);
   }, []);
 
-  /* lock body scroll when overlay open */
+  /* Lock body scroll while mobile overlay is open */
   useEffect(() => {
     document.body.style.overflow = menuOpen ? 'hidden' : '';
     return () => { document.body.style.overflow = ''; };
@@ -53,313 +49,141 @@ const Header = () => {
 
   return (
     <>
-      {/* ═══════════════════════════════════════
-          DESKTOP — floating pill navbar
-      ═══════════════════════════════════════ */}
+      {/* ══════════════════════════════════════════════════════════════════
+          DESKTOP — three-column fixed bar
+      ══════════════════════════════════════════════════════════════════ */}
       <header
-        className="fixed top-5 left-1/2 -translate-x-1/2 z-50 hidden md:flex items-center gap-1 px-3 py-2 rounded-full transition-all duration-500"
-        style={{
-          background: 'rgba(5,18,45,0.75)',
-          backdropFilter: 'blur(18px)',
-          border: '1px solid rgba(0,212,255,0.18)',
-          boxShadow: scrolled
-            ? '0 8px 40px rgba(0,0,0,0.5), 0 0 0 1px rgba(0,212,255,0.12), 0 0 30px rgba(0,212,255,0.08)'
-            : '0 4px 20px rgba(0,0,0,0.3)',
-        }}
+        className="fixed top-4 left-0 right-0 z-50 hidden md:flex items-center justify-between px-8 lg:px-16 pointer-events-none"
       >
-        {/* Logo mark */}
+        {/* Left: "pr" monogram — 48×48 liquid-glass circle */}
         <button
           onClick={() => scrollTo('hero')}
-          className="flex items-center gap-2 px-3 py-1.5 mr-2 rounded-full group"
-          style={{ background: 'rgba(0,212,255,0.06)' }}
+          aria-label="Scroll to top"
+          className="liquid-glass w-12 h-12 rounded-full flex items-center justify-center
+                     pointer-events-auto cursor-pointer"
         >
-          <div
-            className="w-7 h-7 rounded-lg flex items-center justify-center text-xs font-black"
-            style={{
-              background: 'linear-gradient(135deg,#0284c7,#00d4ff)',
-              color: '#050d1a',
-              boxShadow: '0 0 10px rgba(0,212,255,0.4)',
-            }}
-          >
-            PR
-          </div>
-          <span
-            className="text-sm font-bold tracking-wide heading-font"
-            style={{
-              background: 'linear-gradient(135deg,#00d4ff,#10b981)',
-              WebkitBackgroundClip: 'text',
-              WebkitTextFillColor: 'transparent',
-            }}
-          >
-            Portfolio
+          <span className="font-heading italic text-white text-xl leading-none select-none">
+            pr
           </span>
         </button>
 
-        {/* Divider */}
-        <div className="w-px h-5 mx-1" style={{ background: 'rgba(0,212,255,0.15)' }} />
-
-        {/* Nav items */}
-        {navItems.map(({ name, id, Icon }) => {
-          const isActive = activeId === id;
-          return (
+        {/* Center: nav pill */}
+        <nav className="liquid-glass rounded-full px-1.5 py-1.5 flex items-center gap-0.5 pointer-events-auto">
+          {NAV_LINKS.map(({ label, id }) => (
             <button
               key={id}
               onClick={() => scrollTo(id)}
-              className="relative flex items-center gap-1.5 px-3 py-1.5 rounded-full text-xs font-semibold subheading-font transition-all duration-250 group"
-              style={{
-                background: isActive ? 'rgba(0,212,255,0.12)' : 'transparent',
-                color: isActive ? '#00d4ff' : '#7db3cc',
-                border: isActive ? '1px solid rgba(0,212,255,0.25)' : '1px solid transparent',
-                boxShadow: isActive ? '0 0 12px rgba(0,212,255,0.15)' : 'none',
-              }}
-              onMouseEnter={e => {
-                if (!isActive) {
-                  (e.currentTarget as HTMLElement).style.color = '#e2f0ff';
-                  (e.currentTarget as HTMLElement).style.background = 'rgba(255,255,255,0.05)';
-                }
-              }}
-              onMouseLeave={e => {
-                if (!isActive) {
-                  (e.currentTarget as HTMLElement).style.color = '#7db3cc';
-                  (e.currentTarget as HTMLElement).style.background = 'transparent';
-                }
-              }}
+              className="px-3 py-2 text-sm font-medium text-white/90 font-body rounded-full
+                         transition-colors duration-150 hover:text-white hover:bg-white/[0.07]
+                         cursor-pointer whitespace-nowrap"
             >
-              <Icon className="w-3 h-3 flex-shrink-0" />
-              {name}
-              {/* Active dot */}
-              {isActive && (
-                <span
-                  className="absolute -bottom-0.5 left-1/2 -translate-x-1/2 w-1 h-1 rounded-full"
-                  style={{ background: '#00d4ff', boxShadow: '0 0 6px #00d4ff' }}
-                />
-              )}
+              {label}
             </button>
-          );
-        })}
+          ))}
 
-        {/* Divider */}
-        <div className="w-px h-5 mx-1" style={{ background: 'rgba(0,212,255,0.15)' }} />
+          {/* Separator */}
+          <span className="w-px h-4 bg-white/10 mx-1 flex-shrink-0" aria-hidden="true" />
 
-        {/* Resume button */}
-        <a
-          href="https://drive.google.com/file/d/1pSxUujwep6NO93flyU4FHG_vVke0efKl/view?usp=sharing"
-          target="_blank"
-          rel="noopener noreferrer"
-          className="flex items-center gap-1.5 px-3 py-1.5 rounded-full text-xs font-bold subheading-font transition-all duration-250"
-          style={{
-            background: 'linear-gradient(135deg,#0284c7,#00d4ff)',
-            color: '#050d1a',
-            boxShadow: '0 0 12px rgba(0,212,255,0.3)',
-          }}
-          onMouseEnter={e => {
-            (e.currentTarget as HTMLElement).style.boxShadow = '0 0 20px rgba(0,212,255,0.55)';
-            (e.currentTarget as HTMLElement).style.transform = 'scale(1.05)';
-          }}
-          onMouseLeave={e => {
-            (e.currentTarget as HTMLElement).style.boxShadow = '0 0 12px rgba(0,212,255,0.3)';
-            (e.currentTarget as HTMLElement).style.transform = 'scale(1)';
-          }}
-        >
-          <FileText className="w-3 h-3" />
-          Resume
-        </a>
+          {/* Download Resume CTA — solid white pill */}
+          <a
+            href={RESUME_URL}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="flex items-center gap-1.5 bg-white text-black px-4 py-2 rounded-full
+                       text-sm font-semibold font-body whitespace-nowrap
+                       hover:bg-white/90 transition-colors duration-150"
+          >
+            Download Resume
+            <ArrowUpRight className="h-3.5 w-3.5" />
+          </a>
+        </nav>
+
+        {/* Right: invisible 48×48 spacer to balance the logo */}
+        <div className="w-12 h-12 flex-shrink-0" aria-hidden="true" />
       </header>
 
-      {/* ═══════════════════════════════════════
-          MOBILE — top bar + hamburger
-      ═══════════════════════════════════════ */}
-      <header
-        className="fixed top-0 left-0 right-0 z-50 flex md:hidden items-center justify-between px-5 py-3.5 transition-all duration-300"
-        style={{
-          background: scrolled ? 'rgba(5,13,26,0.92)' : 'transparent',
-          backdropFilter: scrolled ? 'blur(18px)' : 'none',
-          borderBottom: scrolled ? '1px solid rgba(0,212,255,0.10)' : '1px solid transparent',
-        }}
-      >
-        {/* Logo */}
-        <button onClick={() => scrollTo('hero')} className="flex items-center gap-2">
-          <div
-            className="w-8 h-8 rounded-lg flex items-center justify-center text-xs font-black"
-            style={{
-              background: 'linear-gradient(135deg,#0284c7,#00d4ff)',
-              color: '#050d1a',
-              boxShadow: '0 0 10px rgba(0,212,255,0.35)',
-            }}
-          >
-            PR
-          </div>
-          <span
-            className="text-base font-bold heading-font"
-            style={{
-              background: 'linear-gradient(135deg,#00d4ff,#10b981)',
-              WebkitBackgroundClip: 'text',
-              WebkitTextFillColor: 'transparent',
-            }}
-          >
-            Portfolio
-          </span>
+      {/* ══════════════════════════════════════════════════════════════════
+          MOBILE — top bar
+      ══════════════════════════════════════════════════════════════════ */}
+      <header className="fixed top-0 left-0 right-0 z-50 flex md:hidden items-center justify-between px-5 py-4">
+        <button
+          onClick={() => scrollTo('hero')}
+          aria-label="Scroll to top"
+          className="liquid-glass w-10 h-10 rounded-full flex items-center justify-center cursor-pointer"
+        >
+          <span className="font-heading italic text-white text-base leading-none">pr</span>
         </button>
 
-        {/* Hamburger button */}
+        {/* Hamburger / close toggle */}
         <button
           onClick={() => setMenuOpen(!menuOpen)}
-          className="relative w-9 h-9 flex flex-col items-center justify-center gap-1.5 rounded-xl transition-all duration-300"
-          style={{
-            background: menuOpen ? 'rgba(0,212,255,0.12)' : 'rgba(255,255,255,0.04)',
-            border: `1px solid ${menuOpen ? 'rgba(0,212,255,0.35)' : 'rgba(255,255,255,0.08)'}`,
-          }}
           aria-label="Toggle menu"
+          className="liquid-glass w-10 h-10 rounded-full flex items-center justify-center cursor-pointer"
         >
-          <span
-            className="block h-0.5 rounded-full transition-all duration-300 origin-center"
-            style={{
-              width: '18px',
-              background: menuOpen ? '#00d4ff' : '#7db3cc',
-              transform: menuOpen ? 'translateY(4px) rotate(45deg)' : 'none',
-            }}
-          />
-          <span
-            className="block h-0.5 rounded-full transition-all duration-300"
-            style={{
-              width: '18px',
-              background: menuOpen ? '#00d4ff' : '#7db3cc',
-              opacity: menuOpen ? 0 : 1,
-              transform: menuOpen ? 'scaleX(0)' : 'none',
-            }}
-          />
-          <span
-            className="block h-0.5 rounded-full transition-all duration-300 origin-center"
-            style={{
-              width: '18px',
-              background: menuOpen ? '#00d4ff' : '#7db3cc',
-              transform: menuOpen ? 'translateY(-4px) rotate(-45deg)' : 'none',
-            }}
-          />
+          {menuOpen ? (
+            /* × close */
+            <svg viewBox="0 0 24 24" fill="none" stroke="white" strokeWidth={2}
+              strokeLinecap="round" className="h-4 w-4" aria-hidden="true">
+              <line x1="18" y1="6" x2="6" y2="18" /><line x1="6" y1="6" x2="18" y2="18" />
+            </svg>
+          ) : (
+            /* ☰ hamburger */
+            <span className="flex flex-col gap-[5px] items-center">
+              <span className="block w-4 h-[1.5px] bg-white/80 rounded-full" />
+              <span className="block w-4 h-[1.5px] bg-white/80 rounded-full" />
+              <span className="block w-2.5 h-[1.5px] bg-white/80 rounded-full" />
+            </span>
+          )}
         </button>
       </header>
 
-      {/* ═══════════════════════════════════════
-          MOBILE OVERLAY MENU
-      ═══════════════════════════════════════ */}
+      {/* ══════════════════════════════════════════════════════════════════
+          MOBILE OVERLAY — full-screen serif menu
+      ══════════════════════════════════════════════════════════════════ */}
       <div
-        className="fixed inset-0 z-40 md:hidden flex flex-col transition-all duration-400"
+        className="fixed inset-0 z-40 md:hidden flex flex-col pt-20 pb-8 px-8"
         style={{
-          background: 'rgba(2,11,24,0.97)',
-          backdropFilter: 'blur(20px)',
+          background: 'rgba(0,0,0,0.97)',
+          backdropFilter: 'blur(24px)',
+          WebkitBackdropFilter: 'blur(24px)',
           opacity: menuOpen ? 1 : 0,
           pointerEvents: menuOpen ? 'all' : 'none',
           transform: menuOpen ? 'translateY(0)' : 'translateY(-8px)',
-          transition: 'opacity 0.35s ease, transform 0.35s ease',
+          transition: 'opacity 0.3s ease, transform 0.3s ease',
         }}
       >
-        {/* Cyber grid in overlay */}
-        <div className="absolute inset-0 cyber-grid opacity-20 pointer-events-none" />
-
-        {/* Ambient orbs */}
-        <div className="absolute top-1/4 left-1/4 w-48 h-48 bg-cyan-500/6 rounded-full blur-3xl pointer-events-none" />
-        <div className="absolute bottom-1/4 right-1/4 w-48 h-48 bg-emerald-500/6 rounded-full blur-3xl pointer-events-none" />
-
-        {/* Close button */}
-        <div className="relative z-10 flex justify-end px-5 pt-5 pb-2">
-          <button
-            onClick={() => setMenuOpen(false)}
-            className="w-10 h-10 flex items-center justify-center rounded-xl transition-all duration-200"
-            style={{
-              background: 'rgba(0,212,255,0.08)',
-              border: '1px solid rgba(0,212,255,0.25)',
-            }}
-          >
-            <X className="w-5 h-5 text-cyan-400" />
-          </button>
-        </div>
-
-        {/* Nav items */}
-        <nav className="relative z-10 flex flex-col justify-center flex-1 px-8 gap-1 pb-10">
-          {navItems.map(({ name, id, Icon }, i) => {
-            const isActive = activeId === id;
-            return (
-              <button
-                key={id}
-                onClick={() => scrollTo(id)}
-                className="flex items-center gap-4 px-5 py-4 rounded-2xl text-left transition-all duration-300 group"
-                style={{
-                  background: isActive ? 'rgba(0,212,255,0.10)' : 'transparent',
-                  border: isActive ? '1px solid rgba(0,212,255,0.22)' : '1px solid transparent',
-                  animationDelay: `${i * 45}ms`,
-                  opacity: menuOpen ? 1 : 0,
-                  transform: menuOpen ? 'translateX(0)' : 'translateX(-20px)',
-                  transition: `opacity 0.35s ease ${i * 45}ms, transform 0.35s ease ${i * 45}ms, background 0.2s, border 0.2s`,
-                }}
-              >
-                {/* Icon container */}
-                <div
-                  className="w-10 h-10 rounded-xl flex items-center justify-center flex-shrink-0 transition-all duration-300"
-                  style={{
-                    background: isActive
-                      ? 'linear-gradient(135deg,#0284c7,#00d4ff)'
-                      : 'rgba(255,255,255,0.05)',
-                    border: isActive ? 'none' : '1px solid rgba(255,255,255,0.08)',
-                    boxShadow: isActive ? '0 0 16px rgba(0,212,255,0.35)' : 'none',
-                  }}
-                >
-                  <Icon
-                    className="w-4.5 h-4.5"
-                    style={{ color: isActive ? '#050d1a' : '#7db3cc', width: '18px', height: '18px' }}
-                  />
-                </div>
-
-                {/* Label */}
-                <span
-                  className="text-lg font-bold subheading-font transition-colors duration-200"
-                  style={{ color: isActive ? '#00d4ff' : '#94a3b8' }}
-                >
-                  {name}
-                </span>
-
-                {/* Active indicator */}
-                {isActive && (
-                  <div
-                    className="ml-auto w-1.5 h-6 rounded-full"
-                    style={{
-                      background: 'linear-gradient(180deg,#00d4ff,#10b981)',
-                      boxShadow: '0 0 8px rgba(0,212,255,0.5)',
-                    }}
-                  />
-                )}
-              </button>
-            );
-          })}
+        <nav className="flex flex-col gap-1 flex-1 justify-center">
+          {NAV_LINKS.map(({ label, id }, i) => (
+            <button
+              key={id}
+              onClick={() => scrollTo(id)}
+              className="text-left py-3 font-heading italic text-white/70 hover:text-white
+                         transition-colors duration-150 cursor-pointer"
+              style={{
+                fontSize: 'clamp(1.75rem, 7vw, 2.5rem)',
+                opacity: menuOpen ? 1 : 0,
+                transform: menuOpen ? 'translateX(0)' : 'translateX(-16px)',
+                transition: `opacity 0.35s ease ${i * 50}ms, transform 0.35s ease ${i * 50}ms, color 0.15s`,
+              }}
+            >
+              {label}
+            </button>
+          ))}
         </nav>
 
-        {/* Resume CTA */}
-        <div className="relative z-10 px-8 pb-6">
-          <a
-            href="https://drive.google.com/file/d/1pSxUujwep6NO93flyU4FHG_vVke0efKl/view?usp=sharing"
-            target="_blank"
-            rel="noopener noreferrer"
-            onClick={() => setMenuOpen(false)}
-            className="flex items-center justify-center gap-2 w-full py-3.5 rounded-2xl font-bold subheading-font transition-all duration-300"
-            style={{
-              background: 'linear-gradient(135deg,#0284c7,#00d4ff)',
-              color: '#050d1a',
-              boxShadow: '0 0 20px rgba(0,212,255,0.35)',
-            }}
-          >
-            <FileText className="w-4 h-4" />
-            View Resume
-          </a>
-        </div>
-
-        {/* Bottom label */}
-        <div className="relative z-10 text-center pb-8">
-          <p className="text-xs text-slate-600 body-font tracking-widest uppercase">
-            Partha Rakshit · Portfolio
-          </p>
-        </div>
+        {/* Resume CTA at bottom */}
+        <a
+          href={RESUME_URL}
+          target="_blank"
+          rel="noopener noreferrer"
+          onClick={() => setMenuOpen(false)}
+          className="liquid-glass-strong flex items-center justify-center gap-2 w-full py-4
+                     rounded-full text-white font-body font-medium text-sm"
+        >
+          Download Resume
+          <ArrowUpRight className="h-4 w-4" />
+        </a>
       </div>
     </>
   );
-};
-
-export default Header;
+}
