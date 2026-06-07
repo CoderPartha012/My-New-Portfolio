@@ -10,10 +10,10 @@ const projects = [
   {
     title: 'TaskMate',
     description: 'A powerful, feature-rich task management system built with React, TypeScript, and modern web technologies. Beautiful intuitive interface for managing tasks, collaborating with team members, and tracking productivity.',
-    image: 'https://i.postimg.cc/15j6jF9R/Taskmate.png',
-    technologies: ['React', 'Tailwind CSS', 'Zustand'],
+    image: 'https://i.postimg.cc/0QTSFnHQ/Taskmate.png',
+    technologies: ['React', 'Tailwind CSS', 'Zustand', 'SheetJS'],
     github: 'https://github.com/CoderPartha012/TaskMate',
-    live: 'https://taskmate-partha.netlify.app/',
+    live: 'https://taskmatebypartha.netlify.app/',
     category: 'web',
     featured: true,
   },
@@ -50,10 +50,10 @@ const projects = [
   {
     title: 'Expenso',
     description: 'A modern expense tracking application. Helps users manage their finances by tracking expenses, setting budgets, and visualizing spending patterns.',
-    image: 'https://i.postimg.cc/MTscmQc6/jshdjsd.png',
+    image: 'https://i.postimg.cc/jq3QQ6h9/Expenso.png',
     technologies: ['React', 'Tailwind CSS', 'Framer Motion', 'JsPDF'],
     github: 'https://github.com/CoderPartha012/Expenso',
-    live: 'https://expens-by-partha.netlify.app/',
+    live: 'https://expensobypartha.netlify.app/',
     category: 'web',
     featured: false,
   },
@@ -89,10 +89,10 @@ const ProjectCard = ({ project, index }: { project: typeof projects[0]; index: n
     className="group liquid-glass rounded-[1.25rem] overflow-hidden flex flex-col"
   >
     {/* Image */}
-    <div className="relative overflow-hidden aspect-video flex-shrink-0">
+    <div className="relative flex-shrink-0 overflow-hidden aspect-video">
       <img src={project.image} alt={project.title} loading="lazy"
         width={640} height={360}
-        className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" />
+        className="object-cover w-full h-full transition-transform duration-500 group-hover:scale-105" />
 
       {/* Featured badge */}
       {project.featured && (
@@ -103,23 +103,21 @@ const ProjectCard = ({ project, index }: { project: typeof projects[0]; index: n
       )}
 
       {/* Overlay links */}
-      <div className="absolute inset-0 flex items-center justify-center gap-4
-                      opacity-0 group-hover:opacity-100 transition-opacity duration-300
-                      bg-black/40">
+      <div className="absolute inset-0 flex items-center justify-center gap-4 transition-opacity duration-300 opacity-0 group-hover:opacity-100 bg-black/40">
         <a href={project.github} target="_blank" rel="noopener noreferrer"
-          className="liquid-glass rounded-full p-3 hover:scale-110 transition-transform">
+          className="p-3 transition-transform rounded-full liquid-glass hover:scale-110">
           <Github className="w-5 h-5 text-white" />
         </a>
         <a href={project.live} target="_blank" rel="noopener noreferrer"
-          className="liquid-glass-strong rounded-full p-3 hover:scale-110 transition-transform">
+          className="p-3 transition-transform rounded-full liquid-glass-strong hover:scale-110">
           <ExternalLink className="w-5 h-5 text-white" />
         </a>
       </div>
     </div>
 
     {/* Content */}
-    <div className="p-6 flex flex-col flex-1">
-      <div className="flex items-start justify-between mb-3 gap-2">
+    <div className="flex flex-col flex-1 p-6">
+      <div className="flex items-start justify-between gap-2 mb-3">
         <h3 className="font-heading italic text-white text-2xl tracking-[-0.5px] leading-none">
           {project.title}
         </h3>
@@ -129,7 +127,7 @@ const ProjectCard = ({ project, index }: { project: typeof projects[0]; index: n
         </span>
       </div>
 
-      <p className="text-sm font-body font-light text-white/70 leading-relaxed line-clamp-3 flex-1 mb-5">
+      <p className="flex-1 mb-5 text-sm font-light leading-relaxed font-body text-white/70 line-clamp-3">
         {project.description}
       </p>
 
@@ -176,11 +174,11 @@ const Projects = () => {
   });
 
   return (
-    <section id="projects" className="relative py-24 bg-black overflow-hidden">
-      <FadingVideo src={PROJECTS_VIDEO} className="absolute inset-0 w-full h-full object-cover z-0" />
+    <section id="projects" className="relative py-24 overflow-hidden bg-black">
+      <FadingVideo src={PROJECTS_VIDEO} className="absolute inset-0 z-0 object-cover w-full h-full" />
       <div className="absolute inset-0 bg-black/55 z-[1]" />
 
-      <div className="container mx-auto px-8 md:px-16 relative z-10">
+      <div className="container relative z-10 px-8 mx-auto md:px-16">
 
         {/* ── Section header ── */}
         <motion.div
@@ -188,7 +186,7 @@ const Projects = () => {
           viewport={{ once: true, amount: 0.15 }} transition={{ duration: 0.6 }}
           className="mb-16"
         >
-          <p className="text-sm font-body text-white/80 mb-4 tracking-wide">// Portfolio</p>
+          <p className="mb-4 text-sm tracking-wide font-body text-white/80">// Portfolio</p>
           <h2 className="font-heading italic text-white leading-[0.9] tracking-[-3px]"
               style={{ fontSize: 'clamp(3rem, 7vw, 5.5rem)' }}>
             Featured<br />projects
@@ -199,7 +197,7 @@ const Projects = () => {
         <motion.div
           initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }} transition={{ duration: 0.5, delay: 0.1 }}
-          className="flex flex-col md:flex-row justify-between items-center mb-12 gap-4"
+          className="flex flex-col items-center justify-between gap-4 mb-12 md:flex-row"
         >
           {/* Category pills */}
           <div className="flex gap-2">
@@ -227,14 +225,14 @@ const Projects = () => {
 
         {/* ── Grid ── */}
         {filtered.length > 0 ? (
-          <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
+          <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
             {filtered.map((p, i) => <ProjectCard key={p.title} project={p} index={i} />)}
           </div>
         ) : (
-          <div className="text-center py-20">
+          <div className="py-20 text-center">
             <div className="liquid-glass rounded-[1.25rem] p-12 max-w-md mx-auto">
               <Search className="w-12 h-12 mx-auto mb-4 text-white/30" />
-              <h3 className="font-heading italic text-white text-2xl mb-2">No Projects Found</h3>
+              <h3 className="mb-2 text-2xl italic text-white font-heading">No Projects Found</h3>
               <p className="text-sm font-body text-white/50">Try adjusting your search or filter criteria</p>
             </div>
           </div>

@@ -9,7 +9,7 @@
 import { useState, useCallback, useEffect } from 'react';
 
 const RESUME_URL =
-  'https://drive.google.com/file/d/1pSxUujwep6NO93flyU4FHG_vVke0efKl/view?usp=sharing';
+  'https://drive.google.com/file/d/1yj1d1wOlS9aV808MfqK15tq3racngtfB/view?usp=sharing';
 
 const NAV_LINKS = [
   { label: 'Home',           id: 'hero'           },
@@ -53,16 +53,15 @@ export default function Header() {
           DESKTOP — three-column fixed bar
       ══════════════════════════════════════════════════════════════════ */}
       <header
-        className="fixed top-4 left-0 right-0 z-50 hidden md:flex items-center justify-between px-8 lg:px-16 pointer-events-none"
+        className="fixed left-0 right-0 z-50 items-center justify-between hidden px-8 pointer-events-none top-4 md:flex lg:px-16"
       >
         {/* Left: "pr" monogram — 48×48 liquid-glass circle */}
         <button
           onClick={() => scrollTo('hero')}
           aria-label="Scroll to top"
-          className="liquid-glass w-12 h-12 rounded-full flex items-center justify-center
-                     pointer-events-auto cursor-pointer"
+          className="flex items-center justify-center w-12 h-12 rounded-full cursor-pointer pointer-events-auto liquid-glass"
         >
-          <span className="font-heading italic text-white text-xl leading-none select-none">
+          <span className="text-xl italic leading-none text-white select-none font-heading">
             pr
           </span>
         </button>
@@ -82,7 +81,7 @@ export default function Header() {
           ))}
 
           {/* Separator */}
-          <span className="w-px h-4 bg-white/10 mx-1 flex-shrink-0" aria-hidden="true" />
+          <span className="flex-shrink-0 w-px h-4 mx-1 bg-white/10" aria-hidden="true" />
 
           {/* Download Resume CTA — solid white pill */}
           <a
@@ -99,31 +98,31 @@ export default function Header() {
         </nav>
 
         {/* Right: invisible 48×48 spacer to balance the logo */}
-        <div className="w-12 h-12 flex-shrink-0" aria-hidden="true" />
+        <div className="flex-shrink-0 w-12 h-12" aria-hidden="true" />
       </header>
 
       {/* ══════════════════════════════════════════════════════════════════
           MOBILE — top bar
       ══════════════════════════════════════════════════════════════════ */}
-      <header className="fixed top-0 left-0 right-0 z-50 flex md:hidden items-center justify-between px-5 py-4">
+      <header className="fixed top-0 left-0 right-0 z-50 flex items-center justify-between px-5 py-4 md:hidden">
         <button
           onClick={() => scrollTo('hero')}
           aria-label="Scroll to top"
-          className="liquid-glass w-10 h-10 rounded-full flex items-center justify-center cursor-pointer"
+          className="flex items-center justify-center w-10 h-10 rounded-full cursor-pointer liquid-glass"
         >
-          <span className="font-heading italic text-white text-base leading-none">pr</span>
+          <span className="text-base italic leading-none text-white font-heading">pr</span>
         </button>
 
         {/* Hamburger / close toggle */}
         <button
           onClick={() => setMenuOpen(!menuOpen)}
           aria-label="Toggle menu"
-          className="liquid-glass w-10 h-10 rounded-full flex items-center justify-center cursor-pointer"
+          className="flex items-center justify-center w-10 h-10 rounded-full cursor-pointer liquid-glass"
         >
           {menuOpen ? (
             /* × close */
             <svg viewBox="0 0 24 24" fill="none" stroke="white" strokeWidth={2}
-              strokeLinecap="round" className="h-4 w-4" aria-hidden="true">
+              strokeLinecap="round" className="w-4 h-4" aria-hidden="true">
               <line x1="18" y1="6" x2="6" y2="18" /><line x1="6" y1="6" x2="18" y2="18" />
             </svg>
           ) : (
@@ -141,7 +140,7 @@ export default function Header() {
           MOBILE OVERLAY — full-screen serif menu
       ══════════════════════════════════════════════════════════════════ */}
       <div
-        className="fixed inset-0 z-40 md:hidden flex flex-col pt-20 pb-8 px-8"
+        className="fixed inset-0 z-40 flex flex-col px-8 pt-20 pb-8 md:hidden"
         style={{
           background: 'rgba(0,0,0,0.97)',
           backdropFilter: 'blur(24px)',
@@ -152,13 +151,12 @@ export default function Header() {
           transition: 'opacity 0.3s ease, transform 0.3s ease',
         }}
       >
-        <nav className="flex flex-col gap-1 flex-1 justify-center">
+        <nav className="flex flex-col justify-center flex-1 gap-1">
           {NAV_LINKS.map(({ label, id }, i) => (
             <button
               key={id}
               onClick={() => scrollTo(id)}
-              className="text-left py-3 font-heading italic text-white/70 hover:text-white
-                         transition-colors duration-150 cursor-pointer"
+              className="py-3 italic text-left transition-colors duration-150 cursor-pointer font-heading text-white/70 hover:text-white"
               style={{
                 fontSize: 'clamp(1.75rem, 7vw, 2.5rem)',
                 opacity: menuOpen ? 1 : 0,
@@ -177,11 +175,10 @@ export default function Header() {
           target="_blank"
           rel="noopener noreferrer"
           onClick={() => setMenuOpen(false)}
-          className="liquid-glass-strong flex items-center justify-center gap-2 w-full py-4
-                     rounded-full text-white font-body font-medium text-sm"
+          className="flex items-center justify-center w-full gap-2 py-4 text-sm font-medium text-white rounded-full liquid-glass-strong font-body"
         >
           Download Resume
-          <ArrowUpRight className="h-4 w-4" />
+          <ArrowUpRight className="w-4 h-4" />
         </a>
       </div>
     </>
