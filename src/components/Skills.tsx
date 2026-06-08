@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { motion } from 'motion/react';
-import { Terminal, Server, ShieldCheck, Hammer } from 'lucide-react';
+import { Terminal, Server, ShieldCheck, Hammer, Layers } from 'lucide-react';
 import FadingVideo from './FadingVideo';
 
 const SKILLS_VIDEO =
@@ -36,17 +36,29 @@ const skillCategories = [
       { name: 'Jira',           image: 'https://raw.githubusercontent.com/devicons/devicon/master/icons/jira/jira-original.svg',          level: 85 },
       { name: 'Manual Testing', image: 'https://cdn-icons-png.flaticon.com/512/1548/1548780.png',                                          level: 95 },
       { name: 'Automation',     image: 'https://cdn-icons-png.flaticon.com/512/1935/1935081.png',                                          level: 90 },
-      { name: 'Maven',          image: 'https://raw.githubusercontent.com/devicons/devicon/master/icons/apache/apache-original.svg',      level: 80 },
       { name: 'Katalon Studio', image: 'https://upload.wikimedia.org/wikipedia/commons/e/e4/Katalon-logo-vector.svg',                      level: 75 },
       { name: 'Taiga',          image: 'https://i.pcmag.com/imagery/reviews/05ytXbuzmj4tffmbZKU1msC-9.fit_scale.size_760x427.v1569475207.png', level: 70 },
     ],
   },
   {
+    id: 'backend', title: 'Backend', icon: Layers,
+    skills: [
+      { name: 'Spring Boot', image: 'https://raw.githubusercontent.com/devicons/devicon/master/icons/spring/spring-original.svg',                                                         level: 80 },
+      { name: 'Spring MVC',  image: 'https://raw.githubusercontent.com/devicons/devicon/master/icons/spring/spring-original-wordmark.svg',                                                level: 75 },
+      { name: 'Hibernate',   image: 'https://raw.githubusercontent.com/devicons/devicon/master/icons/hibernate/hibernate-original.svg',                                                   level: 75 },
+      { name: 'JPA',         image: 'https://www.openhab.org/logos/jpa.svg',                                          level: 75 },
+      { name: 'REST APIs',   image: 'https://cdn.prod.website-files.com/62d9b9c78f111f03f778e150/68624ec9dc394e09ab806d0b_rest%20api%20image.png',                                                                                             level: 80 },
+      { name: 'JDBC',        image: 'https://www.openhab.org/logos/jdbc.svg',                                                    level: 75 },
+      { name: 'Maven',       image: 'https://raw.githubusercontent.com/devicons/devicon/master/icons/maven/maven-original.svg',                                                           level: 80 },
+      { name: 'Mockito',     image: 'https://avatars.githubusercontent.com/u/4023816?s=200&v=4',                                                                                          level: 75 },
+      { name: 'Docker',      image: 'https://raw.githubusercontent.com/devicons/devicon/master/icons/docker/docker-original.svg',                                                         level: 70 },
+      { name: 'AWS',         image: 'https://raw.githubusercontent.com/devicons/devicon/master/icons/amazonwebservices/amazonwebservices-original-wordmark.svg',                          level: 65 },
+    ],
+  },
+  {
     id: 'tools', title: 'Dev & Tools', icon: Hammer,
     skills: [
-      { name: 'React.js',  image: 'https://raw.githubusercontent.com/devicons/devicon/master/icons/react/react-original.svg',   level: 85 },
-      { name: 'Next.js',   image: 'https://raw.githubusercontent.com/devicons/devicon/master/icons/nextjs/nextjs-original.svg', level: 80 },
-      { name: 'Git',       image: 'https://raw.githubusercontent.com/devicons/devicon/master/icons/git/git-original.svg',       level: 90 },
+{ name: 'Git',       image: 'https://raw.githubusercontent.com/devicons/devicon/master/icons/git/git-original.svg',       level: 90 },
       { name: 'GitHub',    image: 'https://raw.githubusercontent.com/devicons/devicon/master/icons/github/github-original.svg', level: 85 },
       { name: 'MS Office', image: 'https://img.icons8.com/color/96/microsoft-office-2019.png',                                  level: 90 },
     ],
@@ -68,15 +80,15 @@ const Skills = () => {
   const active = skillCategories.find((c) => c.id === activeId)!;
 
   return (
-    <section id="skills" className="relative py-24 bg-black overflow-hidden">
-      <FadingVideo src={SKILLS_VIDEO} className="absolute inset-0 w-full h-full object-cover z-0" />
+    <section id="skills" className="relative py-24 overflow-hidden bg-black">
+      <FadingVideo src={SKILLS_VIDEO} className="absolute inset-0 z-0 object-cover w-full h-full" />
       <div className="absolute inset-0 bg-black/60 z-[1]" />
 
-      <div className="container mx-auto px-8 md:px-16 relative z-10">
+      <div className="container relative z-10 px-8 mx-auto md:px-16">
 
         {/* ── Section header ── */}
         <motion.div {...fadeUp()} className="mb-16">
-          <p className="text-sm font-body text-white/80 mb-4 tracking-wide">// Skills &amp; Expertise</p>
+          <p className="mb-4 text-sm tracking-wide font-body text-white/80">// Skills &amp; Expertise</p>
           <h2 className="font-heading italic text-white leading-[0.9] tracking-[-3px]"
               style={{ fontSize: 'clamp(3rem, 7vw, 5.5rem)' }}>
             Tools of<br />the craft
@@ -127,23 +139,22 @@ const Skills = () => {
           </div>
 
           {/* Skill cards grid */}
-          <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 xl:grid-cols-6 gap-4">
+          <div className="grid grid-cols-2 gap-4 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 xl:grid-cols-6">
             {active.skills.map((skill, i) => (
               <motion.div
                 key={skill.name}
                 initial={{ opacity: 0, scale: 0.9 }}
                 animate={{ opacity: 1, scale: 1 }}
                 transition={{ duration: 0.3, delay: i * 0.04 }}
-                className="group liquid-glass rounded-xl p-4 flex flex-col items-center gap-3
-                           cursor-default hover:-translate-y-1 transition-transform duration-200"
+                className="flex flex-col items-center gap-3 p-4 transition-transform duration-200 cursor-default group liquid-glass rounded-xl hover:-translate-y-1"
               >
                 {/* Icon */}
-                <div className="w-14 h-14 flex items-center justify-center bg-white rounded-xl shadow-md p-2">
+                <div className="flex items-center justify-center p-2 bg-white shadow-md w-14 h-14 rounded-xl">
                   <img src={skill.image} alt={skill.name} loading="lazy"
-                    width={48} height={48} className="w-full h-full object-contain" />
+                    width={48} height={48} className="object-contain w-full h-full" />
                 </div>
                 {/* Name */}
-                <p className="text-xs font-body font-medium text-white text-center leading-tight">
+                <p className="text-xs font-medium leading-tight text-center text-white font-body">
                   {skill.name}
                 </p>
                 {/* Level pill */}
@@ -152,9 +163,9 @@ const Skills = () => {
                   {levelLabel(skill.level)}
                 </span>
                 {/* Progress bar */}
-                <div className="w-full h-1 rounded-full bg-white/10 overflow-hidden">
+                <div className="w-full h-1 overflow-hidden rounded-full bg-white/10">
                   <div
-                    className="h-full rounded-full bg-white/60 transition-all duration-700 ease-out"
+                    className="h-full transition-all duration-700 ease-out rounded-full bg-white/60"
                     style={{ width: `${skill.level}%` }}
                   />
                 </div>

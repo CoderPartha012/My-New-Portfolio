@@ -14,8 +14,8 @@ const experiences = [
     companyLogo: 'https://i.postimg.cc/mk9f00CG/images.png',
     companyInitial: 'L',
     location: 'Gurgaon, Haryana',
-    period: 'Sept 2024 – Present',
-    duration: 'Current',
+    period: 'Sept 2024 – May 2026',
+    duration: '1.9 years',
     isCurrent: true,
     bullets: [
       'Developed and executed comprehensive test plans and scripts to ensure software quality and reliability.',
@@ -60,17 +60,16 @@ const ExpCard = ({ exp, index }: { exp: typeof experiences[0]; index: number }) 
     >
       {/* Main content */}
       <div className="p-6 md:p-8">
-        <div className="flex flex-col md:flex-row md:items-start gap-5">
+        <div className="flex flex-col gap-5 md:flex-row md:items-start">
 
           {/* Company logo */}
           <div className="flex-shrink-0">
-            <div className="w-14 h-14 rounded-xl overflow-hidden liquid-glass">
+            <div className="overflow-hidden w-14 h-14 rounded-xl liquid-glass">
               {exp.companyLogo ? (
                 <img src={exp.companyLogo} alt={exp.company} loading="lazy"
-                  width={56} height={56} className="w-full h-full object-cover" />
+                  width={56} height={56} className="object-cover w-full h-full" />
               ) : (
-                <div className="w-full h-full flex items-center justify-center
-                                font-heading italic text-white text-2xl select-none">
+                <div className="flex items-center justify-center w-full h-full text-2xl italic text-white select-none font-heading">
                   {exp.companyInitial}
                 </div>
               )}
@@ -86,7 +85,7 @@ const ExpCard = ({ exp, index }: { exp: typeof experiences[0]; index: number }) 
               {/* Status badge */}
               <span className="liquid-glass rounded-full px-3 py-1 text-xs font-body flex items-center gap-1.5 text-white/80 flex-shrink-0">
                 <span className={`w-1.5 h-1.5 rounded-full bg-white/60 ${exp.isCurrent ? 'animate-pulse' : ''}`} />
-                {exp.isCurrent ? 'Currently Here' : exp.duration}
+                {exp.duration}
               </span>
             </div>
 
@@ -140,7 +139,7 @@ const ExpCard = ({ exp, index }: { exp: typeof experiences[0]; index: number }) 
             {exp.bullets.map((b, i) => (
               <li key={i} className="flex items-start gap-3">
                 <span className="mt-2 w-1.5 h-1.5 rounded-full bg-white/30 flex-shrink-0" />
-                <p className="text-sm font-body font-light text-white/70 leading-relaxed">
+                <p className="text-sm font-light leading-relaxed font-body text-white/70">
                   {b}
                 </p>
               </li>
@@ -153,11 +152,11 @@ const ExpCard = ({ exp, index }: { exp: typeof experiences[0]; index: number }) 
 };
 
 const Experience = () => (
-  <section id="experience" className="relative py-24 bg-black overflow-hidden">
-    <FadingVideo src={EXP_VIDEO} className="absolute inset-0 w-full h-full object-cover z-0" />
+  <section id="experience" className="relative py-24 overflow-hidden bg-black">
+    <FadingVideo src={EXP_VIDEO} className="absolute inset-0 z-0 object-cover w-full h-full" />
     <div className="absolute inset-0 bg-black/60 z-[1]" />
 
-    <div className="container mx-auto px-8 md:px-16 relative z-10">
+    <div className="container relative z-10 px-8 mx-auto md:px-16">
 
       {/* ── Section header ── */}
       <motion.div
@@ -165,7 +164,7 @@ const Experience = () => (
         viewport={{ once: true, amount: 0.15 }} transition={{ duration: 0.6 }}
         className="mb-16"
       >
-        <p className="text-sm font-body text-white/80 mb-4 tracking-wide">// Work History</p>
+        <p className="mb-4 text-sm tracking-wide font-body text-white/80">// Work History</p>
         <h2 className="font-heading italic text-white leading-[0.9] tracking-[-3px]"
             style={{ fontSize: 'clamp(3rem, 7vw, 5.5rem)' }}>
           Where I've<br />been building

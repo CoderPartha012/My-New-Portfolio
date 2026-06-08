@@ -120,7 +120,7 @@ const ChatBot = () => {
     <>
       {/* Chat window */}
       <div
-        className="fixed bottom-24 right-5 z-50 flex flex-col"
+        className="fixed z-50 flex flex-col bottom-24 right-5"
         style={{
           width: '360px',
           maxWidth: 'calc(100vw - 24px)',
@@ -133,7 +133,7 @@ const ChatBot = () => {
         }}
       >
         <div
-          className="flex flex-col h-full rounded-2xl overflow-hidden"
+          className="flex flex-col h-full overflow-hidden rounded-2xl"
           style={{
             background: 'rgba(5,13,26,0.97)',
             border: '1px solid rgba(0,212,255,0.25)',
@@ -143,28 +143,28 @@ const ChatBot = () => {
         >
           {/* Header */}
           <div
-            className="flex items-center gap-3 px-4 py-3 flex-shrink-0"
+            className="flex items-center flex-shrink-0 gap-3 px-4 py-3"
             style={{
               background: 'linear-gradient(135deg, rgba(0,212,255,0.08), rgba(16,185,129,0.06))',
               borderBottom: '1px solid rgba(0,212,255,0.15)',
             }}
           >
             <div
-              className="w-9 h-9 rounded-xl flex items-center justify-center flex-shrink-0"
+              className="flex items-center justify-center flex-shrink-0 w-9 h-9 rounded-xl"
               style={{ background: 'linear-gradient(135deg,#0284c7,#00d4ff)', boxShadow: '0 0 14px rgba(0,212,255,0.4)' }}
             >
               <Bot className="w-5 h-5" style={{ color: '#050d1a' }} />
             </div>
             <div className="flex-1 min-w-0">
-              <p className="text-white text-sm font-bold subheading-font">Partha's AI Assistant</p>
+              <p className="text-sm font-bold text-white subheading-font">Partha's AI Assistant</p>
               <div className="flex items-center gap-1.5">
                 <span className="w-1.5 h-1.5 rounded-full bg-emerald-400" style={{ boxShadow: '0 0 6px #10b981', animation: 'pulse 2s ease-in-out infinite' }} />
-                <p className="text-emerald-400 text-xs body-font">Powered by Gemini</p>
+                <p className="text-xs text-emerald-400 body-font">Powered by Gemini</p>
               </div>
             </div>
             <button
               onClick={() => setOpen(false)}
-              className="w-8 h-8 flex items-center justify-center rounded-lg transition-colors duration-200"
+              className="flex items-center justify-center w-8 h-8 transition-colors duration-200 rounded-lg"
               style={{ background: 'rgba(255,255,255,0.04)', border: '1px solid rgba(255,255,255,0.08)' }}
             >
               <X className="w-4 h-4 text-slate-400" />
@@ -172,7 +172,7 @@ const ChatBot = () => {
           </div>
 
           {/* Messages */}
-          <div className="flex-1 overflow-y-auto px-4 py-4 space-y-3" style={{ scrollbarWidth: 'thin', scrollbarColor: 'rgba(0,212,255,0.2) transparent' }}>
+          <div className="flex-1 px-4 py-4 space-y-3 overflow-y-auto" style={{ scrollbarWidth: 'thin', scrollbarColor: 'rgba(0,212,255,0.2) transparent' }}>
             {messages.map((msg, i) => (
               <div key={i} className={`flex gap-2.5 ${msg.role === 'user' ? 'flex-row-reverse' : 'flex-row'}`}>
                 <div
@@ -183,14 +183,14 @@ const ChatBot = () => {
                       : { background: 'linear-gradient(135deg,#10b981,#059669)' }
                   }
                 >
-                  {msg.role === 'assistant'
+                  {msg.role === 'assistant' // Different icons for user vs assistant
                     ? <Bot className="w-3.5 h-3.5" style={{ color: '#050d1a' }} />
                     : <User className="w-3.5 h-3.5" style={{ color: '#050d1a' }} />
                   }
                 </div>
                 <div
                   className="max-w-[75%] px-3 py-2.5 rounded-2xl text-sm body-font leading-relaxed"
-                  style={
+                  style={ // Different bubble styles for user vs assistant
                     msg.role === 'assistant'
                       ? { background: 'rgba(0,212,255,0.07)', border: '1px solid rgba(0,212,255,0.15)', color: '#cbd5e1', borderTopLeftRadius: '4px' }
                       : { background: 'linear-gradient(135deg, rgba(2,132,199,0.25), rgba(0,212,255,0.18))', border: '1px solid rgba(0,212,255,0.25)', color: '#e2f0ff', borderTopRightRadius: '4px' }
@@ -221,12 +221,12 @@ const ChatBot = () => {
             {/* Suggestion chips */}
             {showSuggestions && messages.length === 1 && (
               <div className="pt-1 space-y-1.5">
-                <p className="text-xs text-slate-600 body-font px-1">Quick questions:</p>
+                <p className="px-1 text-xs text-slate-600 body-font">Quick questions:</p>
                 {SUGGESTIONS.map((s) => (
                   <button
                     key={s}
                     onClick={() => sendMessage(s)}
-                    className="w-full text-left text-xs px-3 py-2 rounded-xl transition-all duration-200 body-font"
+                    className="w-full px-3 py-2 text-xs text-left transition-all duration-200 rounded-xl body-font"
                     style={{ background: 'rgba(0,212,255,0.05)', border: '1px solid rgba(0,212,255,0.15)', color: '#7db3cc' }}
                     onMouseEnter={e => {
                       (e.currentTarget as HTMLElement).style.background = 'rgba(0,212,255,0.10)';
@@ -248,7 +248,7 @@ const ChatBot = () => {
 
           {/* Input bar */}
           <div
-            className="flex items-center gap-2 px-3 py-3 flex-shrink-0"
+            className="flex items-center flex-shrink-0 gap-2 px-3 py-3"
             style={{ borderTop: '1px solid rgba(0,212,255,0.12)', background: 'rgba(5,13,26,0.6)' }}
           >
             <input
@@ -259,13 +259,13 @@ const ChatBot = () => {
               onKeyDown={handleKey}
               placeholder="Ask about Partha..."
               disabled={loading}
-              className="flex-1 bg-transparent text-sm text-white placeholder-slate-600 outline-none body-font"
+              className="flex-1 text-sm text-white bg-transparent outline-none placeholder-slate-600 body-font"
               style={{ caretColor: '#00d4ff' }}
             />
             <button
               onClick={() => sendMessage(input)}
               disabled={!input.trim() || loading}
-              className="w-8 h-8 flex items-center justify-center rounded-lg flex-shrink-0 transition-all duration-200"
+              className="flex items-center justify-center flex-shrink-0 w-8 h-8 transition-all duration-200 rounded-lg"
               style={{
                 background: input.trim() && !loading ? 'linear-gradient(135deg,#0284c7,#00d4ff)' : 'rgba(255,255,255,0.05)',
                 border: `1px solid ${input.trim() && !loading ? 'transparent' : 'rgba(255,255,255,0.08)'}`,
@@ -280,10 +280,10 @@ const ChatBot = () => {
         </div>
       </div>
 
-      {/* Floating toggle button */}
+      {/* Floating toggle button */} 
       <button
         onClick={() => setOpen(!open)}
-        className="fixed bottom-5 right-5 z-50 w-14 h-14 rounded-2xl flex items-center justify-center transition-all duration-300"
+        className="fixed z-50 flex items-center justify-center transition-all duration-300 bottom-5 right-5 w-14 h-14 rounded-2xl"
         style={{
           background: open
             ? 'linear-gradient(135deg,#334155,#1e293b)'
@@ -300,7 +300,7 @@ const ChatBot = () => {
         }
         {!open && (
           <span
-            className="absolute inset-0 rounded-2xl pointer-events-none"
+            className="absolute inset-0 pointer-events-none rounded-2xl"
             style={{ border: '2px solid rgba(0,212,255,0.4)', animation: 'pulse 2.5s ease-in-out infinite' }}
           />
         )}

@@ -3,8 +3,8 @@ import { Eye } from 'lucide-react';
 
 const SS_KEY   = 'pr-session-counted';   // sessionStorage — survives refresh, cleared on tab close
 const CACHE_KEY = 'pr-count-cache';      // localStorage   — last known API count for instant display
-const HIT_URL  = 'https://api.countapi.xyz/hit/partha-rakshit-portfolio/visitors';
-const GET_URL  = 'https://api.countapi.xyz/get/partha-rakshit-portfolio/visitors';
+const HIT_URL  = 'https://api.counterapi.dev/v1/partha-rakshit-portfolio/visitors/up';
+const GET_URL  = 'https://api.counterapi.dev/v1/partha-rakshit-portfolio/visitors';
 
 const formatCount = (n: number): string => {
   if (n >= 1_000_000) return `${(n / 1_000_000).toFixed(1)}M`;
@@ -56,7 +56,7 @@ const VisitorCounter = () => {
       .then((data: unknown) => {
         if (!mounted.current) return;
 
-        const value = (data as { value?: number })?.value;
+        const value = (data as { count?: number })?.count;
         if (typeof value === 'number' && value > 0) {
           setCount(value);
           writeCache(value);   // keep localStorage in sync with real API count
@@ -67,7 +67,7 @@ const VisitorCounter = () => {
       })
       .finally(() => {
         if (mounted.current) setLoading(false);
-      });
+      }); 
 
     // ── Cleanup: prevent setState on unmounted component ────────────────────
     return () => { mounted.current = false; };
@@ -75,7 +75,7 @@ const VisitorCounter = () => {
 
   return (
     <div
-      className="fixed top-5 left-5 z-40 hidden md:flex items-center gap-2 px-3 py-2 rounded-full select-none"
+      className="fixed z-40 items-center hidden gap-2 px-3 py-2 rounded-full select-none top-5 left-5 md:flex"
       style={{
         background: 'rgba(5,13,26,0.80)',
         border: '1px solid rgba(0,212,255,0.18)',
@@ -105,13 +105,13 @@ const VisitorCounter = () => {
           ))}
         </span>
       ) : (
-        <span className="text-xs font-bold text-white tabular-nums leading-none">
+        <span className="text-xs font-bold leading-none text-white tabular-nums">
           {count !== null ? formatCount(count) : '—'}
         </span>
       )}
 
       {/* Label */}
-      <span className="text-xs body-font leading-none" style={{ color: '#4a7a8a' }}>
+      <span className="text-xs leading-none body-font" style={{ color: '#4a7a8a' }}>
         views
       </span>
     </div>
