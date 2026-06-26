@@ -1,29 +1,6 @@
 # Partha Rakshit — Portfolio
 
-A modern, fully responsive portfolio website built with **React 18**, **TypeScript**, **Tailwind CSS**, and **Vite**. Designed for a QA Engineer / Software Tester, featuring a cyberpunk-inspired dark aesthetic with animated sections, an AI chatbot powered by Google Gemini, and a working contact form via EmailJS.
-
----
-
-## Live Demo
-
-> Deploy to Netlify / Vercel and paste the URL here.
-
----
-
-## Features
-
-- **Animated Hero** — gradient headline, role pills, and scroll indicator
-- **About** — personal intro with stats and highlights
-- **Skills** — categorised skill cards with proficiency indicators
-- **Educational Journey** — zigzag alternating timeline with SVG circular progress rings
-- **Experience** — professional timeline with company details
-- **Projects** — filterable project showcase with live/repo links
-- **Certifications** — bento-grid cards with real credential links (SkillStone, GeeksforGeeks, Coursera, Postman, HackerRank)
-- **Contact Form** — EmailJS integration; sends messages directly to Gmail
-- **AI Chatbot** — floating assistant powered by Google Gemini 2.0 Flash, knows Partha's full profile
-- **Floating Navbar** — pill-style desktop nav + full-screen mobile overlay with Resume CTA
-- **3D Background** — Three.js particle canvas
-- **Fully Responsive** — mobile, tablet, and desktop layouts
+Personal portfolio of **Partha Rakshit**, QA Engineer and Software Tester. Features a dark liquid-glass design, looping video backgrounds per section, scroll-triggered animations, a filterable project showcase, and a floating AI assistant powered by Google Gemini.
 
 ---
 
@@ -32,56 +9,237 @@ A modern, fully responsive portfolio website built with **React 18**, **TypeScri
 | Layer | Technology |
 |---|---|
 | Framework | React 18 + TypeScript |
-| Styling | Tailwind CSS |
-| Build | Vite |
+| Build Tool | Vite 5 |
+| Styling | Tailwind CSS v3.4.1 |
+| Animation | Motion v12 (`motion/react`) |
+| 3D | Three.js + @react-three/fiber |
+| AI Chatbot | Google Gemini 2.0 Flash API |
+| Contact Form | EmailJS (`@emailjs/browser`) |
 | Icons | Lucide React |
-| 3D / Canvas | Three.js + @react-three/fiber |
-| Email | EmailJS (`@emailjs/browser`) |
-| AI Chatbot | Google Gemini API (REST) |
-| Animation | CSS custom animations + Motion |
-| Linting | ESLint + TypeScript-ESLint |
 
 ---
 
-## Getting Started
+## Project Structure
 
-### Prerequisites
-
-- Node.js v18 or higher
-- npm or yarn
-
-### Installation
-
-```bash
-# 1. Clone the repo
-git clone https://github.com/CoderPartha012/portfolio.git
-cd portfolio
+```text
+src/
+├── components/
+│   ├── Header.tsx           # Fixed navbar — desktop pill + mobile hamburger overlay
+│   ├── Hero.tsx             # Full-viewport landing section
+│   ├── Capabilities.tsx     # Core QA competency cards
+│   ├── About.tsx            # Personal bio
+│   ├── Skills.tsx           # Sidebar + animated progress bar skill panel
+│   ├── Education.tsx        # Zigzag timeline with SVG score rings
+│   ├── Experience.tsx       # Work history with expandable detail cards
+│   ├── Projects.tsx         # Filterable project showcase
+│   ├── Certifications.tsx   # Verified credential card grid
+│   ├── Contact.tsx          # EmailJS contact form + social links
+│   ├── Footer.tsx
+│   ├── ChatBot.tsx          # Gemini-powered floating AI assistant
+│   ├── FadingVideo.tsx      # IntersectionObserver lazy-play video wrapper
+│   ├── BlurText.tsx         # Character-level blur-in text animation
+│   ├── Background3D.tsx     # Three.js 3D canvas background
+│   ├── ScrollNavigation.tsx # Scroll progress indicator
+│   └── VisitorCounter.tsx   # Live visitor count display
+├── App.tsx                  # Root layout and section order
+├── index.css                # Liquid-glass design system + global animations
+└── main.tsx                 # React entry point
 ```
 
-```bash
-# 2. Install dependencies
-npm install
-```
+---
 
-```bash
-# 3. Set up environment variables
-cp .env.example .env
-# Fill in your keys — see Environment Variables section below
-```
+## Sections
 
-```bash
-# 4. Start dev server
-npm run dev
-```
+### Header
 
-Open [http://localhost:5173](http://localhost:5173) in your browser.
+Fixed navigation that adapts between viewport sizes.
+
+- **Desktop** — three-column pill layout: `pr` monogram on the left, nav links centred in a glass pill, "Download Resume" CTA on the right.
+- **Mobile** — monogram + hamburger toggle. Opens a full-screen dark overlay with staggered serif nav links and a resume download button pinned to the bottom.
+- All nav links smooth-scroll to their target section and close the mobile menu.
+
+---
+
+### Hero
+
+Full-viewport landing with a looping video background.
+
+- Animated badge, full name, and a cycling role title with a blinking cursor:
+  - Quality Analyst Executive
+  - Software Tester
+  - Test Automation Engineer
+- BlurText tagline with character-level blur-in animation.
+- Two CTAs: **View Projects** (anchor scroll) and **Download Resume** (Google Drive link).
+- Three stat cards — Years of Experience, Projects Delivered, Bugs Resolved — with hover glow effects.
+- Bottom glass status bar showing availability, location, and response time.
+
+---
+
+### Capabilities
+
+Three core QA disciplines, each in a glass card with scroll-triggered fade-up animation.
+
+| Discipline | Tools |
+|---|---|
+| Test Automation | Selenium WebDriver, TestNG, Java, Page Object Model |
+| API Testing | Postman, REST Assured, JSON, OAuth2 |
+| Performance Testing | JMeter, Load Testing, Bottleneck Analysis |
+
+---
+
+### About
+
+Personal introduction covering background, professional focus, and motivation.
+
+---
+
+### Skills
+
+31 skills across 5 categories in a sidebar + panel layout.
+
+- **Desktop** — persistent left sidebar with category icons, skill counts, and a gradient active indicator. Selecting a category cross-fades the panel using `AnimatePresence`.
+- **Mobile** — horizontal scrollable pill tabs.
+- Each skill card shows a colour-coded proficiency label and a gradient progress bar that animates in on scroll.
+
+**Proficiency colour tiers:**
+
+| Level | Colour | Threshold |
+|---|---|---|
+| Expert | Cyan `#00d4ff` | ≥ 90% |
+| Advanced | Emerald `#10b981` | ≥ 80% |
+| Intermediate | Amber `#f59e0b` | ≥ 70% |
+| Familiar | Violet `#a78bfa` | < 70% |
+
+---
+
+### Education
+
+Academic history as a zigzag timeline (desktop) / single column (mobile).
+
+| Institution | Qualification | Score | Year |
+|---|---|---|---|
+| Lovely Professional University | B.Tech — Computer Science & Engineering | 80.80% | 2020–2024 |
+| Jhantipahari High School | Class 12 — Higher Secondary | 78.2% | 2019 |
+| Jhantipahari High School | Class 10 — Secondary | 77.42% | 2017 |
+
+Each card includes:
+
+- Animated SVG score ring (strokeDashoffset animation, gradient arc unique per card).
+- Type badge with accent colour — cyan for University, emerald for School.
+- Animated gradient progress bar for the score.
+- Location and year metadata.
+- A gradient spine running down the centre of the timeline on desktop.
+
+---
+
+### Experience
+
+Two professional roles, each in an expandable glass card.
+
+**Quality Analyst Executive — Legistify Services PVT Ltd** *(Sept 2024 – May 2026 · Current)*
+
+- Developed and executed comprehensive test plans and scripts.
+- Smoke testing for critical functionalities; end-to-end bug tracking.
+- New Relic for transaction traces, error analytics, and custom dashboards.
+- MongoDB Atlas and AWS monitoring for database performance and CPU metrics.
+- Agile project management via Taiga.
+
+**Quality Analyst Intern (Automation Testing) — Wesoftek Solutions** *(Dec 2023 – May 2024)*
+
+- Functional, UI, UAT, compatibility, and exploratory testing on a Laravel platform.
+- Web API testing with Postman; Selenium WebDriver + TestNG automation scripts.
+- Security testing with Firebug and Temper Data; load/stress testing via JMeter.
+- Regression, Alpha, and Beta testing for web and mobile (Android + iOS).
+- Full bug lifecycle in Mantis Bug Tracker; SQL for backend data validation.
+
+---
+
+### Projects
+
+Six projects with live demo and GitHub links, filterable by category.
+
+| Project | Stack | Description |
+|---|---|---|
+| **TaskMate** | React, Tailwind, Zustand, SheetJS | Feature-rich task management with team collaboration |
+| **Business Management System** | Next.js, Tailwind, shadcn/ui, Recharts | Workforce, payroll, and finance management dashboard |
+| **Bugdesk** | React, Tailwind, Recharts, localStorage | Bug tracker with a 7-stage lifecycle and dark mode |
+| **Maharaja Restaurant** | React, Tailwind, Vite, Framer Motion | Restaurant site with menu, reservations, and gallery |
+| **Expenso** | React, Tailwind, Framer Motion, jsPDF | Expense tracker with budgets, charts, and PDF export |
+
+Each card shows a screenshot thumbnail, tech tags, and hover animation. Featured projects are highlighted at the top.
+
+---
+
+### Certifications
+
+Five verified credentials in a responsive three-column card grid.
+
+| Certificate | Issuer | Date |
+|---|---|---|
+| Software Testing | SkillStone | Jan 2023 |
+| Master Java Programming — Beginner to Advanced | GeeksforGeeks | May 2023 |
+| Web and Mobile Testing with Selenium | Coursera | Mar 2023 |
+| API Testing using Postman | Postman | Aug 2024 |
+| Introduction to Programming Using Python | HackerRank | Sep 2022 |
+
+Each card has a gradient top accent bar, issuer badge with gradient ring border, a "Verified" label, date pill, and a direct link to the certificate. A footer CTA banner links to the contact section.
+
+---
+
+### Contact
+
+Contact form powered by EmailJS — no backend required.
+
+- Fields: Name, Email, Message with floating-label inputs.
+- Animated focus borders.
+- Success and error feedback displayed inline after submission.
+- Social links: Gmail · LinkedIn · GitHub.
+
+---
+
+### ChatBot
+
+Floating AI assistant in the bottom-right corner, powered by **Google Gemini 2.0 Flash**.
+
+- Tap the chat icon to open the panel.
+- Pre-loaded with a system prompt containing Partha's full background — education, skills, experience, and contact details.
+- Four quick-reply suggestion chips shown on first open.
+- Typing indicator while the API processes a response.
+- Answers questions about role, skills, certifications, and how to get in touch.
+
+---
+
+## Design System
+
+### Liquid-Glass
+
+Two CSS utility classes used across cards, navigation, chips, and overlays.
+
+- `.liquid-glass` — subtle: `rgba(255,255,255,0.01)` background, 4 px blur, gradient border mask via `::before` pseudo-element.
+- `.liquid-glass-strong` — heavier: `rgba(255,255,255,0.02)` background, 50 px blur. Used for primary CTAs and the mobile menu.
+
+### Colour Tokens
+
+| Token | Hex |
+|---|---|
+| Cyan (primary accent) | `#00d4ff` |
+| Emerald (secondary accent) | `#10b981` |
+| Amber | `#f59e0b` |
+| Violet | `#a78bfa` |
+
+### FadingVideo
+
+`FadingVideo.tsx` wraps `<video>` with an `IntersectionObserver`. The element starts at `opacity: 0` and fades to `1` only when it enters the viewport and playback begins. Each section has its own looping background video loaded this way.
+
+### Animations
+
+All scroll-triggered animations use `whileInView` from Motion v12 with `viewport: { once: true }`. Progress bars animate from `width: 0` to their target. SVG score rings animate via `strokeDashoffset` from full circumference to the score-derived offset.
 
 ---
 
 ## Environment Variables
 
-All secrets live in a `.env` file that is **never committed** (listed in `.gitignore`).
-Copy `.env.example` to `.env` and fill in your values:
+Create a `.env` file in the project root:
 
 ```env
 VITE_GEMINI_API_KEY=your_google_gemini_api_key
@@ -90,65 +248,29 @@ VITE_EMAILJS_TEMPLATE_ID=your_emailjs_template_id
 VITE_EMAILJS_PUBLIC_KEY=your_emailjs_public_key
 ```
 
-### How to get each key
+**Gemini API key** — create one at [Google AI Studio](https://aistudio.google.com/).
 
-**Gemini API Key**
-
-1. Go to [Google AI Studio](https://aistudio.google.com/)
-2. Create a new API key
-3. Paste it as `VITE_GEMINI_API_KEY`
-
-**EmailJS Keys**
-
-1. Sign up at [emailjs.com](https://www.emailjs.com/)
-2. Add an Email Service (connect your Gmail) → copy **Service ID**
-3. Create an Email Template → copy **Template ID**
-4. Go to Account → copy **Public Key**
+**EmailJS keys** — sign up at [emailjs.com](https://www.emailjs.com/), connect a Gmail service, create a template, and copy the Service ID, Template ID, and Public Key from your account dashboard.
 
 ---
 
-## Project Structure
-
-```text
-project/
-├── public/
-├── src/
-│   ├── components/
-│   │   ├── Header.tsx          # Floating pill navbar + mobile overlay
-│   │   ├── Hero.tsx            # Landing section with CTA buttons
-│   │   ├── About.tsx
-│   │   ├── Skills.tsx
-│   │   ├── Education.tsx       # Zigzag timeline with SVG progress rings
-│   │   ├── Experience.tsx
-│   │   ├── Projects.tsx
-│   │   ├── Certifications.tsx  # Bento grid with live credential links
-│   │   ├── Contact.tsx         # EmailJS contact form
-│   │   ├── ChatBot.tsx         # Gemini-powered AI assistant
-│   │   ├── Background3D.tsx    # Three.js particle canvas
-│   │   ├── Footer.tsx
-│   │   ├── Loader.tsx
-│   │   └── ScrollNavigation.tsx
-│   ├── App.tsx
-│   ├── main.tsx
-│   └── index.css
-├── .env                        # Secret keys — NOT committed
-├── .env.example                # Template for required env vars
-├── .gitignore
-├── tailwind.config.js
-├── vite.config.ts
-├── tsconfig.json
-└── package.json
-```
-
----
-
-## Scripts
+## Getting Started
 
 ```bash
-npm run dev       # Start development server
-npm run build     # Production build → dist/
-npm run preview   # Preview production build locally
-npm run lint      # Run ESLint
+# Install dependencies
+npm install
+
+# Start development server (http://localhost:5173)
+npm run dev
+
+# Type check
+npx tsc --noEmit
+
+# Production build → dist/
+npm run build
+
+# Preview production build locally
+npm run preview
 ```
 
 ---
@@ -157,30 +279,16 @@ npm run lint      # Run ESLint
 
 ### Netlify
 
-1. Connect the GitHub repo in the Netlify dashboard
+1. Connect the GitHub repo in the Netlify dashboard.
 2. Build command: `npm run build`
 3. Publish directory: `dist`
-4. Add all `VITE_*` environment variables in **Site Settings → Environment Variables**
+4. Add all `VITE_*` variables under **Site Settings → Environment Variables**.
 
 ### Vercel
 
-1. Import the GitHub repo in Vercel
+1. Import the repo in Vercel.
 2. Framework preset: **Vite**
-3. Add all `VITE_*` environment variables in **Project Settings → Environment Variables**
-
-> Never paste real keys into `netlify.toml` or `vercel.json` — use the dashboard env var UI instead.
-
----
-
-## Certifications Showcased
-
-| # | Certification | Issuer | Year |
-|---|---|---|---|
-| 1 | Software Testing | SkillStone | 2023 |
-| 2 | Master Java Programming | GeeksforGeeks | 2023 |
-| 3 | Web and Mobile Testing with Selenium | Coursera | 2023 |
-| 4 | API Testing using Postman | Postman | 2024 |
-| 5 | Introduction to Programming Using Python | HackerRank | 2022 |
+3. Add all `VITE_*` variables under **Project Settings → Environment Variables**.
 
 ---
 
@@ -192,9 +300,3 @@ npm run lint      # Run ESLint
 - LinkedIn: [linkedin.com/in/partharakshit](https://www.linkedin.com/in/partharakshit)
 - GitHub: [github.com/CoderPartha012](https://github.com/CoderPartha012)
 - GeeksforGeeks: [geeksforgeeks.org/user/partharakshit5653](https://www.geeksforgeeks.org/user/partharakshit5653)
-
----
-
-## License
-
-MIT License — feel free to use this as a template for your own portfolio.
