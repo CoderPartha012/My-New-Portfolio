@@ -208,6 +208,16 @@ html, body { background: #000; color: #fff; }
   50%     { opacity:0.55; }
 }
 .animate-pulse-soft { animation:pulseSoft 2s cubic-bezier(0.4,0,0.6,1) infinite; }
+@keyframes spinSlow {
+  from { transform:rotate(0deg); }
+  to   { transform:rotate(360deg); }
+}
+.animate-spin-slow { animation:spinSlow 6s linear infinite; }
+@keyframes shimmerSweep {
+  0%   { background-position:150% 0; }
+  100% { background-position:-150% 0; }
+}
+.animate-shimmer { animation:shimmerSweep 1.4s ease-in-out infinite; }
 
 /* ── Scrollbar ────────────────────────────────────────────────────────── */
 ::-webkit-scrollbar       { width:8px; }

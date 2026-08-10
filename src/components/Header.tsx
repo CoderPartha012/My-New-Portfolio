@@ -7,9 +7,10 @@
  * Mobile: monogram + hamburger toggle → full-screen black overlay with serif nav links.
  */
 import { useState, useCallback, useEffect } from 'react';
+import { Download } from 'lucide-react';
 
 const RESUME_URL =
-  'https://drive.google.com/file/d/1yj1d1wOlS9aV808MfqK15tq3racngtfB/view?usp=sharing';
+  'https://drive.google.com/file/d/18-s6uhZftzzNnGeNvEZPd5vV4fV4hf1I/view?usp=sharing';
 
 const NAV_LINKS = [
   { label: 'Home',           id: 'hero'           },
@@ -83,17 +84,37 @@ export default function Header() {
           {/* Separator */}
           <span className="flex-shrink-0 w-px h-4 mx-1 bg-white/10" aria-hidden="true" />
 
-          {/* Download Resume CTA — solid white pill */}
+          {/* Download Resume CTA — rotating gradient-ring chip */}
           <a
             href={RESUME_URL}
             target="_blank"
             rel="noopener noreferrer"
-            className="flex items-center gap-1.5 bg-white text-black px-4 py-2 rounded-full
-                       text-sm font-semibold font-body whitespace-nowrap
-                       hover:bg-white/90 transition-colors duration-150"
+            className="group relative flex items-center gap-2 pl-4 pr-1.5 py-1.5 rounded-full
+                       overflow-hidden flex-shrink-0"
           >
-            Download Resume
-            <ArrowUpRight className="h-3.5 w-3.5" />
+            {/* Rotating conic-gradient ring */}
+            <span
+              className="absolute inset-0 rounded-full animate-spin-slow"
+              style={{ background: 'conic-gradient(from 0deg, #00d4ff, #10b981, #f59e0b, #00d4ff)' }}
+              aria-hidden="true"
+            />
+            {/* Black fill, inset to expose the ring as a thin border */}
+            <span
+              className="absolute inset-[1.5px] rounded-full bg-black transition-colors duration-200
+                         group-hover:bg-black/75"
+              aria-hidden="true"
+            />
+
+            <span className="relative z-10 text-sm font-semibold font-body text-white whitespace-nowrap">
+              Download Resume
+            </span>
+            <span
+              className="relative z-10 flex items-center justify-center w-7 h-7 rounded-full
+                         bg-white text-black transition-transform duration-500 ease-out
+                         group-hover:rotate-[360deg]"
+            >
+              <Download className="w-3.5 h-3.5" />
+            </span>
           </a>
         </nav>
 

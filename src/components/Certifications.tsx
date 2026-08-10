@@ -30,108 +30,119 @@ const fadeUp = (delay = 0) => ({
   transition:  { duration: 0.6, delay, ease: 'easeOut' },
 });
 
-/* ── Premium cert card ──────────────────────────────────────────────────── */
-const CertCard = ({ cert, index }: { cert: typeof certifications[0]; index: number }) => (
-  <motion.div
-    initial={{ opacity: 0, y: 40 }}
-    whileInView={{ opacity: 1, y: 0 }}
-    viewport={{ once: true, amount: 0.1 }}
-    transition={{ duration: 0.55, delay: index * 0.09, ease: 'easeOut' }}
-    className="group relative liquid-glass rounded-[1.5rem] overflow-hidden
-               transition-all duration-300 hover:-translate-y-2"
-    onMouseEnter={e => {
-      (e.currentTarget as HTMLDivElement).style.boxShadow =
-        '0 24px 64px rgba(0,0,0,0.55), 0 0 36px rgba(0,212,255,0.14)';
-    }}
-    onMouseLeave={e => {
-      (e.currentTarget as HTMLDivElement).style.boxShadow = '';
-    }}
+/* ── Medal-style seal node (sits on the timeline spine) ─────────────────── */
+const SealNode = () => (
+  <div className="relative w-12 h-12 lg:w-14 lg:h-14">
+    <div
+      className="absolute inset-0 rounded-full animate-spin-slow"
+      style={{ background: 'conic-gradient(from 0deg, #00d4ff, #10b981, #f59e0b, #00d4ff)' }}
+    />
+    <div className="absolute inset-[3px] rounded-full bg-black" />
+    <div className="absolute inset-[6px] rounded-full liquid-glass flex items-center justify-center animate-pulse-glow">
+      <ShieldCheck className="w-4 h-4 lg:w-5 lg:h-5" style={{ color: '#00d4ff' }} />
+    </div>
+  </div>
+);
+
+/* ── Holographic credential card ─────────────────────────────────────────── */
+const CertCard = ({ cert }: { cert: typeof certifications[0] }) => (
+  <motion.a
+    href={cert.url}
+    target="_blank"
+    rel="noopener noreferrer"
+    whileHover={{ y: -4 }}
+    transition={{ duration: 0.25, ease: 'easeOut' }}
+    className="group relative block liquid-glass rounded-[1.25rem] p-6 overflow-hidden"
   >
+    {/* Holographic shimmer sweep on hover */}
+    <div
+      className="absolute inset-0 opacity-0 group-hover:opacity-100 group-hover:animate-shimmer
+                 transition-opacity duration-300 pointer-events-none"
+      style={{
+        backgroundImage: 'linear-gradient(115deg, transparent 30%, rgba(255,255,255,0.14) 50%, transparent 70%)',
+        backgroundSize: '250% 100%',
+      }}
+    />
     {/* Gradient top accent line */}
     <div
       className="absolute top-0 inset-x-0 h-[1.5px] pointer-events-none"
-      style={{ background: 'linear-gradient(90deg, #00d4ff 0%, #10b981 100%)' }}
+      style={{ background: 'linear-gradient(90deg, #00d4ff 0%, #10b981 50%, #f59e0b 100%)' }}
     />
-
-    {/* Large watermark number */}
+    {/* Watermark index */}
     <span
-      className="absolute -bottom-3 right-5 font-heading italic leading-none select-none pointer-events-none"
-      style={{ fontSize: '6.5rem', color: 'rgba(255,255,255,0.04)' }}
+      className="absolute -bottom-4 right-4 font-heading italic leading-none select-none pointer-events-none"
+      style={{ fontSize: '5.5rem', color: 'rgba(255,255,255,0.035)' }}
     >
       {cert.id}
     </span>
 
-    <div className="relative p-7 flex flex-col gap-5 h-full">
-
-      {/* ── Row 1: issuer badge + date pill ── */}
-      <div className="flex items-start justify-between gap-3">
-
-        {/* Badge with gradient ring */}
-        <div className="flex items-center gap-3 min-w-0">
-          <div className="relative flex-shrink-0">
-            <div
-              className="absolute -inset-[1.5px] rounded-[0.9rem] opacity-55 pointer-events-none"
-              style={{ background: 'linear-gradient(135deg, #00d4ff, #10b981)' }}
-            />
-            <div className="relative liquid-glass rounded-[0.75rem] w-12 h-12 z-10
-                            flex items-center justify-center text-sm font-body font-bold text-white">
-              {cert.initial}
-            </div>
-          </div>
-          <div className="min-w-0">
-            <p className="text-sm font-body font-semibold text-white leading-tight truncate">
-              {cert.issuer}
-            </p>
-            <div className="flex items-center gap-1.5 mt-0.5">
-              <ShieldCheck className="w-3 h-3 flex-shrink-0" style={{ color: '#00d4ff' }} />
-              <span
-                className="text-[10px] font-body font-medium tracking-widest uppercase"
-                style={{ color: '#00d4ff' }}
-              >
-                Verified
-              </span>
-            </div>
+    <div className="relative flex items-start justify-between gap-4 mb-4">
+      {/* Issuer avatar */}
+      <div className="flex items-center gap-3 min-w-0">
+        <div className="relative flex-shrink-0">
+          <div
+            className="absolute -inset-[1.5px] rounded-full opacity-60"
+            style={{ background: 'linear-gradient(135deg, #00d4ff, #10b981)' }}
+          />
+          <div className="relative liquid-glass rounded-full w-10 h-10 z-10
+                          flex items-center justify-center text-xs font-body font-bold text-white">
+            {cert.initial}
           </div>
         </div>
-
-        {/* Date pill */}
-        <div className="liquid-glass rounded-full px-3 py-1.5 flex items-center gap-1.5 flex-shrink-0">
-          <Calendar className="w-3 h-3 text-white/50" />
-          <span className="text-[10px] font-body text-white/60 whitespace-nowrap">{cert.date}</span>
+        <div className="min-w-0">
+          <p className="text-sm font-body font-semibold text-white truncate">{cert.issuer}</p>
+          <div className="flex items-center gap-1.5 mt-0.5">
+            <Calendar className="w-3 h-3 text-white/40 flex-shrink-0" />
+            <span className="text-[10px] font-body text-white/40 whitespace-nowrap">{cert.date}</span>
+          </div>
         </div>
       </div>
 
-      {/* ── Title ── */}
-      <h3 className="font-heading italic text-white text-[1.2rem] leading-snug tracking-[-0.5px] flex-1">
-        {cert.title}
-      </h3>
-
-      {/* Divider */}
-      <div
-        className="h-px"
-        style={{ background: 'linear-gradient(90deg, rgba(255,255,255,0.09) 0%, transparent 100%)' }}
-      />
-
-      {/* ── CTA ── */}
-      <a
-        href={cert.url}
-        target="_blank"
-        rel="noopener noreferrer"
-        className="flex items-center justify-between"
-      >
-        <span className="text-xs font-body font-medium text-white/50
-                         group-hover:text-white/80 transition-colors duration-200">
-          View Certificate
+      {/* Verified pill */}
+      <div className="liquid-glass rounded-full px-2.5 py-1 flex items-center gap-1 flex-shrink-0">
+        <ShieldCheck className="w-3 h-3" style={{ color: '#10b981' }} />
+        <span className="text-[9px] font-body font-semibold tracking-widest uppercase text-white/60">
+          Verified
         </span>
-        <div className="w-8 h-8 rounded-full liquid-glass flex items-center justify-center
-                        group-hover:bg-white transition-all duration-300">
-          <ExternalLink className="w-3.5 h-3.5 text-white/50 group-hover:text-black
-                                   transition-colors duration-300" />
-        </div>
-      </a>
+      </div>
     </div>
-  </motion.div>
+
+    <h3 className="relative font-heading italic text-white text-[1.1rem] leading-snug tracking-[-0.3px] mb-5">
+      {cert.title}
+    </h3>
+
+    <div className="relative flex items-center gap-1.5 text-xs font-body font-medium text-white/50
+                    group-hover:text-white transition-colors duration-200">
+      View Certificate
+      <ExternalLink className="w-3.5 h-3.5 transition-transform duration-200
+                               group-hover:translate-x-0.5 group-hover:-translate-y-0.5" />
+    </div>
+  </motion.a>
 );
+
+/* ── One entry on the credential timeline ────────────────────────────────── */
+const TimelineItem = ({ cert, index }: { cert: typeof certifications[0]; index: number }) => {
+  const isLeft = index % 2 === 0;
+  return (
+    <motion.div
+      initial={{ opacity: 0, y: 36 }}
+      whileInView={{ opacity: 1, y: 0 }}
+      viewport={{ once: true, amount: 0.25 }}
+      transition={{ duration: 0.55, delay: (index % 4) * 0.08, ease: 'easeOut' }}
+      className="relative lg:grid lg:grid-cols-2 lg:gap-12"
+    >
+      {/* Seal node on the spine */}
+      <div className="absolute z-10 left-6 top-6 lg:left-1/2 lg:top-1/2 -translate-x-1/2 lg:-translate-y-1/2">
+        <SealNode />
+      </div>
+
+      {/* Card — alternates sides on desktop, always right of the spine on mobile */}
+      <div className={`pl-16 lg:pl-0 ${isLeft ? 'lg:col-start-1 lg:pr-16' : 'lg:col-start-2 lg:pl-16'}`}>
+        <CertCard cert={cert} />
+      </div>
+    </motion.div>
+  );
+};
 
 /* ── Section ────────────────────────────────────────────────────────────── */
 const Certifications = () => (
@@ -158,7 +169,7 @@ const Certifications = () => (
       </motion.div>
 
       {/* ── Stats strip ── */}
-      <motion.div {...fadeUp(0.1)} className="flex flex-wrap gap-3 mb-12">
+      <motion.div {...fadeUp(0.1)} className="flex flex-wrap gap-3 mb-16">
         {STATS.map(s => (
           <div
             key={s.label}
@@ -170,11 +181,24 @@ const Certifications = () => (
         ))}
       </motion.div>
 
-      {/* ── Card grid ── */}
-      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5">
-        {certifications.map((cert, i) => (
-          <CertCard key={cert.id} cert={cert} index={i} />
-        ))}
+      {/* ── Credential timeline ── */}
+      <div className="relative">
+        {/* Spine — mobile (left aligned) */}
+        <div
+          className="lg:hidden absolute left-6 top-2 bottom-2 w-px -translate-x-1/2 pointer-events-none"
+          style={{ background: 'linear-gradient(180deg, transparent 0%, rgba(255,255,255,0.16) 6%, rgba(255,255,255,0.16) 94%, transparent 100%)' }}
+        />
+        {/* Spine — desktop (centered) */}
+        <div
+          className="hidden lg:block absolute left-1/2 top-2 bottom-2 w-px -translate-x-1/2 pointer-events-none"
+          style={{ background: 'linear-gradient(180deg, transparent 0%, rgba(255,255,255,0.16) 6%, rgba(255,255,255,0.16) 94%, transparent 100%)' }}
+        />
+
+        <div className="flex flex-col gap-14 lg:gap-10">
+          {certifications.map((cert, i) => (
+            <TimelineItem key={cert.id} cert={cert} index={i} />
+          ))}
+        </div>
       </div>
 
       {/* ── Footer CTA banner ── */}

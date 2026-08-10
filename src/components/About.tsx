@@ -10,28 +10,45 @@ const IMAGES = [
   'https://i.postimg.cc/SxWRW9zL/Whats-App-Image-2026-05-09-at-01-48-18.jpg',
 ];
 
-const KEY_POINTS = [
+const JOURNEY = [
+  `My journey into quality assurance started in December 2023 when I joined Wesoftek Solutions as a QA Intern 🚀 That's where I got my hands dirty for the first time with real testing — writing test cases, finding bugs, learning how software actually breaks in ways you never expect. Those six months taught me the fundamentals and made me realize that QA isn't just about clicking buttons 🖱️ It's about thinking like a user who's trying to get something done and figuring out everything that could go wrong.`,
+  `After my internship, I joined Legistify, a Legal SaaS platform, as a Quality Analyst Executive in September 2024 💼 This is where everything changed. I was given full ownership of two production modules — Contract Management and Notice Management. There was no senior QA guiding me. I had to figure out what quality should look like, build the processes myself, and take responsibility for every release 🔥`,
+  `Over almost two years at Legistify, I went from writing test cases to building automation suites 🤖 monitoring production APIs 📊 tracking infrastructure health on AWS ☁️ testing AI features across multiple LLM models 🧠 and leading CRM integration testing for platforms like HubSpot, Zoho, Salesforce, and Slack 🔗 I wasn't just finding bugs anymore. I was owning quality as a system.`,
+  `Today, I'm looking for my next challenge 🎯 A role where I can bring this end-to-end quality mindset to a larger product, a bigger team, and more complex problems.`,
+];
+
+const EXPERTISE = [
   {
-    title: 'Expertise',
-    desc:  'Test Automation · Full-Stack Testing',
-    icon: (
-      <svg viewBox="0 0 24 24" fill="none" stroke="white" strokeWidth={1.5}
-        strokeLinecap="round" strokeLinejoin="round" className="w-6 h-6">
-        <path d="M12 2L4 6v6c0 5.25 3.5 10.15 8 11.35C16.5 22.15 20 17.25 20 12V6l-8-4z"/>
-        <polyline points="9 12 11 14 15 10"/>
-      </svg>
-    ),
+    title: 'Manual Testing',
+    desc: 'Thorough functional, regression, integration, and E2E testing across web and mobile platforms. Authored 550+ test cases covering UI flows, edge cases, negative scenarios, and AI feature testing.',
   },
   {
-    title: 'Tech Stack',
-    desc:  'Selenium · TestNG · Java · Postman',
-    icon: (
-      <svg viewBox="0 0 24 24" fill="none" stroke="white" strokeWidth={1.5}
-        strokeLinecap="round" strokeLinejoin="round" className="w-6 h-6">
-        <polyline points="16 18 22 12 16 6"/>
-        <polyline points="8 6 2 12 8 18"/>
-      </svg>
-    ),
+    title: 'Test Automation',
+    desc: 'Hands-on automation using Java, Selenium WebDriver, Playwright, and TestNG. Built and maintained automation suites that reduced regression effort and improved release confidence.',
+  },
+  {
+    title: 'API Testing',
+    desc: 'Validated API contracts, request/response structures, status codes, and error handling using Postman. Tested complex two-way data sync flows across CRM integrations.',
+  },
+  {
+    title: 'Database Testing',
+    desc: 'Data validation and integrity checks on MySQL and MongoDB. Verified that what users enter, what APIs send, and what the database stores are all consistent.',
+  },
+  {
+    title: 'Performance Monitoring',
+    desc: 'Tracked API bottlenecks using New Relic (P90/P95 latency, error rates, throughput). Monitored code quality through SonarQube and infrastructure health on AWS (Redis/ElastiCache, OpenSearch).',
+  },
+  {
+    title: 'AI Prompt Testing',
+    desc: 'Designed and executed prompt testing across GPT-4, LLaMA 3, Claude Sonnet, and Gemini. Tracked response quality, accuracy, and hallucination metrics across models.',
+  },
+  {
+    title: 'Integration Testing',
+    desc: 'Led end-to-end CRM integration testing for HubSpot, Zoho, Salesforce, and Slack, validating API contracts and data synchronization workflows.',
+  },
+  {
+    title: 'Reporting and Communication',
+    desc: 'Delivered weekly performance reports, code quality reports, database health reports, defect reports, and automation reports to stakeholders consistently.',
   },
 ];
 
@@ -110,37 +127,35 @@ const About = () => {
           {/* ── Content ── */}
           <div className="space-y-6">
             {/* Bio card */}
-            <motion.div {...fadeUp(0.2)} className="liquid-glass rounded-[1.25rem] p-8">
-              <p className="text-sm font-body text-white/60 mb-3 tracking-wide">// My Journey</p>
-              <p className="text-base leading-relaxed text-white/90 font-body font-light">
-                Passionate about automation testing, full-stack quality assurance, and scalable solutions,
-                I specialise in building robust test automation frameworks and ensuring software reliability.
-                Currently I work as a Quality Analyst at Legistify, contributing to software quality through
-                rigorous testing methodologies.
-              </p>
+            <motion.div {...fadeUp(0.2)} className="liquid-glass rounded-[1.25rem] p-8 space-y-4">
+              <p className="text-sm font-body text-white/60 mb-1 tracking-wide">// My Journey</p>
+              {JOURNEY.map((para, i) => (
+                <p key={i} className="text-base leading-relaxed text-white/90 font-body font-light">
+                  {para}
+                </p>
+              ))}
             </motion.div>
+          </div>
+        </div>
 
-            {/* Key-point cards */}
-            {KEY_POINTS.map((pt, i) => (
+        {/* ── Expertise ── */}
+        <motion.div {...fadeUp(0.3)} className="mt-16">
+          <p className="text-sm font-body text-white/60 mb-6 tracking-wide">// Expertise</p>
+          <div className="grid sm:grid-cols-2 gap-4">
+            {EXPERTISE.map((e, i) => (
               <motion.div
-                key={pt.title}
-                {...fadeUp(0.3 + i * 0.1)}
-                className="liquid-glass rounded-[1.25rem] p-6 flex items-center gap-6 cursor-default"
+                key={e.title}
+                {...fadeUp(0.35 + i * 0.05)}
+                className="liquid-glass rounded-[1.25rem] p-6 cursor-default"
               >
-                {/* Icon box */}
-                <div className="liquid-glass rounded-[0.75rem] w-12 h-12 flex items-center justify-center flex-shrink-0">
-                  {pt.icon}
-                </div>
-                <div>
-                  <h4 className="font-heading italic text-white text-2xl tracking-[-0.5px] leading-none mb-1">
-                    {pt.title}
-                  </h4>
-                  <p className="text-sm text-white/70 font-body font-light">{pt.desc}</p>
-                </div>
+                <h4 className="font-heading italic text-white text-xl tracking-[-0.5px] leading-none mb-2">
+                  {e.title}
+                </h4>
+                <p className="text-sm leading-relaxed text-white/70 font-body font-light">{e.desc}</p>
               </motion.div>
             ))}
           </div>
-        </div>
+        </motion.div>
       </div>
     </section>
   );

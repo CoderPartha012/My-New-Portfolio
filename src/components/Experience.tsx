@@ -1,5 +1,4 @@
-import { useState } from 'react';
-import { MapPin, Calendar, ExternalLink, ChevronDown, ChevronUp } from 'lucide-react';
+import { MapPin, Calendar, ExternalLink } from 'lucide-react';
 import { motion } from 'motion/react';
 import FadingVideo from './FadingVideo';
 
@@ -15,16 +14,32 @@ const experiences = [
     companyInitial: 'L',
     location: 'Gurgaon, Haryana',
     period: 'Sept 2024 – May 2026',
-    duration: '1.9 years',
     isCurrent: true,
     bullets: [
-      'Developed and executed comprehensive test plans and scripts to ensure software quality and reliability.',
-      'Performed smoke testing to validate critical functionalities and tracked major bugs end-to-end.',
-      'Used New Relic to analyze transaction traces, error analytics, and custom dashboards to identify bottlenecks.',
-      'Monitored database performance via MongoDB Atlas and AWS, focusing on CPU utilization metrics.',
-      'Leveraged Taiga for agile team collaboration and project management workflows.',
+      'Owned end to end QA for Contract Management and Notice Management modules of a Legal SaaS platform, covering functional, regression, smoke, API, database, mobile, and automation testing.',
+      'Created and maintained 340+ test cases for redesigned UI workflows and automated relevant regression scenarios using Java, Selenium, Playwright, and TestNG.',
+      'Performed API testing and database validation using Postman, MySQL, and MongoDB, ensuring API responses, business logic, and underlying data remained consistent.',
+      'Conducted AI feature and prompt testing across models including GPT 4, Liama 3, and Sonnet 4, evaluating responses and maintaining structured AI testing reports.',
+      'Led integration testing for HubSpot, Zoho, Salesforce, and Slack, validating API contracts, data integrity, and synchronization workflows.',
+      'Used New Relic to analyze API performance, error rates, latency, throughput, and transaction traces, identifying bottlenecks and maintaining weekly performance reports.',
+      'Used SonarQube, AWS ElastiCache/Redis, and OpenSearch to monitor code quality and application infrastructure health, tracking key metrics through regular QA reports.',
+      'Managed defects using Taiga and prepared Automation Reports, Test Execution Reports, and Defect Reports to support release quality.',
     ],
-    tags: ['Taiga', 'New Relic', 'MongoDB Atlas', 'AWS', 'Test Automation', 'Smoke Testing'],
+    tags: [
+      { name: 'Java',        image: 'https://raw.githubusercontent.com/devicons/devicon/master/icons/java/java-original.svg' },
+      { name: 'Selenium',    image: 'https://raw.githubusercontent.com/devicons/devicon/master/icons/selenium/selenium-original.svg' },
+      { name: 'Playwright',  image: 'https://raw.githubusercontent.com/devicons/devicon/master/icons/playwright/playwright-original.svg' },
+      { name: 'TestNG',      image: 'https://avatars.githubusercontent.com/u/12528662?s=200&v=4' },
+      { name: 'Postman',     image: 'https://www.vectorlogo.zone/logos/getpostman/getpostman-icon.svg' },
+      { name: 'MySQL',       image: 'https://raw.githubusercontent.com/devicons/devicon/master/icons/mysql/mysql-original.svg' },
+      { name: 'MongoDB',     image: 'https://raw.githubusercontent.com/devicons/devicon/master/icons/mongodb/mongodb-original.svg' },
+      { name: 'New Relic',   image: 'https://cdn.simpleicons.org/newrelic' },
+      { name: 'SonarQube',   image: 'https://cdn.simpleicons.org/sonarqubeserver' },
+      { name: 'AWS',         image: 'https://raw.githubusercontent.com/devicons/devicon/master/icons/amazonwebservices/amazonwebservices-original-wordmark.svg' },
+      { name: 'Taiga',       image: 'https://cdn.jsdelivr.net/gh/homarr-labs/dashboard-icons/svg/taiga.svg' },
+      { name: 'API Testing', image: 'https://img.icons8.com/color/96/api.png' },
+      { name: 'AI Testing',  image: 'https://img.icons8.com/color/96/artificial-intelligence.png' },
+    ],
   },
   {
     title: 'Quality Analyst Intern (Automation Testing)',
@@ -34,22 +49,26 @@ const experiences = [
     companyInitial: 'W',
     location: 'Gurgaon, Haryana',
     period: 'Dec 2023 – May 2024',
-    duration: '6 Months',
     isCurrent: false,
     bullets: [
-      'Designed test plans and executed functional, UI, UAT, compatibility, and exploratory testing for web and desktop apps on the Laravel platform.',
-      'Performed web API testing using Postman and wrote automation scripts with Selenium WebDriver + TestNG.',
-      'Conducted security testing with Firebug and Temper Data Tools; load/stress testing via JMeter.',
-      'Executed regression, Alpha, and Beta testing; developed and ran manual tests for Android and iOS apps.',
-      'Managed the full bug lifecycle using Mantis Bug Tracker and validated backend data flow with SQL queries.',
+      'Designed test plans and executed functional, UI, UAT, compatibility, and exploratory testing for web and desktop applications built on Laravel.',
+      'Performed API testing using Postman and developed automated test scripts using Selenium WebDriver and TestNG.',
+      'Conducted load and stress testing using JMeter and performed security testing using Firebug and Temper Data Tools.',
+      'Executed regression, Alpha, and Beta testing for web and Android/iOS applications and validated application behavior across different devices and environments.',
+      'Managed the complete bug lifecycle using Jira, collaborating with developers and validating backend data using SQL queries.',
     ],
-    tags: ['Selenium', 'TestNG', 'JMeter', 'Postman', 'Laravel', 'Mantis', 'SQL'],
+    tags: [
+      { name: 'Selenium',       image: 'https://raw.githubusercontent.com/devicons/devicon/master/icons/selenium/selenium-original.svg' },
+      { name: 'TestNG',         image: 'https://avatars.githubusercontent.com/u/12528662?s=200&v=4' },
+      { name: 'Postman',        image: 'https://www.vectorlogo.zone/logos/getpostman/getpostman-icon.svg' },
+      { name: 'Jira',           image: 'https://raw.githubusercontent.com/devicons/devicon/master/icons/jira/jira-original.svg' },
+      { name: 'Manual Testing', image: 'https://cdn-icons-png.flaticon.com/512/1548/1548780.png' },
+      { name: 'PostgreSQL',     image: 'https://raw.githubusercontent.com/devicons/devicon/master/icons/postgresql/postgresql-original.svg' },
+    ],
   },
 ];
 
 const ExpCard = ({ exp, index }: { exp: typeof experiences[0]; index: number }) => {
-  const [expanded, setExpanded] = useState(index === 0);
-
   return (
     <motion.div
       initial={{ opacity: 0, y: 40 }}
@@ -82,11 +101,6 @@ const ExpCard = ({ exp, index }: { exp: typeof experiences[0]; index: number }) 
               <h3 className="font-heading italic text-white text-2xl tracking-[-0.5px] leading-tight">
                 {exp.title}
               </h3>
-              {/* Status badge */}
-              <span className="liquid-glass rounded-full px-3 py-1 text-xs font-body flex items-center gap-1.5 text-white/80 flex-shrink-0">
-                <span className={`w-1.5 h-1.5 rounded-full bg-white/60 ${exp.isCurrent ? 'animate-pulse' : ''}`} />
-                {exp.duration}
-              </span>
             </div>
 
             {/* Company + meta */}
@@ -107,9 +121,13 @@ const ExpCard = ({ exp, index }: { exp: typeof experiences[0]; index: number }) 
             {/* Tags */}
             <div className="flex flex-wrap gap-1.5">
               {exp.tags.map((tag) => (
-                <span key={tag}
-                  className="liquid-glass rounded-full px-2.5 py-1 text-[11px] font-body text-white/70">
-                  {tag}
+                <span key={tag.name}
+                  className="liquid-glass rounded-full pl-1.5 pr-2.5 py-1 text-[11px] font-body text-white/70 flex items-center gap-1.5">
+                  <span className="w-4 h-4 rounded-full bg-white flex items-center justify-center flex-shrink-0 overflow-hidden">
+                    <img src={tag.image} alt={tag.name} loading="lazy" width={12} height={12}
+                      className="w-3 h-3 object-contain" />
+                  </span>
+                  {tag.name}
                 </span>
               ))}
             </div>
@@ -117,35 +135,18 @@ const ExpCard = ({ exp, index }: { exp: typeof experiences[0]; index: number }) 
         </div>
       </div>
 
-      {/* Toggle */}
-      <button
-        onClick={() => setExpanded(!expanded)}
-        className="w-full flex items-center justify-center gap-2 py-2.5 text-xs font-body
-                   text-white/40 hover:text-white/70 transition-colors
-                   border-t border-white/[0.06]"
-      >
-        {expanded
-          ? <><ChevronUp className="w-4 h-4" />Hide Details</>
-          : <><ChevronDown className="w-4 h-4" />Show Responsibilities</>}
-      </button>
-
-      {/* Expandable bullets */}
-      <div
-        className="overflow-hidden transition-all duration-500 ease-in-out"
-        style={{ maxHeight: expanded ? '600px' : '0px' }}
-      >
-        <div className="px-6 md:px-8 py-5 border-t border-white/[0.06]">
-          <ul className="space-y-3">
-            {exp.bullets.map((b, i) => (
-              <li key={i} className="flex items-start gap-3">
-                <span className="mt-2 w-1.5 h-1.5 rounded-full bg-white/30 flex-shrink-0" />
-                <p className="text-sm font-light leading-relaxed font-body text-white/70">
-                  {b}
-                </p>
-              </li>
-            ))}
-          </ul>
-        </div>
+      {/* Bullets */}
+      <div className="px-6 md:px-8 py-5 border-t border-white/[0.06]">
+        <ul className="space-y-3">
+          {exp.bullets.map((b, i) => (
+            <li key={i} className="flex items-start gap-3">
+              <span className="mt-2 w-1.5 h-1.5 rounded-full bg-white/30 flex-shrink-0" />
+              <p className="text-sm font-light leading-relaxed font-body text-white/70">
+                {b}
+              </p>
+            </li>
+          ))}
+        </ul>
       </div>
     </motion.div>
   );

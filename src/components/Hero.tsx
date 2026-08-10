@@ -21,7 +21,7 @@ const HERO_VIDEO =
   'https://d8j0ntlcm91z4.cloudfront.net/user_38xzZboKViGWJOttwIXH07lWA1P/hf_20260418_080021_d598092b-c4c2-4e53-8e46-94cf9064cd50.mp4';
 
 const RESUME_URL =
-  'https://drive.google.com/file/d/1pSxUujwep6NO93flyU4FHG_vVke0efKl/view?usp=sharing';
+  'https://drive.google.com/file/d/18-s6uhZftzzNnGeNvEZPd5vV4fV4hf1I/view?usp=sharing';
 
 const ROLES = [
   'Quality Analyst Executive',
@@ -209,7 +209,7 @@ export default function Hero() {
               Available
             </span>
             <span className="pr-1 text-sm text-white/90 font-body">
-              Open to Java Backend, QA &amp; SDET Roles — Gurgaon &amp; Remote
+              Open to QA Engineer, SDET &amp; Java Backend Roles — Gurgaon &amp; Other Locations
             </span>
           </motion.div>
 
