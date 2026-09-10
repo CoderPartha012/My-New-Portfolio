@@ -1,0 +1,127 @@
+[
+  {
+    "name": "java",
+    "url": "https://raw.githubusercontent.com/devicons/devicon/master/icons/java/java-original.svg",
+    "path": "/icons/skills/java.svg"
+  },
+  {
+    "name": "selenium",
+    "url": "https://raw.githubusercontent.com/devicons/devicon/master/icons/selenium/selenium-original.svg",
+    "path": "/icons/skills/selenium.svg"
+  },
+  {
+    "name": "playwright",
+    "url": "https://raw.githubusercontent.com/devicons/devicon/master/icons/playwright/playwright-original.svg",
+    "path": "/icons/skills/playwright.svg"
+  },
+  {
+    "name": "junit",
+    "url": "https://raw.githubusercontent.com/devicons/devicon/master/icons/junit/junit-original.svg",
+    "path": "/icons/skills/junit.svg"
+  },
+  {
+    "name": "postman",
+    "url": "https://raw.githubusercontent.com/devicons/devicon/master/icons/postman/postman-original.svg",
+    "path": "/icons/skills/postman.svg"
+  },
+  {
+    "name": "mysql",
+    "url": "https://raw.githubusercontent.com/devicons/devicon/master/icons/mysql/mysql-original.svg",
+    "path": "/icons/skills/mysql.svg"
+  },
+  {
+    "name": "mongodb",
+    "url": "https://raw.githubusercontent.com/devicons/devicon/master/icons/mongodb/mongodb-original.svg",
+    "path": "/icons/skills/mongodb.svg"
+  },
+  {
+    "name": "python",
+    "url": "https://raw.githubusercontent.com/devicons/devicon/master/icons/python/python-original.svg",
+    "path": "/icons/skills/python.svg"
+  },
+  {
+    "name": "javascript",
+    "url": "https://raw.githubusercontent.com/devicons/devicon/master/icons/javascript/javascript-original.svg",
+    "path": "/icons/skills/javascript.svg"
+  },
+  {
+    "name": "c",
+    "url": "https://raw.githubusercontent.com/devicons/devicon/master/icons/c/c-original.svg",
+    "path": "/icons/skills/c.svg"
+  },
+  {
+    "name": "cplusplus",
+    "url": "https://raw.githubusercontent.com/devicons/devicon/master/icons/cplusplus/cplusplus-original.svg",
+    "path": "/icons/skills/cplusplus.svg"
+  },
+  {
+    "name": "spring",
+    "url": "https://raw.githubusercontent.com/devicons/devicon/master/icons/spring/spring-original.svg",
+    "path": "/icons/skills/spring.svg"
+  },
+  {
+    "name": "hibernate",
+    "url": "https://raw.githubusercontent.com/devicons/devicon/master/icons/hibernate/hibernate-original.svg",
+    "path": "/icons/skills/hibernate.svg"
+  },
+  {
+    "name": "maven",
+    "url": "https://raw.githubusercontent.com/devicons/devicon/master/icons/maven/maven-original.svg",
+    "path": "/icons/skills/maven.svg"
+  },
+  {
+    "name": "docker",
+    "url": "https://raw.githubusercontent.com/devicons/devicon/master/icons/docker/docker-original.svg",
+    "path": "/icons/skills/docker.svg"
+  },
+  {
+    "name": "amazonwebservices",
+    "url": "https://raw.githubusercontent.com/devicons/devicon/master/icons/amazonwebservices/amazonwebservices-original-wordmark.svg",
+    "path": "/icons/skills/amazonwebservices.svg"
+  },
+  {
+    "name": "git",
+    "url": "https://raw.githubusercontent.com/devicons/devicon/master/icons/git/git-original.svg",
+    "path": "/icons/skills/git.svg"
+  },
+  {
+    "name": "github",
+    "url": "https://raw.githubusercontent.com/devicons/devicon/master/icons/github/github-original.svg",
+    "path": "/icons/skills/github.svg"
+  },
+  {
+    "name": "jenkins",
+    "url": "https://raw.githubusercontent.com/devicons/devicon/master/icons/jenkins/jenkins-original.svg",
+    "path": "/icons/skills/jenkins.svg"
+  },
+  {
+    "name": "jira",
+    "url": "https://raw.githubusercontent.com/devicons/devicon/master/icons/jira/jira-original.svg",
+    "path": "/icons/skills/jira.svg"
+  },
+  {
+    "name": "jmeter",
+    "url": "https://cdn.simpleicons.org/apachejmeter",
+    "path": "/icons/skills/jmeter.svg"
+  },
+  {
+    "name": "testng",
+    "url": "https://avatars.githubusercontent.com/u/12528662?s=64&v=4",
+    "path": "/icons/skills/testng.png"
+  },
+  {
+    "name": "mockito",
+    "url": "https://avatars.githubusercontent.com/u/4023816?s=64&v=4",
+    "path": "/icons/skills/mockito.png"
+  },
+  {
+    "name": "katalon",
+    "url": "https://katalon.com/hubfs/katalon_black_logo.svg",
+    "path": "/icons/skills/katalon.svg"
+  },
+  {
+    "name": "taiga",
+    "url": "https://cdn.jsdelivr.net/gh/homarr-labs/dashboard-icons/svg/taiga.svg",
+    "path": "/icons/skills/taiga.svg"
+  }
+]

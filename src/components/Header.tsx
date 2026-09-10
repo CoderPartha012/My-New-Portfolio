@@ -1,207 +1,76 @@
-/**
- * Header — liquid-glass pill navbar (desktop) + full-screen serif overlay (mobile).
- *
- * Desktop (fixed top-4, px-8 / lg:px-16, z-50):
- *   [pr monogram circle]   [Home · About · Skills · Projects · Contact | Download Resume]   [invisible spacer]
- *
- * Mobile: monogram + hamburger toggle → full-screen black overlay with serif nav links.
- */
-import { useState, useCallback, useEffect } from 'react';
-import { Download } from 'lucide-react';
-
-const RESUME_URL =
-  'https://drive.google.com/file/d/18-s6uhZftzzNnGeNvEZPd5vV4fV4hf1I/view?usp=sharing';
+﻿import { useEffect, useRef, useState } from 'react';
+import { ArrowUpRight, Menu, ShieldCheck, X } from 'lucide-react';
 
 const NAV_LINKS = [
-  { label: 'Home',           id: 'hero'           },
-  { label: 'About',          id: 'about'          },
-  { label: 'Skills',         id: 'skills'         },
-  { label: 'Experience',     id: 'experience'     },
-  { label: 'Projects',       id: 'projects'       },
+  { label: 'Overview', id: 'hero' },
+  { label: 'About me', id: 'about' },
+  { label: 'Skills', id: 'skills' },
+  { label: 'Education', id: 'education' },
+  { label: 'Experience', id: 'experience' },
+  { label: 'Projects', id: 'projects' },
   { label: 'Certifications', id: 'certifications' },
-  { label: 'Contact',        id: 'contact'        },
 ];
-
-/* ── Inline SVG: ArrowUpRight ──────────────────────────────────────────── */
-function ArrowUpRight({ className = '' }: { className?: string }) {
-  return (
-    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor"
-      strokeWidth={2} strokeLinecap="round" strokeLinejoin="round"
-      className={className} aria-hidden="true">
-      <line x1="7" y1="17" x2="17" y2="7" />
-      <polyline points="7 7 17 7 17 17" />
-    </svg>
-  );
-}
 
 export default function Header() {
   const [menuOpen, setMenuOpen] = useState(false);
+  const [active, setActive] = useState('hero');
+  const toggleRef = useRef<HTMLButtonElement>(null);
 
-  const scrollTo = useCallback((id: string) => {
-    document.getElementById(id)?.scrollIntoView({ behavior: 'smooth' });
-    setMenuOpen(false);
+  useEffect(() => {
+    const sections = [...NAV_LINKS, { id: 'contact' }]
+      .map(({ id }) => document.getElementById(id))
+      .filter((section): section is HTMLElement => section !== null);
+    let frame = 0;
+    const updateActive = () => {
+      frame = 0;
+      const readingLine = Math.max(96, window.innerHeight * 0.2);
+      let current = sections[0]?.id ?? 'hero';
+      for (const section of sections) {
+        if (section.getBoundingClientRect().top <= readingLine) current = section.id;
+      }
+      if (window.scrollY + window.innerHeight >= document.documentElement.scrollHeight - 2) {
+        current = 'contact';
+      }
+      setActive(current);
+    };
+    const onScroll = () => { if (!frame) frame = requestAnimationFrame(updateActive); };
+    updateActive();
+    window.addEventListener('scroll', onScroll, { passive: true });
+    window.addEventListener('resize', onScroll);
+    return () => {
+      cancelAnimationFrame(frame);
+      window.removeEventListener('scroll', onScroll);
+      window.removeEventListener('resize', onScroll);
+    };
   }, []);
 
-  /* Lock body scroll while mobile overlay is open */
   useEffect(() => {
-    document.body.style.overflow = menuOpen ? 'hidden' : '';
-    return () => { document.body.style.overflow = ''; };
+    const onEscape = (event: KeyboardEvent) => {
+      if (event.key === 'Escape' && menuOpen) {
+        setMenuOpen(false);
+        toggleRef.current?.focus();
+      }
+    };
+    const media = window.matchMedia('(min-width: 1100px)');
+    const closeOnDesktop = () => { if (media.matches) setMenuOpen(false); };
+    document.addEventListener('keydown', onEscape);
+    media.addEventListener('change', closeOnDesktop);
+    return () => {
+      document.removeEventListener('keydown', onEscape);
+      media.removeEventListener('change', closeOnDesktop);
+    };
   }, [menuOpen]);
 
   return (
-    <>
-      {/* ══════════════════════════════════════════════════════════════════
-          DESKTOP — three-column fixed bar
-      ══════════════════════════════════════════════════════════════════ */}
-      <header
-        className="fixed left-0 right-0 z-50 items-center justify-between hidden px-8 pointer-events-none top-4 md:flex lg:px-16"
-      >
-        {/* Left: "pr" monogram — 48×48 liquid-glass circle */}
-        <button
-          onClick={() => scrollTo('hero')}
-          aria-label="Scroll to top"
-          className="flex items-center justify-center w-12 h-12 rounded-full cursor-pointer pointer-events-auto liquid-glass"
-        >
-          <span className="text-xl italic leading-none text-white select-none font-heading">
-            pr
-          </span>
-        </button>
-
-        {/* Center: nav pill */}
-        <nav className="liquid-glass rounded-full px-1.5 py-1.5 flex items-center gap-0.5 pointer-events-auto">
-          {NAV_LINKS.map(({ label, id }) => (
-            <button
-              key={id}
-              onClick={() => scrollTo(id)}
-              className="px-3 py-2 text-sm font-medium text-white/90 font-body rounded-full
-                         transition-colors duration-150 hover:text-white hover:bg-white/[0.07]
-                         cursor-pointer whitespace-nowrap"
-            >
-              {label}
-            </button>
-          ))}
-
-          {/* Separator */}
-          <span className="flex-shrink-0 w-px h-4 mx-1 bg-white/10" aria-hidden="true" />
-
-          {/* Download Resume CTA — rotating gradient-ring chip */}
-          <a
-            href={RESUME_URL}
-            target="_blank"
-            rel="noopener noreferrer"
-            className="group relative flex items-center gap-2 pl-4 pr-1.5 py-1.5 rounded-full
-                       overflow-hidden flex-shrink-0"
-          >
-            {/* Rotating conic-gradient ring */}
-            <span
-              className="absolute inset-0 rounded-full animate-spin-slow"
-              style={{ background: 'conic-gradient(from 0deg, #00d4ff, #10b981, #f59e0b, #00d4ff)' }}
-              aria-hidden="true"
-            />
-            {/* Black fill, inset to expose the ring as a thin border */}
-            <span
-              className="absolute inset-[1.5px] rounded-full bg-black transition-colors duration-200
-                         group-hover:bg-black/75"
-              aria-hidden="true"
-            />
-
-            <span className="relative z-10 text-sm font-semibold font-body text-white whitespace-nowrap">
-              Download Resume
-            </span>
-            <span
-              className="relative z-10 flex items-center justify-center w-7 h-7 rounded-full
-                         bg-white text-black transition-transform duration-500 ease-out
-                         group-hover:rotate-[360deg]"
-            >
-              <Download className="w-3.5 h-3.5" />
-            </span>
-          </a>
+    <header className="qa-theme qa-header">
+      <div className="qa-container qa-header-inner">
+        <a href="#hero" className="qa-brand" aria-label="Partha Rakshit, QA Engineer — home" onClick={() => setMenuOpen(false)}><span className="qa-brand-icon"><ShieldCheck size={23} aria-hidden="true" /></span><span><strong>Partha Rakshit<span className="qa-brand-dot">.</span></strong><small>QA ENGINEER / SOFTWARE TESTING</small></span></a>
+        <button ref={toggleRef} type="button" className="qa-menu-toggle" aria-label={menuOpen ? 'Close navigation' : 'Open navigation'} aria-expanded={menuOpen} aria-controls="primary-navigation" onClick={() => setMenuOpen(open => !open)}>{menuOpen ? <X size={22} aria-hidden="true" /> : <Menu size={22} aria-hidden="true" />}</button>
+        <nav id="primary-navigation" aria-label="Main navigation" className={`qa-nav ${menuOpen ? 'qa-nav-open' : ''}`}>
+          {NAV_LINKS.map(({ label, id }) => <a key={id} href={`#${id}`} aria-current={active === id ? 'location' : undefined} onClick={() => setMenuOpen(false)}>{label}</a>)}
+          <a className="qa-nav-contact" href="#contact" aria-current={active === 'contact' ? 'location' : undefined} onClick={() => setMenuOpen(false)}>Let's talk <ArrowUpRight size={16} aria-hidden="true" /></a>
         </nav>
-
-        {/* Right: invisible 48×48 spacer to balance the logo */}
-        <div className="flex-shrink-0 w-12 h-12" aria-hidden="true" />
-      </header>
-
-      {/* ══════════════════════════════════════════════════════════════════
-          MOBILE — top bar
-      ══════════════════════════════════════════════════════════════════ */}
-      <header className="fixed top-0 left-0 right-0 z-50 flex items-center justify-between px-5 py-4 md:hidden">
-        <button
-          onClick={() => scrollTo('hero')}
-          aria-label="Scroll to top"
-          className="flex items-center justify-center w-10 h-10 rounded-full cursor-pointer liquid-glass"
-        >
-          <span className="text-base italic leading-none text-white font-heading">pr</span>
-        </button>
-
-        {/* Hamburger / close toggle */}
-        <button
-          onClick={() => setMenuOpen(!menuOpen)}
-          aria-label="Toggle menu"
-          className="flex items-center justify-center w-10 h-10 rounded-full cursor-pointer liquid-glass"
-        >
-          {menuOpen ? (
-            /* × close */
-            <svg viewBox="0 0 24 24" fill="none" stroke="white" strokeWidth={2}
-              strokeLinecap="round" className="w-4 h-4" aria-hidden="true">
-              <line x1="18" y1="6" x2="6" y2="18" /><line x1="6" y1="6" x2="18" y2="18" />
-            </svg>
-          ) : (
-            /* ☰ hamburger */
-            <span className="flex flex-col gap-[5px] items-center">
-              <span className="block w-4 h-[1.5px] bg-white/80 rounded-full" />
-              <span className="block w-4 h-[1.5px] bg-white/80 rounded-full" />
-              <span className="block w-2.5 h-[1.5px] bg-white/80 rounded-full" />
-            </span>
-          )}
-        </button>
-      </header>
-
-      {/* ══════════════════════════════════════════════════════════════════
-          MOBILE OVERLAY — full-screen serif menu
-      ══════════════════════════════════════════════════════════════════ */}
-      <div
-        className="fixed inset-0 z-40 flex flex-col px-8 pt-20 pb-8 md:hidden"
-        style={{
-          background: 'rgba(0,0,0,0.97)',
-          backdropFilter: 'blur(24px)',
-          WebkitBackdropFilter: 'blur(24px)',
-          opacity: menuOpen ? 1 : 0,
-          pointerEvents: menuOpen ? 'all' : 'none',
-          transform: menuOpen ? 'translateY(0)' : 'translateY(-8px)',
-          transition: 'opacity 0.3s ease, transform 0.3s ease',
-        }}
-      >
-        <nav className="flex flex-col justify-center flex-1 gap-1">
-          {NAV_LINKS.map(({ label, id }, i) => (
-            <button
-              key={id}
-              onClick={() => scrollTo(id)}
-              className="py-3 italic text-left transition-colors duration-150 cursor-pointer font-heading text-white/70 hover:text-white"
-              style={{
-                fontSize: 'clamp(1.75rem, 7vw, 2.5rem)',
-                opacity: menuOpen ? 1 : 0,
-                transform: menuOpen ? 'translateX(0)' : 'translateX(-16px)',
-                transition: `opacity 0.35s ease ${i * 50}ms, transform 0.35s ease ${i * 50}ms, color 0.15s`,
-              }}
-            >
-              {label}
-            </button>
-          ))}
-        </nav>
-
-        {/* Resume CTA at bottom */}
-        <a
-          href={RESUME_URL}
-          target="_blank"
-          rel="noopener noreferrer"
-          onClick={() => setMenuOpen(false)}
-          className="flex items-center justify-center w-full gap-2 py-4 text-sm font-medium text-white rounded-full liquid-glass-strong font-body"
-        >
-          Download Resume
-          <ArrowUpRight className="w-4 h-4" />
-        </a>
       </div>
-    </>
+    </header>
   );
 }

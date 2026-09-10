@@ -1,10 +1,6 @@
 import { useState } from 'react';
-import { Github, ExternalLink, Search, Star } from 'lucide-react';
-import { motion } from 'motion/react';
-import FadingVideo from './FadingVideo';
-
-const PROJECTS_VIDEO =
-  'https://d8j0ntlcm91z4.cloudfront.net/user_38xzZboKViGWJOttwIXH07lWA1P/hf_20260418_094631_d30ab262-45ee-4b7d-99f3-5d5848c8ef13.mp4';
+import { Github, ArrowUpRight, Search, FolderGit2 } from 'lucide-react';
+import QAReveal from './QAReveal';
 
 const projects = [
   {
@@ -79,167 +75,15 @@ const projects = [
   },
 ];
 
-/* ── Single project card ─────────────────────────────────────────────── */
-const ProjectCard = ({ project, index }: { project: typeof projects[0]; index: number }) => (
-  <motion.div
-    initial={{ opacity: 0, y: 40 }}
-    whileInView={{ opacity: 1, y: 0 }}
-    viewport={{ once: true, amount: 0.1 }}
-    transition={{ duration: 0.5, delay: index * 0.08 }}
-    className="group liquid-glass rounded-[1.25rem] overflow-hidden flex flex-col"
-  >
-    {/* Image */}
-    <div className="relative flex-shrink-0 overflow-hidden aspect-video">
-      <img src={project.image} alt={project.title} loading="lazy"
-        width={640} height={360}
-        className="object-cover w-full h-full transition-transform duration-500 group-hover:scale-105" />
-
-      {/* Featured badge */}
-      {project.featured && (
-        <div className="absolute top-3 right-3 liquid-glass rounded-full px-2.5 py-1
-                         flex items-center gap-1 text-[11px] font-body text-white">
-          <Star className="w-3 h-3 fill-white" />Featured
-        </div>
-      )}
-
-      {/* Overlay links */}
-      <div className="absolute inset-0 flex items-center justify-center gap-4 transition-opacity duration-300 opacity-0 group-hover:opacity-100 bg-black/40">
-        <a href={project.github} target="_blank" rel="noopener noreferrer"
-          className="p-3 transition-transform rounded-full liquid-glass hover:scale-110">
-          <Github className="w-5 h-5 text-white" />
-        </a>
-        <a href={project.live} target="_blank" rel="noopener noreferrer"
-          className="p-3 transition-transform rounded-full liquid-glass-strong hover:scale-110">
-          <ExternalLink className="w-5 h-5 text-white" />
-        </a>
-      </div>
-    </div>
-
-    {/* Content */}
-    <div className="flex flex-col flex-1 p-6">
-      <div className="flex items-start justify-between gap-2 mb-3">
-        <h3 className="font-heading italic text-white text-2xl tracking-[-0.5px] leading-none">
-          {project.title}
-        </h3>
-        <span className="liquid-glass rounded-full px-2.5 py-0.5 text-[11px] font-body text-white/60
-                         whitespace-nowrap flex-shrink-0">
-          {project.category}
-        </span>
-      </div>
-
-      <p className="flex-1 mb-5 text-sm font-light leading-relaxed font-body text-white/70 line-clamp-3">
-        {project.description}
-      </p>
-
-      {/* Tech tags */}
-      <div className="flex flex-wrap gap-1.5 mb-5">
-        {project.technologies.map((tech) => (
-          <span key={tech}
-            className="liquid-glass rounded-full px-2.5 py-1 text-[11px] font-body text-white/60">
-            {tech}
-          </span>
-        ))}
-      </div>
-
-      {/* Action buttons */}
-      <div className="flex gap-3 mt-auto">
-        <a href={project.github} target="_blank" rel="noopener noreferrer"
-          className="flex-1 flex items-center justify-center gap-2 py-2.5 liquid-glass rounded-full
-                     text-sm font-body text-white/70 hover:text-white transition-colors">
-          <Github className="w-4 h-4" />Code
-        </a>
-        <a href={project.live} target="_blank" rel="noopener noreferrer"
-          className="flex-1 flex items-center justify-center gap-2 py-2.5 bg-white rounded-full
-                     text-sm font-body font-medium text-black hover:bg-white/90 transition-colors">
-          <ExternalLink className="w-4 h-4" />Live Demo
-        </a>
-      </div>
-    </div>
-  </motion.div>
-);
-
-/* ── Section ──────────────────────────────────────────────────────────── */
-const Projects = () => {
+export default function Projects() {
   const [filter, setFilter] = useState('all');
   const [search, setSearch] = useState('');
-
-  const filtered = projects.filter((p) => {
-    const matchCat = filter === 'all' || p.category === filter;
-    const q = search.toLowerCase();
-    const matchSearch = !q ||
-      p.title.toLowerCase().includes(q) ||
-      p.description.toLowerCase().includes(q) ||
-      p.technologies.some((t) => t.toLowerCase().includes(q));
-    return matchCat && matchSearch;
-  });
-
-  return (
-    <section id="projects" className="relative py-24 overflow-hidden bg-black">
-      <FadingVideo src={PROJECTS_VIDEO} className="absolute inset-0 z-0 object-cover w-full h-full" />
-      <div className="absolute inset-0 bg-black/55 z-[1]" />
-
-      <div className="container relative z-10 px-8 mx-auto md:px-16">
-
-        {/* ── Section header ── */}
-        <motion.div
-          initial={{ opacity: 0, y: 32 }} whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true, amount: 0.15 }} transition={{ duration: 0.6 }}
-          className="mb-16"
-        >
-          <p className="mb-4 text-sm tracking-wide font-body text-white/80">// Portfolio</p>
-          <h2 className="font-heading italic text-white leading-[0.9] tracking-[-3px]"
-              style={{ fontSize: 'clamp(3rem, 7vw, 5.5rem)' }}>
-            Featured<br />projects
-          </h2>
-        </motion.div>
-
-        {/* ── Filters + search ── */}
-        <motion.div
-          initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }} transition={{ duration: 0.5, delay: 0.1 }}
-          className="flex flex-col items-center justify-between gap-4 mb-12 md:flex-row"
-        >
-          {/* Category pills */}
-          <div className="flex gap-2">
-            {['all', 'web', 'testing'].map((cat) => (
-              <button key={cat} onClick={() => setFilter(cat)}
-                className={`px-5 py-2.5 rounded-full text-sm font-body transition-all duration-200 cursor-pointer
-                            ${filter === cat ? 'bg-white text-black' : 'liquid-glass text-white/70 hover:text-white'}`}>
-                {cat.charAt(0).toUpperCase() + cat.slice(1)}
-              </button>
-            ))}
-          </div>
-
-          {/* Search */}
-          <div className="relative">
-            <input
-              type="text" placeholder="Search projects…"
-              value={search} onChange={(e) => setSearch(e.target.value)}
-              className="pl-10 pr-4 py-2.5 rounded-full liquid-glass text-sm font-body
-                         text-white placeholder-white/30 bg-transparent outline-none
-                         focus:ring-1 focus:ring-white/20 w-64"
-            />
-            <Search className="absolute left-3.5 top-1/2 -translate-y-1/2 w-4 h-4 text-white/30" />
-          </div>
-        </motion.div>
-
-        {/* ── Grid ── */}
-        {filtered.length > 0 ? (
-          <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
-            {filtered.map((p, i) => <ProjectCard key={p.title} project={p} index={i} />)}
-          </div>
-        ) : (
-          <div className="py-20 text-center">
-            <div className="liquid-glass rounded-[1.25rem] p-12 max-w-md mx-auto">
-              <Search className="w-12 h-12 mx-auto mb-4 text-white/30" />
-              <h3 className="mb-2 text-2xl italic text-white font-heading">No Projects Found</h3>
-              <p className="text-sm font-body text-white/50">Try adjusting your search or filter criteria</p>
-            </div>
-          </div>
-        )}
-      </div>
-    </section>
-  );
-};
-
-export default Projects;
+  const filtered = [...projects].sort((a, b) => Number(b.category === 'testing') - Number(a.category === 'testing')).filter(project => (filter === 'all' || project.category === filter) && [project.title, project.description, ...project.technologies].join(' ').toLowerCase().includes(search.trim().toLowerCase()));
+  return <section id="projects" className="qa-theme qa-projects" aria-labelledby="projects-title"><QAReveal className="qa-container">
+    <div className="qa-section-heading qa-heading-row"><div><p className="qa-eyebrow">05 / PROJECTS</p><h2 id="projects-title">Built to learn.<br /><span className="qa-gradient-text">Tested to understand.</span></h2></div><p className="qa-section-summary">Automation frameworks and applications that put my testing and engineering skills into practice.</p></div>
+    <div className="qa-project-controls"><div className="qa-skill-filters" role="group" aria-label="Filter projects">{[['all', 'All projects'], ['testing', 'Test automation'], ['web', 'Web applications']].map(([id, label]) => <button type="button" aria-pressed={filter === id} key={id} onClick={() => setFilter(id)}>{label}</button>)}</div><label className="qa-project-search"><Search size={17} aria-hidden="true" /><span className="sr-only">Search projects</span><input type="search" value={search} onChange={event => setSearch(event.target.value)} placeholder="Search projects or tools" /></label></div>
+    <p className="sr-only" role="status">{filtered.length} projects found.</p>
+    <div className="qa-project-grid">{filtered.map(project => <article key={project.title} className="qa-project-card"><div className="qa-project-image"><img src={project.image} alt={project.title + ' preview'} width={640} height={360} loading="lazy" /><span>{project.category === 'testing' ? 'TEST AUTOMATION' : 'WEB APPLICATION'}</span></div><div className="qa-project-body"><h3>{project.title}</h3><p>{project.description}</p><ul className="qa-skill-chips">{project.technologies.map(tool => <li key={tool}>{tool}</li>)}</ul><div className="qa-project-links"><a href={project.github} target="_blank" rel="noopener noreferrer" aria-label={'View code for ' + project.title}><Github size={17} aria-hidden="true" />View code</a><a href={project.live} target="_blank" rel="noopener noreferrer" aria-label={(project.category === 'testing' ? 'View test target for ' : 'Open demo for ') + project.title}>{project.category === 'testing' ? 'Test target' : 'Live demo'}<ArrowUpRight size={17} aria-hidden="true" /></a></div></div></article>)}</div>
+    {filtered.length === 0 && <div className="qa-project-empty"><FolderGit2 size={30} aria-hidden="true" /><h3>No matching projects</h3><p>Try another tool or clear the filters.</p><button className="qa-button qa-button-secondary" onClick={() => { setFilter('all'); setSearch(''); }}>Show all projects</button></div>}
+  </QAReveal></section>;
+}

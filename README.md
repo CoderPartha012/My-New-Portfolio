@@ -1,302 +1,157 @@
-# Partha Rakshit — Portfolio
+﻿# Partha Rakshit - QA Engineer Portfolio
 
-Personal portfolio of **Partha Rakshit**, QA Engineer and Software Tester. Features a dark liquid-glass design, looping video backgrounds per section, scroll-triggered animations, a filterable project showcase, and a floating AI assistant powered by Google Gemini.
+Personal portfolio showcasing Partha Rakshit's software testing experience, education, technical skills, automation frameworks, and web projects. Built with React, TypeScript, and Vite, with a responsive dark interface and CSS animations.
 
----
+## Features
 
-## Tech Stack
+- Fixed desktop navigation and a collapsible mobile menu.
+- Smooth section scrolling, active-section highlighting, and reduced-motion support.
+- Education milestones and a chronological work history with tools and responsibilities.
+- Project search by title, description, or technology, plus category filters for test automation and web applications.
+- Certification cards with credential links.
+- Contact form with validation, inline feedback, and automatic field reset after success.
+- Floating Gemini chatbot for questions about the portfolio.
+- Keyboard-accessible controls and a skip link that appears only when focused, without a startup text flash.
 
-| Layer | Technology |
-|---|---|
-| Framework | React 18 + TypeScript |
-| Build Tool | Vite 5 |
-| Styling | Tailwind CSS v3.4.1 |
-| Animation | Motion v12 (`motion/react`) |
-| 3D | Three.js + @react-three/fiber |
-| AI Chatbot | Google Gemini 2.0 Flash API |
-| Contact Form | EmailJS (`@emailjs/browser`) |
+Clicking a section link adds its hash to the URL. Refreshing clears the hash without adding a history entry; direct section links and browser back/forward navigation remain supported.
+
+## Tech stack
+
+| Area | Implementation |
+| --- | --- |
+| UI | React 18, TypeScript |
+| Development and builds | Vite 5 |
+| Styling | Tailwind CSS 3 and custom CSS |
+| Motion | CSS keyframes, transitions, IntersectionObserver |
 | Icons | Lucide React |
+| Email delivery | EmailJS browser SDK |
+| Chat assistant | Gemini API integration |
 
----
+## Run locally
 
-## Project Structure
-
-```text
-src/
-├── components/
-│   ├── Header.tsx           # Fixed navbar — desktop pill + mobile hamburger overlay
-│   ├── Hero.tsx             # Full-viewport landing section
-│   ├── Capabilities.tsx     # Core QA competency cards
-│   ├── About.tsx            # Personal bio
-│   ├── Skills.tsx           # Sidebar + animated progress bar skill panel
-│   ├── Education.tsx        # Zigzag timeline with SVG score rings
-│   ├── Experience.tsx       # Work history with expandable detail cards
-│   ├── Projects.tsx         # Filterable project showcase
-│   ├── Certifications.tsx   # Verified credential card grid
-│   ├── Contact.tsx          # EmailJS contact form + social links
-│   ├── Footer.tsx
-│   ├── ChatBot.tsx          # Gemini-powered floating AI assistant
-│   ├── FadingVideo.tsx      # IntersectionObserver lazy-play video wrapper
-│   ├── BlurText.tsx         # Character-level blur-in text animation
-│   ├── Background3D.tsx     # Three.js 3D canvas background
-│   ├── ScrollNavigation.tsx # Scroll progress indicator
-│   └── VisitorCounter.tsx   # Live visitor count display
-├── App.tsx                  # Root layout and section order
-├── index.css                # Liquid-glass design system + global animations
-└── main.tsx                 # React entry point
-```
-
----
-
-## Sections
-
-### Header
-
-Fixed navigation that adapts between viewport sizes.
-
-- **Desktop** — three-column pill layout: `pr` monogram on the left, nav links centred in a glass pill, "Download Resume" CTA on the right.
-- **Mobile** — monogram + hamburger toggle. Opens a full-screen dark overlay with staggered serif nav links and a resume download button pinned to the bottom.
-- All nav links smooth-scroll to their target section and close the mobile menu.
-
----
-
-### Hero
-
-Full-viewport landing with a looping video background.
-
-- Animated badge, full name, and a cycling role title with a blinking cursor:
-  - Quality Analyst Executive
-  - Software Tester
-  - Test Automation Engineer
-- BlurText tagline with character-level blur-in animation.
-- Two CTAs: **View Projects** (anchor scroll) and **Download Resume** (Google Drive link).
-- Three stat cards — Years of Experience, Projects Delivered, Bugs Resolved — with hover glow effects.
-- Bottom glass status bar showing availability, location, and response time.
-
----
-
-### Capabilities
-
-Three core QA disciplines, each in a glass card with scroll-triggered fade-up animation.
-
-| Discipline | Tools |
-|---|---|
-| Test Automation | Selenium WebDriver, TestNG, Java, Page Object Model |
-| API Testing | Postman, REST Assured, JSON, OAuth2 |
-| Performance Testing | JMeter, Load Testing, Bottleneck Analysis |
-
----
-
-### About
-
-Personal introduction covering background, professional focus, and motivation.
-
----
-
-### Skills
-
-31 skills across 5 categories in a sidebar + panel layout.
-
-- **Desktop** — persistent left sidebar with category icons, skill counts, and a gradient active indicator. Selecting a category cross-fades the panel using `AnimatePresence`.
-- **Mobile** — horizontal scrollable pill tabs.
-- Each skill card shows a colour-coded proficiency label and a gradient progress bar that animates in on scroll.
-
-**Proficiency colour tiers:**
-
-| Level | Colour | Threshold |
-|---|---|---|
-| Expert | Cyan `#00d4ff` | ≥ 90% |
-| Advanced | Emerald `#10b981` | ≥ 80% |
-| Intermediate | Amber `#f59e0b` | ≥ 70% |
-| Familiar | Violet `#a78bfa` | < 70% |
-
----
-
-### Education
-
-Academic history as a zigzag timeline (desktop) / single column (mobile).
-
-| Institution | Qualification | Score | Year |
-|---|---|---|---|
-| Lovely Professional University | B.Tech — Computer Science & Engineering | 80.80% | 2020–2024 |
-| Jhantipahari High School | Class 12 — Higher Secondary | 78.2% | 2019 |
-| Jhantipahari High School | Class 10 — Secondary | 77.42% | 2017 |
-
-Each card includes:
-
-- Animated SVG score ring (strokeDashoffset animation, gradient arc unique per card).
-- Type badge with accent colour — cyan for University, emerald for School.
-- Animated gradient progress bar for the score.
-- Location and year metadata.
-- A gradient spine running down the centre of the timeline on desktop.
-
----
-
-### Experience
-
-Two professional roles, each in an expandable glass card.
-
-**Quality Analyst Executive — Legistify Services PVT Ltd** *(Sept 2024 – May 2026 · Current)*
-
-- Developed and executed comprehensive test plans and scripts.
-- Smoke testing for critical functionalities; end-to-end bug tracking.
-- New Relic for transaction traces, error analytics, and custom dashboards.
-- MongoDB Atlas and AWS monitoring for database performance and CPU metrics.
-- Agile project management via Taiga.
-
-**Quality Analyst Intern (Automation Testing) — Wesoftek Solutions** *(Dec 2023 – May 2024)*
-
-- Functional, UI, UAT, compatibility, and exploratory testing on a Laravel platform.
-- Web API testing with Postman; Selenium WebDriver + TestNG automation scripts.
-- Security testing with Firebug and Temper Data; load/stress testing via JMeter.
-- Regression, Alpha, and Beta testing for web and mobile (Android + iOS).
-- Full bug lifecycle in Mantis Bug Tracker; SQL for backend data validation.
-
----
-
-### Projects
-
-Six projects with live demo and GitHub links, filterable by category.
-
-| Project | Stack | Description |
-|---|---|---|
-| **TaskMate** | React, Tailwind, Zustand, SheetJS | Feature-rich task management with team collaboration |
-| **Business Management System** | Next.js, Tailwind, shadcn/ui, Recharts | Workforce, payroll, and finance management dashboard |
-| **Bugdesk** | React, Tailwind, Recharts, localStorage | Bug tracker with a 7-stage lifecycle and dark mode |
-| **Maharaja Restaurant** | React, Tailwind, Vite, Framer Motion | Restaurant site with menu, reservations, and gallery |
-| **Expenso** | React, Tailwind, Framer Motion, jsPDF | Expense tracker with budgets, charts, and PDF export |
-
-Each card shows a screenshot thumbnail, tech tags, and hover animation. Featured projects are highlighted at the top.
-
----
-
-### Certifications
-
-Five verified credentials in a responsive three-column card grid.
-
-| Certificate | Issuer | Date |
-|---|---|---|
-| Software Testing | SkillStone | Jan 2023 |
-| Master Java Programming — Beginner to Advanced | GeeksforGeeks | May 2023 |
-| Web and Mobile Testing with Selenium | Coursera | Mar 2023 |
-| API Testing using Postman | Postman | Aug 2024 |
-| Introduction to Programming Using Python | HackerRank | Sep 2022 |
-
-Each card has a gradient top accent bar, issuer badge with gradient ring border, a "Verified" label, date pill, and a direct link to the certificate. A footer CTA banner links to the contact section.
-
----
-
-### Contact
-
-Contact form powered by EmailJS — no backend required.
-
-- Fields: Name, Email, Message with floating-label inputs.
-- Animated focus borders.
-- Success and error feedback displayed inline after submission.
-- Social links: Gmail · LinkedIn · GitHub.
-
----
-
-### ChatBot
-
-Floating AI assistant in the bottom-right corner, powered by **Google Gemini 2.0 Flash**.
-
-- Tap the chat icon to open the panel.
-- Pre-loaded with a system prompt containing Partha's full background — education, skills, experience, and contact details.
-- Four quick-reply suggestion chips shown on first open.
-- Typing indicator while the API processes a response.
-- Answers questions about role, skills, certifications, and how to get in touch.
-
----
-
-## Design System
-
-### Liquid-Glass
-
-Two CSS utility classes used across cards, navigation, chips, and overlays.
-
-- `.liquid-glass` — subtle: `rgba(255,255,255,0.01)` background, 4 px blur, gradient border mask via `::before` pseudo-element.
-- `.liquid-glass-strong` — heavier: `rgba(255,255,255,0.02)` background, 50 px blur. Used for primary CTAs and the mobile menu.
-
-### Colour Tokens
-
-| Token | Hex |
-|---|---|
-| Cyan (primary accent) | `#00d4ff` |
-| Emerald (secondary accent) | `#10b981` |
-| Amber | `#f59e0b` |
-| Violet | `#a78bfa` |
-
-### FadingVideo
-
-`FadingVideo.tsx` wraps `<video>` with an `IntersectionObserver`. The element starts at `opacity: 0` and fades to `1` only when it enters the viewport and playback begins. Each section has its own looping background video loaded this way.
-
-### Animations
-
-All scroll-triggered animations use `whileInView` from Motion v12 with `viewport: { once: true }`. Progress bars animate from `width: 0` to their target. SVG score rings animate via `strokeDashoffset` from full circumference to the score-derived offset.
-
----
-
-## Environment Variables
-
-Create a `.env` file in the project root:
-
-```env
-VITE_GEMINI_API_KEY=your_google_gemini_api_key
-VITE_EMAILJS_SERVICE_ID=your_emailjs_service_id
-VITE_EMAILJS_TEMPLATE_ID=your_emailjs_template_id
-VITE_EMAILJS_PUBLIC_KEY=your_emailjs_public_key
-```
-
-**Gemini API key** — create one at [Google AI Studio](https://aistudio.google.com/).
-
-**EmailJS keys** — sign up at [emailjs.com](https://www.emailjs.com/), connect a Gmail service, create a template, and copy the Service ID, Template ID, and Public Key from your account dashboard.
-
----
-
-## Getting Started
+Install Node.js and npm, then run from the repository root:
 
 ```bash
-# Install dependencies
-npm install
-
-# Start development server (http://localhost:5173)
+npm ci
 npm run dev
+```
 
-# Type check
-npx tsc --noEmit
+Open the local URL printed by Vite, normally `http://localhost:5173`.
 
-# Production build → dist/
+Useful commands:
+
+```bash
+# Check application types
+npx tsc --noEmit -p tsconfig.app.json
+
+# Run repository lint checks
+npm run lint
+
+# Build the production site into dist/
 npm run build
 
-# Preview production build locally
+# Preview the production build
 npm run preview
 ```
 
----
+On Windows, if PowerShell blocks npm scripts, use `npm.cmd` and `npx.cmd` in place of `npm` and `npx`.
+
+## Contact form
+
+The form requires a name, a valid email address, and a message. Names and messages containing only whitespace are rejected.
+
+### Current demo behavior
+
+If any required EmailJS setting is missing, submitting valid details displays a success-style confirmation explaining that the form is in demo mode and **no email has been sent**. The fields reset, and the confirmation remains visible.
+
+The email address link uses `mailto:` and opens the visitor's configured email application.
+
+### Enable email delivery
+
+Create `.env.local` in the repository root and supply the values from your EmailJS service and template:
+
+```env
+VITE_EMAILJS_SERVICE_ID=
+VITE_EMAILJS_TEMPLATE_ID=
+VITE_EMAILJS_PUBLIC_KEY=
+```
+
+The form supplies these template parameters:
+
+| Parameter | Value |
+| --- | --- |
+| `from_name` | Visitor's name |
+| `from_email` | Visitor's email address |
+| `message` | Visitor's message |
+| `to_name` | Partha Rakshit |
+
+Configure the recipient address in the EmailJS template and use `from_email` for replies. Restart Vite after changing environment variables. For deployed builds, configure the same variables in the hosting environment and rebuild.
+
+When all three settings are present, the form attempts EmailJS delivery. A successful response clears the fields and shows a sent confirmation. A failed request retains the entered details and displays an error.
+
+## Chat assistant
+
+`src/components/ChatBot.tsx` contains the assistant prompt, suggestion buttons, and Gemini request logic. It currently references the `gemini-2.0-flash` model endpoint; availability depends on the configured API account.
+
+The existing client integration reads:
+
+```env
+VITE_GEMINI_API_KEY=
+```
+
+Variables prefixed with `VITE_` are included in the browser bundle. They are not secret storage; a private AI API key should be used through a server-side endpoint before enabling public production chat. The current chatbot calls Gemini directly; the separate `netlify/functions/claude-chat.js` function is not connected to this component.
+
+## Main files
+
+```text
+src/
+  components/
+    Header.tsx          Navigation and active-section tracking
+    Hero.tsx            Introduction and resume link
+    About.tsx           Background and professional focus
+    Skills.tsx          Skill categories and tool lists
+    Education.tsx       Educational journey
+    Experience.tsx      Work history and technologies
+    Projects.tsx        Project data, search, and filters
+    Certifications.tsx  Credential cards
+    Contact.tsx         Contact details and form behavior
+    Footer.tsx          Footer navigation and social links
+    ChatBot.tsx         Gemini assistant
+    QAReveal.tsx        One-time section reveal observer
+    QAMotion.tsx        Scroll progress and in-view motion tracking
+  App.tsx               Page composition
+  main.tsx              React entry and refresh hash cleanup
+  index.css             Base styles and responsive layouts
+  qa-premium.css        Decorative effects and motion styles
+```
+
+Older components such as `Loader.tsx`, `Background3D.tsx`, and `ScrollNavigation.tsx` remain in the repository but are not mounted by the current `App.tsx`.
+
+## Customize content
+
+- Update introduction text and `RESUME_URL` in `src/components/Hero.tsx`.
+- Edit education, work history, projects, and certifications in their respective components.
+- Update contact and social links in `Contact.tsx` and `Footer.tsx`.
+- Update page metadata and structured data in `index.html`.
+- Adjust layout and visual effects in `index.css` and `qa-premium.css`.
+
+The **View Resume** button opens this document in a new tab:
+
+[View Partha's resume](https://drive.google.com/file/d/1K-J8HZ9LW4Y8AGUIs48KwsGbtfuJaHvZ/view?usp=sharing)
 
 ## Deployment
 
-### Netlify
+The repository includes `netlify.toml` with:
 
-1. Connect the GitHub repo in the Netlify dashboard.
-2. Build command: `npm run build`
-3. Publish directory: `dist`
-4. Add all `VITE_*` variables under **Site Settings → Environment Variables**.
+- Build command: `npm run build`
+- Published directory: `dist`
+- Functions directory: `netlify/functions`
+- `/api/*` rewrites to the corresponding Netlify function
 
-### Vercel
-
-1. Import the repo in Vercel.
-2. Framework preset: **Vite**
-3. Add all `VITE_*` variables under **Project Settings → Environment Variables**.
-
----
+Set any required integration variables in the hosting environment before building. The generated `dist/` directory contains the static portfolio.
 
 ## Contact
 
-**Partha Rakshit**
-
 - Email: [partharakshit5653@gmail.com](mailto:partharakshit5653@gmail.com)
-- LinkedIn: [linkedin.com/in/partharakshit](https://www.linkedin.com/in/partharakshit)
-- GitHub: [github.com/CoderPartha012](https://github.com/CoderPartha012)
-- GeeksforGeeks: [geeksforgeeks.org/user/partharakshit5653](https://www.geeksforgeeks.org/user/partharakshit5653)
+- LinkedIn: [Partha Rakshit](https://www.linkedin.com/in/partharakshit)
+- GitHub: [CoderPartha012](https://github.com/CoderPartha012)

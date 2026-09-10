@@ -1,5 +1,5 @@
 /**
- * Capabilities — full-height section with looping background video.
+ * Capabilities — full-height section.
  *
  * Layout (per spec):
  *   relative z-10 px-8 md:px-16 lg:px-20 pt-24 pb-10
@@ -8,10 +8,6 @@
  *     3-col card grid (mt-16)
  */
 import { motion } from 'motion/react';
-import FadingVideo from './FadingVideo';
-
-const CAPABILITIES_VIDEO =
-  'https://d8j0ntlcm91z4.cloudfront.net/user_38xzZboKViGWJOttwIXH07lWA1P/hf_20260418_094631_d30ab262-45ee-4b7d-99f3-5d5848c8ef13.mp4';
 
 /* ── Card definitions ────────────────────────────────────────────────── */
 const CARDS = [
@@ -50,12 +46,6 @@ export default function Capabilities() {
       id="capabilities"
       className="relative min-h-screen bg-black overflow-hidden"
     >
-      {/* ── Background video — full-bleed, no 120% scale ─────────────── */}
-      <FadingVideo
-        src={CAPABILITIES_VIDEO}
-        className="absolute inset-0 w-full h-full object-cover z-0"
-      />
-
       {/* ── Content layer ─────────────────────────────────────────────── */}
       <div className="relative z-10 px-8 md:px-16 lg:px-20 pt-24 pb-10 flex flex-col min-h-screen">
 

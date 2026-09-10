@@ -1,9 +1,5 @@
-import { MapPin, Calendar, ExternalLink } from 'lucide-react';
-import { motion } from 'motion/react';
-import FadingVideo from './FadingVideo';
-
-const EXP_VIDEO =
-  'https://d8j0ntlcm91z4.cloudfront.net/user_38xzZboKViGWJOttwIXH07lWA1P/hf_20260418_080021_d598092b-c4c2-4e53-8e46-94cf9064cd50.mp4';
+import { MapPin, Calendar, ExternalLink, ArrowUpRight } from 'lucide-react';
+import QAReveal from './QAReveal';
 
 const experiences = [
   {
@@ -42,7 +38,7 @@ const experiences = [
     ],
   },
   {
-    title: 'Quality Analyst Intern (Automation Testing)',
+    title: 'Quality Assurance Intern',
     company: 'Wesoftek Solutions',
     companyUrl: 'https://wesoftek.com/',
     companyLogo: 'https://i.postimg.cc/cLhyy7gg/1683614811477.jpg',
@@ -68,118 +64,45 @@ const experiences = [
   },
 ];
 
-const ExpCard = ({ exp, index }: { exp: typeof experiences[0]; index: number }) => {
+const chapters = [
+  { label: 'Learning the craft', summary: 'Test planning, defect lifecycle, and the first automation scripts.', tone: 'cyan' },
+  { label: 'Owning product quality', summary: 'End-to-end QA ownership, integrations, and release confidence.', tone: 'mint' },
+];
+
+export default function Experience() {
   return (
-    <motion.div
-      initial={{ opacity: 0, y: 40 }}
-      whileInView={{ opacity: 1, y: 0 }}
-      viewport={{ once: true, amount: 0.1 }}
-      transition={{ duration: 0.6, delay: index * 0.12 }}
-      className="liquid-glass rounded-[1.25rem] overflow-hidden"
-    >
-      {/* Main content */}
-      <div className="p-6 md:p-8">
-        <div className="flex flex-col gap-5 md:flex-row md:items-start">
-
-          {/* Company logo */}
-          <div className="flex-shrink-0">
-            <div className="overflow-hidden w-14 h-14 rounded-xl liquid-glass">
-              {exp.companyLogo ? (
-                <img src={exp.companyLogo} alt={exp.company} loading="lazy"
-                  width={56} height={56} className="object-cover w-full h-full" />
-              ) : (
-                <div className="flex items-center justify-center w-full h-full text-2xl italic text-white select-none font-heading">
-                  {exp.companyInitial}
-                </div>
-              )}
-            </div>
-          </div>
-
-          {/* Info */}
-          <div className="flex-1 min-w-0">
-            <div className="flex flex-wrap items-start justify-between gap-3 mb-2">
-              <h3 className="font-heading italic text-white text-2xl tracking-[-0.5px] leading-tight">
-                {exp.title}
-              </h3>
-            </div>
-
-            {/* Company + meta */}
-            <div className="flex flex-wrap gap-4 mb-4">
-              <a href={exp.companyUrl} target="_blank" rel="noopener noreferrer"
-                className="flex items-center gap-1.5 text-sm font-body text-white/70 hover:text-white transition-colors">
-                <ExternalLink className="w-3.5 h-3.5" />
-                {exp.company}
-              </a>
-              <span className="flex items-center gap-1.5 text-sm font-body text-white/50">
-                <MapPin className="w-3.5 h-3.5" />{exp.location}
-              </span>
-              <span className="flex items-center gap-1.5 text-sm font-body text-white/50">
-                <Calendar className="w-3.5 h-3.5" />{exp.period}
-              </span>
-            </div>
-
-            {/* Tags */}
-            <div className="flex flex-wrap gap-1.5">
-              {exp.tags.map((tag) => (
-                <span key={tag.name}
-                  className="liquid-glass rounded-full pl-1.5 pr-2.5 py-1 text-[11px] font-body text-white/70 flex items-center gap-1.5">
-                  <span className="w-4 h-4 rounded-full bg-white flex items-center justify-center flex-shrink-0 overflow-hidden">
-                    <img src={tag.image} alt={tag.name} loading="lazy" width={12} height={12}
-                      className="w-3 h-3 object-contain" />
-                  </span>
-                  {tag.name}
-                </span>
-              ))}
-            </div>
-          </div>
+    <section id="experience" className="qa-theme qa-work" aria-labelledby="work-title">
+      <QAReveal className="qa-container">
+        <div className="qa-section-heading qa-heading-row">
+          <div><p className="qa-eyebrow">04 / WORK HISTORY</p><h2 id="work-title">My journey in QA.<br /><span className="qa-gradient-text">From learning to ownership.</span></h2></div>
+          <p className="qa-section-summary">Two chapters in my corporate QA journey, connecting hands-on testing foundations with responsibility for production quality.</p>
         </div>
-      </div>
-
-      {/* Bullets */}
-      <div className="px-6 md:px-8 py-5 border-t border-white/[0.06]">
-        <ul className="space-y-3">
-          {exp.bullets.map((b, i) => (
-            <li key={i} className="flex items-start gap-3">
-              <span className="mt-2 w-1.5 h-1.5 rounded-full bg-white/30 flex-shrink-0" />
-              <p className="text-sm font-light leading-relaxed font-body text-white/70">
-                {b}
-              </p>
-            </li>
-          ))}
-        </ul>
-      </div>
-    </motion.div>
+        <ol className="qa-career-roadmap">
+          {[...experiences].reverse().map((exp, index) => {
+            const chapter = chapters[index];
+            return (
+              <li key={exp.company} className={'qa-career-stop qa-tone-' + chapter.tone}>
+                <div className="qa-career-milestone">
+                  <span className="qa-career-node" aria-hidden="true" />
+                  <p className="qa-eyebrow">CHAPTER 0{index + 1}</p>
+                  <h3>{chapter.label}</h3>
+                  <p className="qa-career-period"><Calendar size={15} aria-hidden="true" />{exp.period}</p>
+                  <p className="qa-career-summary">{chapter.summary}</p>
+                </div>
+                <article className="qa-career-card">
+                  <div className="qa-role-body">
+                    <div className="qa-role-heading"><img src={exp.companyLogo} alt="" width={48} height={48} loading="lazy" /><div><h4>{exp.title}</h4><a href={exp.companyUrl} target="_blank" rel="noopener noreferrer">{exp.company}<ExternalLink size={14} aria-hidden="true" /></a></div></div>
+                    <p className="qa-career-location"><MapPin size={14} aria-hidden="true" />{exp.location}</p>
+                    <ul className="qa-role-bullets">{exp.bullets.map(bullet => <li key={bullet}>{bullet}</li>)}</ul>
+                    <div className="qa-role-tools"><p className="qa-eyebrow">TOOLS & TECHNOLOGIES</p><div>{exp.tags.map(tag => <span className="qa-experience-chip" key={tag.name}><span><img src={tag.image} alt="" loading="lazy" width={18} height={18} /></span>{tag.name}</span>)}</div></div>
+                  </div>
+                </article>
+              </li>
+            );
+          })}
+        </ol>
+        <div className="qa-career-next"><span className="qa-career-next-dot" aria-hidden="true" /><div><p className="qa-eyebrow">THE NEXT CHAPTER</p><p>Bringing a quality-first mindset to my next QA role.</p></div><a href="#contact">Let's connect<ArrowUpRight size={18} aria-hidden="true" /></a></div>
+      </QAReveal>
+    </section>
   );
-};
-
-const Experience = () => (
-  <section id="experience" className="relative py-24 overflow-hidden bg-black">
-    <FadingVideo src={EXP_VIDEO} className="absolute inset-0 z-0 object-cover w-full h-full" />
-    <div className="absolute inset-0 bg-black/60 z-[1]" />
-
-    <div className="container relative z-10 px-8 mx-auto md:px-16">
-
-      {/* ── Section header ── */}
-      <motion.div
-        initial={{ opacity: 0, y: 32 }} whileInView={{ opacity: 1, y: 0 }}
-        viewport={{ once: true, amount: 0.15 }} transition={{ duration: 0.6 }}
-        className="mb-16"
-      >
-        <p className="mb-4 text-sm tracking-wide font-body text-white/80">// Work History</p>
-        <h2 className="font-heading italic text-white leading-[0.9] tracking-[-3px]"
-            style={{ fontSize: 'clamp(3rem, 7vw, 5.5rem)' }}>
-          Where I've<br />been building
-        </h2>
-      </motion.div>
-
-      {/* Cards */}
-      <div className="max-w-4xl mx-auto space-y-6">
-        {experiences.map((exp, i) => (
-          <ExpCard key={exp.company + exp.title} exp={exp} index={i} />
-        ))}
-      </div>
-    </div>
-  </section>
-);
-
-export default Experience;
+}

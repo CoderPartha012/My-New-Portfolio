@@ -1,0 +1,801 @@
+/* ═══════════════════════════════════════════════════════════════════════════
+   QA PREMIUM LAYER — colour depth, ambient motion & QA-native micro-effects
+   ---------------------------------------------------------------------------
+   Design language: a passing test run.  Scan → assert → pass.
+   Loaded after index.css so it layers on top of the base QA theme.
+   All motion here is decorative and is neutralised by the
+   prefers-reduced-motion block in index.css (which uses !important).
+═══════════════════════════════════════════════════════════════════════════ */
+
+.qa-theme {
+  --qa-amber: #ffd08a;              /* credentials / attention */
+  --qa-rose: #ffb3c7;               /* defect accent */
+  --qa-glow-mint: 153 240 204;
+  --qa-glow-cyan: 133 221 245;
+  --qa-glow-violet: 195 176 255;
+  --qa-glow-amber: 255 208 138;
+  --qa-ease: cubic-bezier(.22, 1, .36, 1);
+}
+
+/* ── Keyframes ───────────────────────────────────────────────────────────── */
+@keyframes qaAurora {
+  0%, 100% { transform: translate3d(0, 0, 0) scale(1); }
+  33%      { transform: translate3d(4%, -3%, 0) scale(1.12); }
+  66%      { transform: translate3d(-3%, 4%, 0) scale(.94); }
+}
+@keyframes qaShimmer {
+  0%   { background-position: 0% 50%; }
+  100% { background-position: 200% 50%; }
+}
+@keyframes qaScanSweep {
+  0%       { transform: translateY(-14%); opacity: 0; }
+  12%      { opacity: 1; }
+  78%      { opacity: 1; }
+  100%     { transform: translateY(660%); opacity: 0; }
+}
+@keyframes qaPing {
+  0%   { transform: scale(1);   opacity: .7; }
+  70%  { transform: scale(3.1); opacity: 0; }
+  100% { transform: scale(3.1); opacity: 0; }
+}
+@keyframes qaPassPop {
+  0%   { transform: scale(.2) rotate(-25deg); opacity: 0; }
+  60%  { transform: scale(1.25) rotate(6deg); opacity: 1; }
+  100% { transform: scale(1) rotate(0); opacity: 1; }
+}
+@keyframes qaRunRow {
+  0%   { background-position: -140% 0; }
+  100% { background-position: 240% 0; }
+}
+@keyframes qaCaret {
+  0%, 45%  { opacity: 1; }
+  50%, 95% { opacity: 0; }
+  100%     { opacity: 1; }
+}
+@keyframes qaDrawDown {
+  from { transform: scaleY(0); }
+  to   { transform: scaleY(1); }
+}
+@keyframes qaFloatSoft {
+  0%, 100% { transform: translateY(0); }
+  50%      { transform: translateY(-7px); }
+}
+@keyframes qaSpin { to { transform: rotate(360deg); } }
+@keyframes qaGlowPulse {
+  0%, 100% { opacity: .4; }
+  50%      { opacity: 1; }
+}
+@keyframes qaChipIn {
+  from { opacity: 0; transform: translateY(9px) scale(.96); }
+  to   { opacity: 1; transform: none; }
+}
+@keyframes qaFadeIn {
+  from { opacity: 0; }
+  to   { opacity: 1; }
+}
+
+/* ── Ambient depth: aurora wash behind every section ─────────────────────── */
+.qa-hero, .qa-about, .qa-skills, .qa-education,
+.qa-work, .qa-projects, .qa-certifications, .qa-contact {
+  position: relative;
+  isolation: isolate;
+  /* The aurora layer below is inset negatively so its blur reaches the edges.
+     Clip it to the section so it can never widen the page on small screens.
+     `clip` (not `hidden`) avoids creating a scroll container. */
+  overflow: clip;
+}
+.qa-about::after, .qa-skills::after, .qa-education::after, .qa-work::after,
+.qa-projects::after, .qa-certifications::after, .qa-contact::after {
+  content: "";
+  position: absolute;
+  inset: -20% 0;
+  z-index: -2;
+  pointer-events: none;
+  opacity: .55;
+  filter: blur(80px);
+  background:
+    radial-gradient(38% 42% at 18% 22%, rgb(var(--qa-glow-cyan) / .15), transparent 70%),
+    radial-gradient(34% 38% at 82% 68%, rgb(var(--qa-glow-violet) / .12), transparent 72%),
+    radial-gradient(30% 34% at 55% 105%, rgb(var(--qa-glow-mint) / .11), transparent 70%);
+}
+/* Only the two bookend sections drift. A 80px-blurred wash moving 4% over 30s
+   is imperceptible mid-page, so the rest stay static and cost nothing to animate. */
+.qa-about.qa-inview::after {
+  animation: qaAurora 31s ease-in-out infinite reverse;
+  will-change: transform;
+}
+.qa-contact.qa-inview::after {
+  animation: qaAurora 28s ease-in-out infinite;
+  will-change: transform;
+}
+/* Give each section its own colour identity rather than one repeated wash. */
+.qa-skills::after {
+  background:
+    radial-gradient(40% 44% at 12% 18%, rgb(var(--qa-glow-mint) / .16), transparent 70%),
+    radial-gradient(34% 38% at 88% 72%, rgb(var(--qa-glow-cyan) / .13), transparent 72%);
+}
+.qa-education::after {
+  background:
+    radial-gradient(38% 42% at 82% 20%, rgb(var(--qa-glow-violet) / .15), transparent 70%),
+    radial-gradient(32% 36% at 15% 82%, rgb(var(--qa-glow-mint) / .11), transparent 72%);
+}
+.qa-work::after {
+  background:
+    radial-gradient(42% 46% at 20% 30%, rgb(var(--qa-glow-cyan) / .15), transparent 70%),
+    radial-gradient(34% 38% at 85% 78%, rgb(var(--qa-glow-mint) / .12), transparent 72%);
+}
+.qa-projects::after {
+  background:
+    radial-gradient(38% 42% at 78% 22%, rgb(var(--qa-glow-cyan) / .14), transparent 70%),
+    radial-gradient(34% 40% at 18% 80%, rgb(var(--qa-glow-violet) / .12), transparent 72%);
+}
+.qa-certifications::after {
+  background:
+    radial-gradient(40% 44% at 15% 24%, rgb(var(--qa-glow-amber) / .12), transparent 70%),
+    radial-gradient(36% 40% at 84% 76%, rgb(var(--qa-glow-violet) / .13), transparent 72%);
+}
+
+/* ── Living gradient headline text ──────────────────────────────────────── */
+.qa-inview .qa-gradient-text,
+.qa-inview.qa-hero h1 > span {
+  background: linear-gradient(110deg,
+    var(--qa-accent) 0%, var(--qa-cyan) 25%, var(--qa-violet) 45%,
+    var(--qa-accent) 70%, var(--qa-cyan) 100%);
+  background-size: 200% auto;
+  background-clip: text;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  animation: qaShimmer 9s linear infinite;
+}
+
+/* Section eyebrow draws its accent rule on reveal */
+.qa-section-heading .qa-eyebrow {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+}
+.qa-section-heading .qa-eyebrow::after {
+  content: "";
+  width: 0;
+  height: 1px;
+  background: linear-gradient(90deg, var(--qa-cyan), transparent);
+  transition: width .9s var(--qa-ease) .3s;
+}
+.qa-entered .qa-section-heading .qa-eyebrow::after { width: 64px; }
+
+/* Terminal caret — the tester's cursor */
+.qa-inview .qa-intro::after {
+  content: "";
+  display: inline-block;
+  width: 9px;
+  height: 1.02em;
+  margin-left: 7px;
+  vertical-align: -.14em;
+  background: var(--qa-cyan);
+  box-shadow: 0 0 12px rgb(var(--qa-glow-cyan) / .75);
+  animation: qaCaret 1.15s steps(1) infinite;
+}
+
+/* ── Live status dots: radar ping ───────────────────────────────────────── */
+.qa-availability > span,
+.qa-status-dot { position: relative; }
+.qa-inview .qa-availability > span::after,
+.qa-inview .qa-status-dot::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  border-radius: 50%;
+  background: inherit;
+  animation: qaPing 2.4s cubic-bezier(0, 0, .2, 1) infinite;
+}
+.qa-availability { transition: border-color .3s, box-shadow .3s, transform .3s var(--qa-ease); }
+.qa-availability:hover {
+  border-color: var(--qa-accent);
+  box-shadow: 0 0 26px rgb(var(--qa-glow-mint) / .16);
+  transform: translateY(-1px);
+}
+
+/* ═══ HERO — the workflow panel runs like a live test suite ═════════════ */
+.qa-workflow { overflow: hidden; }
+.qa-inview .qa-workflow::after {
+  content: "";
+  position: absolute;
+  inset-inline: 0;
+  top: 0;
+  height: 90px;
+  z-index: 0;
+  pointer-events: none;
+  background: linear-gradient(180deg, transparent, rgb(var(--qa-glow-cyan) / .1), transparent);
+  animation: qaScanSweep 7.5s ease-in-out infinite 1.2s;
+}
+.qa-workflow-list li {
+  position: relative;
+  background-image: linear-gradient(90deg, transparent 20%,
+    rgb(var(--qa-glow-mint) / .1) 50%, transparent 80%);
+  background-size: 220% 100%;
+  background-repeat: no-repeat;
+  animation: qaRunRow 1s ease-out both;
+}
+.qa-workflow-list li:nth-child(1) { animation-delay: .45s; }
+.qa-workflow-list li:nth-child(2) { animation-delay: .85s; }
+.qa-workflow-list li:nth-child(3) { animation-delay: 1.25s; }
+.qa-workflow-list li:nth-child(4) { animation-delay: 1.65s; }
+
+/* "Passed" checkmarks stamp in, one assertion after another */
+.qa-workflow-list li > svg:last-child {
+  color: var(--qa-accent);
+  filter: drop-shadow(0 0 7px rgb(var(--qa-glow-mint) / .55));
+  animation: qaPassPop .5s var(--qa-ease) both;
+}
+.qa-workflow-list li:nth-child(1) > svg:last-child { animation-delay: .95s; }
+.qa-workflow-list li:nth-child(2) > svg:last-child { animation-delay: 1.35s; }
+.qa-workflow-list li:nth-child(3) > svg:last-child { animation-delay: 1.75s; }
+.qa-workflow-list li:nth-child(4) > svg:last-child { animation-delay: 2.15s; }
+
+.qa-step-number { transition: background .25s, color .25s, box-shadow .25s, transform .25s var(--qa-ease); }
+.qa-workflow-list li:hover .qa-step-number {
+  color: var(--qa-bg);
+  background: linear-gradient(135deg, var(--qa-accent), var(--qa-cyan));
+  box-shadow: 0 0 20px rgb(var(--qa-glow-cyan) / .38);
+  transform: translateY(-1px) scale(1.06);
+}
+.qa-inview .qa-workflow-heading > svg {
+  animation: qaFloatSoft 5.5s ease-in-out infinite;
+  filter: drop-shadow(0 0 14px rgb(var(--qa-glow-cyan) / .35));
+}
+.qa-workflow-footer { position: relative; overflow: hidden; }
+.qa-workflow-footer::before {
+  content: "";
+  position: absolute;
+  inset: 0 auto 0 0;
+  width: 3px;
+  background: linear-gradient(180deg, var(--qa-accent), var(--qa-cyan));
+  transform: scaleY(0);
+  transform-origin: top;
+  animation: qaDrawDown .7s var(--qa-ease) 2.4s both;
+}
+
+/* Buttons — sheen sweep + lift */
+.qa-button { position: relative; overflow: hidden; }
+.qa-button::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(115deg, transparent 35%, rgb(255 255 255 / .34) 50%, transparent 65%);
+  background-size: 260% 100%;
+  background-position: 150% 0;
+  transition: background-position .8s var(--qa-ease);
+  pointer-events: none;
+}
+.qa-button:hover::after { background-position: -70% 0; }
+.qa-button { transition: background .2s, box-shadow .25s, border-color .2s, transform .25s var(--qa-ease); }
+.qa-button:hover { transform: translateY(-2px); }
+.qa-button-primary:hover { box-shadow: 0 10px 34px rgb(var(--qa-glow-mint) / .3); }
+
+/* Toolbelt chips stagger in, glow on hover */
+.qa-toolbelt > div > span {
+  animation: qaChipIn .5s var(--qa-ease) both;
+  transition: color .22s, transform .22s var(--qa-ease), text-shadow .22s;
+}
+.qa-toolbelt > div > span:nth-child(1) { animation-delay: 1.9s; }
+.qa-toolbelt > div > span:nth-child(2) { animation-delay: 2s; }
+.qa-toolbelt > div > span:nth-child(3) { animation-delay: 2.1s; }
+.qa-toolbelt > div > span:nth-child(4) { animation-delay: 2.2s; }
+.qa-toolbelt > div > span:nth-child(5) { animation-delay: 2.3s; }
+.qa-toolbelt > div > span:nth-child(6) { animation-delay: 2.4s; }
+.qa-toolbelt > div > span:hover {
+  color: var(--qa-cyan);
+  transform: translateY(-2px);
+  text-shadow: 0 0 18px rgb(var(--qa-glow-cyan) / .45);
+}
+.qa-toolbelt > a svg { transition: transform .3s var(--qa-ease); }
+.qa-toolbelt > a:hover svg { transform: translateY(4px); }
+
+/* ═══ HEADER ═══════════════════════════════════════════════════════════ */
+.qa-brand-icon { transition: color .3s, border-color .3s, box-shadow .3s, transform .3s var(--qa-ease); }
+.qa-brand:hover .qa-brand-icon {
+  border-color: var(--qa-accent);
+  box-shadow: 0 0 22px rgb(var(--qa-glow-mint) / .3);
+  transform: rotate(-6deg) scale(1.06);
+}
+.qa-inview .qa-brand-dot, .qa-header .qa-brand-dot { animation: qaGlowPulse 2.6s ease-in-out infinite; }
+.qa-nav a { position: relative; }
+.qa-nav a:not(.qa-nav-contact)::after {
+  content: "";
+  position: absolute;
+  left: 11px;
+  right: 11px;
+  bottom: 7px;
+  height: 1.5px;
+  border-radius: 2px;
+  background: linear-gradient(90deg, var(--qa-accent), var(--qa-cyan));
+  transform: scaleX(0);
+  transform-origin: left;
+  transition: transform .3s var(--qa-ease);
+}
+.qa-nav a:not(.qa-nav-contact):hover::after,
+.qa-nav a[aria-current]:not(.qa-nav-contact)::after { transform: scaleX(1); }
+.qa-nav-contact { transition: border-color .25s, box-shadow .25s, transform .25s var(--qa-ease); }
+.qa-nav-contact:hover {
+  border-color: var(--qa-accent);
+  box-shadow: 0 0 24px rgb(var(--qa-glow-mint) / .2);
+  transform: translateY(-1px);
+}
+.qa-nav-contact svg { transition: transform .28s var(--qa-ease); }
+.qa-nav-contact:hover svg { transform: translate(3px, -3px); }
+
+/* ═══ ABOUT ════════════════════════════════════════════════════════════ */
+.qa-portrait { position: relative; overflow: hidden; }
+.qa-portrait::before {
+  content: "";
+  position: absolute;
+  inset: -60%;
+  z-index: 0;
+  background: conic-gradient(from 0deg, transparent 0deg,
+    rgb(var(--qa-glow-cyan) / .45) 55deg, transparent 130deg, transparent 360deg);
+  opacity: 0;
+  transition: opacity .45s;
+  pointer-events: none;
+}
+/* Spin only while hovered — an invisible conic gradient still costs paint. */
+.qa-portrait:hover::before { opacity: .6; animation: qaSpin 8s linear infinite; }
+.qa-portrait img, .qa-portrait figcaption { position: relative; z-index: 1; }
+.qa-portrait img { transition: transform .6s var(--qa-ease), filter .45s; }
+.qa-portrait:hover img { transform: scale(1.045); filter: saturate(1.05); }
+
+.qa-about-lead { position: relative; border-left-color: transparent !important; }
+.qa-about-lead::before {
+  content: "";
+  position: absolute;
+  left: -2px;
+  top: 0;
+  bottom: 0;
+  width: 2px;
+  background: linear-gradient(180deg, var(--qa-accent), var(--qa-cyan), var(--qa-violet));
+  transform: scaleY(0);
+  transform-origin: top;
+  transition: transform 1s var(--qa-ease) .35s;
+}
+.qa-entered .qa-about-lead::before { transform: scaleY(1); }
+
+.qa-expertise {
+  position: relative;
+  overflow: hidden;
+  transition: border-color .28s, background .28s, transform .28s var(--qa-ease), box-shadow .28s;
+}
+.qa-expertise::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(120% 90% at 0% 0%, rgb(var(--qa-glow-cyan) / .1), transparent 62%);
+  opacity: 0;
+  transition: opacity .3s;
+  pointer-events: none;
+}
+.qa-expertise:hover::before { opacity: 1; }
+.qa-expertise:hover { transform: translateY(-3px); box-shadow: 0 14px 32px rgb(0 0 0 / .32); }
+.qa-expertise > svg { transition: transform .35s var(--qa-ease), filter .35s; }
+.qa-expertise:hover > svg {
+  transform: scale(1.16) rotate(-7deg);
+  filter: drop-shadow(0 0 10px rgb(var(--qa-glow-cyan) / .5));
+}
+.qa-entered .qa-expertise { animation: qaChipIn .55s var(--qa-ease) both; }
+.qa-entered .qa-expertise:nth-child(1) { animation-delay: .25s; }
+.qa-entered .qa-expertise:nth-child(2) { animation-delay: .35s; }
+.qa-entered .qa-expertise:nth-child(3) { animation-delay: .45s; }
+.qa-entered .qa-expertise:nth-child(4) { animation-delay: .55s; }
+
+/* Text links — underline wipes, arrow travels */
+.qa-text-link { position: relative; }
+.qa-text-link svg { transition: transform .3s var(--qa-ease); }
+.qa-text-link:hover svg { transform: translate(4px, -4px); }
+.qa-text-link::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  bottom: -3px;
+  width: 100%;
+  height: 1px;
+  background: linear-gradient(90deg, var(--qa-accent), var(--qa-cyan));
+  transform: scaleX(0);
+  transform-origin: right;
+  transition: transform .35s var(--qa-ease);
+}
+.qa-text-link:hover::after { transform: scaleX(1); transform-origin: left; }
+
+/* ═══ SKILLS ═══════════════════════════════════════════════════════════ */
+.qa-skill-filters button {
+  position: relative;
+  overflow: hidden;
+  transition: color .22s, background .22s, border-color .22s, transform .22s var(--qa-ease), box-shadow .25s;
+}
+.qa-skill-filters button:hover { transform: translateY(-2px); }
+.qa-skill-filters button[aria-pressed="true"] {
+  box-shadow: 0 6px 22px rgb(var(--qa-glow-mint) / .26);
+}
+
+/* Cards: accent rail grows, sheen sweeps, icon lifts */
+.qa-skill-card, .qa-education-card, .qa-career-card, .qa-cert-card, .qa-project-card {
+  position: relative;
+}
+.qa-skill-card::before, .qa-education-card::before {
+  transform: scaleX(.28);
+  transform-origin: left;
+  transition: transform .55s var(--qa-ease), opacity .35s;
+}
+.qa-entered .qa-skill-card::before,
+.qa-entered .qa-education-card::before { transform: scaleX(1); }
+.qa-skill-card:hover::before, .qa-education-card:hover::before { opacity: 1; }
+
+.qa-skill-card::after, .qa-cert-card::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  border-radius: inherit;
+  background: linear-gradient(115deg, transparent 38%,
+    rgb(255 255 255 / .055) 50%, transparent 62%);
+  background-size: 250% 100%;
+  background-position: 160% 0;
+  transition: background-position .9s var(--qa-ease);
+}
+.qa-skill-card:hover::after, .qa-cert-card:hover::after { background-position: -60% 0; }
+
+.qa-category-icon { transition: transform .35s var(--qa-ease), box-shadow .35s, border-color .3s; }
+.qa-skill-card:hover .qa-category-icon,
+.qa-education-card:hover .qa-category-icon {
+  transform: translateY(-2px) scale(1.08);
+  border-color: var(--qa-tone);
+  box-shadow: 0 0 22px rgb(255 255 255 / .05), 0 0 18px color-mix(in srgb, var(--qa-tone) 32%, transparent);
+}
+.qa-skill-card:hover, .qa-education-card:hover, .qa-career-card:hover {
+  box-shadow: 0 18px 40px rgb(0 0 0 / .4),
+              0 0 26px color-mix(in srgb, var(--qa-tone, var(--qa-cyan)) 12%, transparent);
+}
+.qa-card-index { transition: color .3s, opacity .3s; }
+.qa-skill-card:hover .qa-card-index,
+.qa-education-card:hover .qa-card-index { color: var(--qa-tone); opacity: 1; }
+
+/* Tool chips pop in and lift */
+.qa-skill-chips li {
+  transition: transform .2s var(--qa-ease), border-color .2s, background .2s, box-shadow .2s;
+}
+.qa-entered .qa-skill-chips li { animation: qaChipIn .4s var(--qa-ease) both; }
+.qa-entered .qa-skill-chips li:nth-child(1) { animation-delay: .3s; }
+.qa-entered .qa-skill-chips li:nth-child(2) { animation-delay: .36s; }
+.qa-entered .qa-skill-chips li:nth-child(3) { animation-delay: .42s; }
+.qa-entered .qa-skill-chips li:nth-child(4) { animation-delay: .48s; }
+.qa-entered .qa-skill-chips li:nth-child(5) { animation-delay: .54s; }
+.qa-entered .qa-skill-chips li:nth-child(6) { animation-delay: .6s; }
+.qa-entered .qa-skill-chips li:nth-child(7) { animation-delay: .66s; }
+.qa-entered .qa-skill-chips li:nth-child(8) { animation-delay: .72s; }
+.qa-skill-chips li:hover {
+  transform: translateY(-3px);
+  border-color: var(--qa-tone, var(--qa-cyan));
+  box-shadow: 0 8px 18px rgb(0 0 0 / .35);
+}
+.qa-skill-logo img { transition: transform .28s var(--qa-ease); }
+.qa-skill-chips li:hover .qa-skill-logo img { transform: scale(1.14) rotate(-4deg); }
+
+.qa-skills-bottom .qa-status-dot { box-shadow: 0 0 12px rgb(var(--qa-glow-mint) / .6); }
+
+/* ═══ EDUCATION — the journey line draws itself ════════════════════════ */
+.qa-journey-node, .qa-timeline-dot {
+  transition: transform .3s var(--qa-ease), box-shadow .3s;
+}
+.qa-journey-node { overflow: hidden; flex-shrink: 0; }
+@keyframes qaMilestonePulse {
+  0%, 100% { opacity: .15; }
+  50% { opacity: .65; }
+}
+.qa-journey-node::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  border: 1px solid var(--qa-tone, var(--qa-cyan));
+  opacity: 0;
+  animation: qaMilestonePulse 3s ease-in-out infinite;
+  pointer-events: none;
+}
+.qa-entered .qa-journey-node::after { opacity: .55; }
+.qa-education:not(.qa-inview) .qa-journey-node::after { animation: none; }
+.qa-education-item:hover .qa-journey-node,
+.qa-education-item:hover .qa-timeline-dot {
+  box-shadow: inset 0 0 16px color-mix(in srgb, var(--qa-tone) 30%, transparent);
+}
+.qa-entered .qa-education-card { animation: qaChipIn .6s var(--qa-ease) backwards; }
+.qa-academic-score strong {
+  transition: transform .3s var(--qa-ease), text-shadow .3s;
+  display: inline-block;
+}
+.qa-education-card:hover .qa-academic-score strong {
+  transform: scale(1.07);
+  text-shadow: 0 0 20px color-mix(in srgb, var(--qa-tone) 55%, transparent);
+}
+
+/* ═══ EXPERIENCE — career roadmap ══════════════════════════════════════ */
+.qa-career-node {
+  overflow: hidden;
+  transition: transform .35s var(--qa-ease), box-shadow .35s, border-color .3s;
+}
+.qa-work:not(.qa-inview) .qa-career-node::after { animation: none; }
+.qa-career-node::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  border: 1px solid var(--qa-tone, var(--qa-cyan));
+  opacity: .4;
+  animation: qaMilestonePulse 3.4s ease-in-out infinite;
+  pointer-events: none;
+}
+.qa-career-stop:hover .qa-career-node {
+  transform: scale(1.08);
+  box-shadow: 0 0 26px color-mix(in srgb, var(--qa-tone) 40%, transparent);
+}
+.qa-career-card {
+  overflow: hidden;
+  transition: border-color .3s, box-shadow .35s, transform .35s var(--qa-ease);
+}
+.qa-career-card:hover { transform: translateY(-3px); }
+.qa-entered .qa-career-stop { animation: qaChipIn .7s var(--qa-ease) backwards; }
+.qa-entered .qa-career-stop:nth-child(1) { animation-delay: .15s; }
+.qa-entered .qa-career-stop:nth-child(2) { animation-delay: .3s; }
+
+/* Responsibility bullets reveal in sequence, marker glows */
+.qa-role-bullets li { transition: color .25s; }
+.qa-entered .qa-role-bullets li { animation: qaFadeIn .5s ease-out both; }
+.qa-entered .qa-role-bullets li:nth-child(1) { animation-delay: .3s; }
+.qa-entered .qa-role-bullets li:nth-child(2) { animation-delay: .36s; }
+.qa-entered .qa-role-bullets li:nth-child(3) { animation-delay: .42s; }
+.qa-entered .qa-role-bullets li:nth-child(4) { animation-delay: .48s; }
+.qa-entered .qa-role-bullets li:nth-child(5) { animation-delay: .54s; }
+.qa-entered .qa-role-bullets li:nth-child(6) { animation-delay: .6s; }
+.qa-entered .qa-role-bullets li:nth-child(7) { animation-delay: .66s; }
+.qa-entered .qa-role-bullets li:nth-child(8) { animation-delay: .72s; }
+.qa-role-bullets li:hover { color: var(--qa-text); }
+
+.qa-role-heading img { transition: transform .4s var(--qa-ease), box-shadow .35s; }
+.qa-career-card:hover .qa-role-heading img {
+  transform: scale(1.07) rotate(-3deg);
+  box-shadow: 0 0 22px rgb(var(--qa-glow-cyan) / .3);
+}
+.qa-experience-chip {
+  transition: transform .22s var(--qa-ease), border-color .22s, box-shadow .22s, background .22s;
+}
+.qa-experience-chip:hover {
+  transform: translateY(-3px);
+  border-color: var(--qa-tone, var(--qa-cyan));
+  box-shadow: 0 8px 20px rgb(0 0 0 / .38);
+}
+.qa-experience-chip img { transition: transform .25s var(--qa-ease); }
+.qa-experience-chip:hover img { transform: scale(1.16) rotate(-5deg); }
+
+/* ═══ PROJECTS ═════════════════════════════════════════════════════════ */
+.qa-project-card {
+  overflow: hidden;
+  transition: border-color .3s, box-shadow .35s, transform .35s var(--qa-ease);
+}
+.qa-project-card:hover {
+  transform: translateY(-5px);
+  border-color: var(--qa-cyan);
+  box-shadow: 0 22px 48px rgb(0 0 0 / .45), 0 0 30px rgb(var(--qa-glow-cyan) / .12);
+}
+.qa-entered .qa-project-card { animation: qaChipIn .6s var(--qa-ease) backwards; }
+.qa-entered .qa-project-card:nth-child(1) { animation-delay: .1s; }
+.qa-entered .qa-project-card:nth-child(2) { animation-delay: .18s; }
+.qa-entered .qa-project-card:nth-child(3) { animation-delay: .26s; }
+.qa-entered .qa-project-card:nth-child(4) { animation-delay: .34s; }
+.qa-entered .qa-project-card:nth-child(5) { animation-delay: .42s; }
+.qa-entered .qa-project-card:nth-child(6) { animation-delay: .5s; }
+.qa-entered .qa-project-card:nth-child(7) { animation-delay: .58s; }
+
+.qa-project-image { position: relative; overflow: hidden; }
+.qa-project-image img { transition: transform .65s var(--qa-ease), filter .45s; }
+.qa-project-card:hover .qa-project-image img {
+  transform: scale(1.06);
+  filter: saturate(1.08) brightness(1.04);
+}
+.qa-project-image::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  background: linear-gradient(180deg, transparent 45%, rgb(9 15 25 / .55));
+  opacity: .85;
+  transition: opacity .4s;
+}
+.qa-project-card:hover .qa-project-image::after { opacity: .5; }
+.qa-project-image > span {
+  transition: transform .35s var(--qa-ease), box-shadow .35s, background .3s;
+}
+.qa-project-card:hover .qa-project-image > span {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 18px rgb(0 0 0 / .4);
+}
+.qa-project-links a { transition: color .25s, border-color .25s, transform .25s var(--qa-ease); }
+.qa-project-links a:hover { transform: translateY(-2px); }
+.qa-project-links a svg { transition: transform .28s var(--qa-ease); }
+.qa-project-links a:hover svg { transform: translate(3px, -3px); }
+
+.qa-project-search { transition: border-color .25s, box-shadow .25s; }
+.qa-project-search input {
+  appearance: none;
+  -webkit-appearance: none;
+  border: 0;
+  border-radius: 0;
+  box-shadow: none;
+  color-scheme: dark;
+}
+/* The wrapper provides the focus indicator for the complete search control. */
+.qa-project-search input:focus { outline: none; box-shadow: none; }
+.qa-project-search:focus-within {
+  outline: 2px solid var(--qa-cyan);
+  outline-offset: 3px;
+  border-color: var(--qa-cyan);
+  box-shadow: 0 0 0 3px rgb(var(--qa-glow-cyan) / .14);
+}
+.qa-project-search svg { transition: color .25s, transform .25s var(--qa-ease); }
+.qa-project-search:focus-within svg { color: var(--qa-cyan); transform: scale(1.1); }
+.qa-inview .qa-project-empty svg { animation: qaFloatSoft 4.5s ease-in-out infinite; color: var(--qa-cyan); }
+
+/* ═══ CERTIFICATIONS — credential seals ════════════════════════════════ */
+.qa-cert-card {
+  overflow: hidden;
+  transition: border-color .3s, box-shadow .35s, transform .35s var(--qa-ease);
+}
+.qa-cert-card:hover {
+  transform: translateY(-5px);
+  border-color: var(--qa-amber);
+  box-shadow: 0 20px 44px rgb(0 0 0 / .45), 0 0 28px rgb(var(--qa-glow-amber) / .14);
+}
+.qa-entered .qa-cert-card { animation: qaChipIn .6s var(--qa-ease) both; }
+.qa-entered .qa-cert-card:nth-child(1) { animation-delay: .1s; }
+.qa-entered .qa-cert-card:nth-child(2) { animation-delay: .2s; }
+.qa-entered .qa-cert-card:nth-child(3) { animation-delay: .3s; }
+.qa-entered .qa-cert-card:nth-child(4) { animation-delay: .4s; }
+.qa-entered .qa-cert-card:nth-child(5) { animation-delay: .5s; }
+
+.qa-cert-seal {
+  position: relative;
+  color: var(--qa-amber);
+  transition: transform .45s var(--qa-ease), box-shadow .4s, border-color .3s;
+}
+.qa-cert-seal::before {
+  content: "";
+  position: absolute;
+  inset: -3px;
+  border-radius: inherit;
+  background: conic-gradient(from 0deg, transparent 0deg,
+    rgb(var(--qa-glow-amber) / .75) 70deg, transparent 150deg, transparent 360deg);
+  opacity: 0;
+  transition: opacity .4s;
+  z-index: -1;
+}
+.qa-cert-card:hover .qa-cert-seal {
+  transform: rotate(-8deg) scale(1.09);
+  border-color: var(--qa-amber);
+  box-shadow: 0 0 26px rgb(var(--qa-glow-amber) / .32);
+}
+/* Spin only while hovered — an invisible conic gradient still costs paint. */
+.qa-cert-card:hover .qa-cert-seal::before { opacity: 1; animation: qaSpin 5s linear infinite; }
+.qa-cert-link { transition: color .25s, gap .25s; }
+.qa-cert-card:hover .qa-cert-link { color: var(--qa-amber); }
+.qa-cert-link svg { transition: transform .3s var(--qa-ease); }
+.qa-cert-card:hover .qa-cert-link svg { transform: translate(4px, -4px); }
+.qa-cert-card:hover .qa-card-index { color: var(--qa-amber); }
+
+/* ═══ CONTACT ══════════════════════════════════════════════════════════ */
+.qa-contact-email {
+  position: relative;
+  overflow: hidden;
+  transition: border-color .3s, box-shadow .3s, transform .3s var(--qa-ease), background .3s;
+}
+.qa-contact-email:hover {
+  transform: translateY(-2px);
+  border-color: var(--qa-accent);
+  box-shadow: 0 12px 30px rgb(0 0 0 / .35), 0 0 24px rgb(var(--qa-glow-mint) / .16);
+}
+.qa-contact-email svg:last-child { transition: transform .3s var(--qa-ease); }
+.qa-contact-email:hover svg:last-child { transform: translate(4px, -4px); }
+.qa-contact-email svg:first-child { transition: transform .35s var(--qa-ease), color .3s; }
+.qa-contact-email:hover svg:first-child { transform: scale(1.12); color: var(--qa-accent); }
+
+.qa-contact-socials a { transition: transform .25s var(--qa-ease), border-color .25s, color .25s, box-shadow .25s; }
+.qa-contact-socials a:hover {
+  transform: translateY(-3px);
+  border-color: var(--qa-cyan);
+  box-shadow: 0 10px 24px rgb(0 0 0 / .35);
+}
+
+.qa-contact-form { position: relative; overflow: hidden; }
+.qa-contact-form::before {
+  content: "";
+  position: absolute;
+  inset: 0 0 auto;
+  height: 2px;
+  background: linear-gradient(90deg, var(--qa-accent), var(--qa-cyan), var(--qa-violet));
+  transform: scaleX(0);
+  transform-origin: left;
+  transition: transform 1.1s var(--qa-ease) .2s;
+}
+.qa-entered .qa-contact-form::before { transform: scaleX(1); }
+.qa-inview .qa-form-heading svg { animation: qaFloatSoft 5s ease-in-out infinite; color: var(--qa-cyan); }
+
+.qa-form-fields label { transition: color .25s; }
+.qa-form-fields label:focus-within { color: var(--qa-cyan); }
+.qa-form-fields :is(input, textarea) {
+  transition: border-color .25s, box-shadow .25s, background .25s;
+}
+.qa-form-fields :is(input, textarea):focus {
+  border-color: var(--qa-cyan);
+  box-shadow: 0 0 0 3px rgb(var(--qa-glow-cyan) / .15);
+  outline: none;
+}
+.qa-form-status:not(:empty) { animation: qaChipIn .4s var(--qa-ease) both; }
+.qa-form-status.success { color: var(--qa-accent); }
+.qa-form-status.error { color: var(--qa-rose); }
+
+/* ═══ FOOTER ═══════════════════════════════════════════════════════════ */
+.qa-footer-socials a { transition: transform .25s var(--qa-ease), color .25s, border-color .25s, box-shadow .25s; }
+.qa-footer-socials a:hover {
+  transform: translateY(-3px);
+  color: var(--qa-accent);
+  border-color: var(--qa-accent);
+  box-shadow: 0 8px 20px rgb(0 0 0 / .35);
+}
+.qa-footer-nav a { position: relative; transition: color .22s, padding-left .25s var(--qa-ease); }
+.qa-footer-nav a::before {
+  content: "";
+  position: absolute;
+  left: 0;
+  top: 50%;
+  width: 0;
+  height: 1px;
+  background: var(--qa-accent);
+  transform: translateY(-50%);
+  transition: width .25s var(--qa-ease);
+}
+.qa-footer-nav a:hover { color: var(--qa-accent); padding-left: 14px; }
+.qa-footer-nav a:hover::before { width: 9px; }
+.qa-footer-cta { transition: color .3s, transform .3s var(--qa-ease); }
+.qa-footer-cta svg { transition: transform .32s var(--qa-ease); }
+.qa-footer-cta:hover svg { transform: translate(5px, -5px); }
+.qa-footer-bottom a svg { transition: transform .3s var(--qa-ease); }
+.qa-footer-bottom a:hover svg { transform: translateY(-4px); }
+
+/* ═══ Scroll progress — a live test-run bar across the top ═════════════ */
+.qa-progress {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 2px;
+  z-index: 60;
+  background: transparent;
+  pointer-events: none;
+}
+.qa-progress > span {
+  display: block;
+  height: 100%;
+  width: 100%;
+  transform: scaleX(var(--qa-progress, 0));
+  transform-origin: left;
+  background: linear-gradient(90deg, var(--qa-accent), var(--qa-cyan), var(--qa-violet));
+  box-shadow: 0 0 14px rgb(var(--qa-glow-cyan) / .5);
+  transition: transform .12s linear;
+}
+
+/* Motion is opt-out: honour reduced-motion for everything added here too */
+@media (prefers-reduced-motion: reduce) {
+  .qa-theme *, .qa-theme *::before, .qa-theme *::after,
+  .qa-progress > span {
+    animation: none !important;
+    transition: none !important;
+  }
+  .qa-entered .qa-section-heading .qa-eyebrow::after { width: 64px; }
+  .qa-entered .qa-about-lead::before,
+  .qa-entered .qa-contact-form::before { transform: none; }
+  .qa-inview .qa-intro::after { display: none; }
+}
