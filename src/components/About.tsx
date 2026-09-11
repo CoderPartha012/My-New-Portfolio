@@ -15,7 +15,7 @@ export default function About() {
         <div className="qa-section-heading"><p className="qa-eyebrow">01 / ABOUT ME</p><h2 id="about-title">A curious mind.<br className="qa-mobile-break" /> A quality-first approach.</h2></div>
         <div className="qa-about-grid">
           <figure className="qa-portrait">
-            <img src="https://i.postimg.cc/LXmHk0Md/my-personal.png" alt="Partha Rakshit" width={320} height={360} loading="lazy" />
+            <img src="/images/partha-rakshit.png" alt="Partha Rakshit" width={320} height={360} loading="lazy" />
             <figcaption><strong>Partha Rakshit</strong><span>Quality Analyst Executive</span><span className="qa-location"><MapPin size={14} aria-hidden="true" /> Gurgaon, India</span></figcaption>
           </figure>
           <div className="qa-about-content">

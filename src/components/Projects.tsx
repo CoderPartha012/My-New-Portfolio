@@ -6,7 +6,7 @@ const projects = [
   {
     title: 'TaskMate',
     description: 'A powerful, feature-rich task management system built with React, TypeScript, and modern web technologies. Beautiful intuitive interface for managing tasks, collaborating with team members, and tracking productivity.',
-    image: 'https://i.postimg.cc/0QTSFnHQ/Taskmate.png',
+    image: '/images/taskmate.png',
     technologies: ['React', 'Tailwind CSS', 'Zustand', 'SheetJS'],
     github: 'https://github.com/CoderPartha012/TaskMate',
     live: 'https://taskmatebypartha.netlify.app/',
@@ -16,7 +16,7 @@ const projects = [
   {
     title: 'Business Management System',
     description: 'A comprehensive business management solution built with Next.js, featuring a modern UI and extensive functionality for managing workforce, payroll, finances, and more.',
-    image: 'https://i.postimg.cc/sDGvsMWV/slkjd.png',
+    image: '/images/business-management.png',
     technologies: ['Next.js', 'Tailwind CSS', 'shadcn/ui', 'Recharts'],
     github: 'https://github.com/CoderPartha012/BMS',
     live: 'https://business-management-system-partha.netlify.app/',
@@ -26,7 +26,7 @@ const projects = [
   {
     title: 'Bugdesk',
     description: 'A modern, full-featured bug tracking application built with React and TypeScript. Track bugs through a complete 7-stage lifecycle, collaborate with your team, and visualise project health — all in a clean, responsive interface with dark mode support.',
-    image: 'https://i.postimg.cc/d1WtCPmX/ksjd.png',
+    image: '/images/bugdesk.png',
     technologies: ['React', 'Tailwind CSS', 'Recharts 2', 'Browser localStorage'],
     github: 'https://github.com/CoderPartha012/Bug-Tracking-System',
     live: 'https://bugdesk.netlify.app/',
@@ -36,7 +36,7 @@ const projects = [
   {
     title: 'Maharaja Restaurant',
     description: 'A modern, responsive website for an authentic Indian restaurant. Seamless UX for viewing the menu, making reservations, and exploring the gallery.',
-    image: 'https://i.postimg.cc/JhkbNDq1/ksjdhksjd.png',
+    image: '/images/maharaja.png',
     technologies: ['React', 'Tailwind CSS', 'Vite', 'Framer Motion'],
     github: 'https://github.com/CoderPartha012/Maharaja',
     live: 'https://maharaja-a-simple-restaurant.netlify.app/',
@@ -46,7 +46,7 @@ const projects = [
   {
     title: 'Expenso',
     description: 'A modern expense tracking application. Helps users manage their finances by tracking expenses, setting budgets, and visualizing spending patterns.',
-    image: 'https://i.postimg.cc/jq3QQ6h9/Expenso.png',
+    image: '/images/expenso.png',
     technologies: ['React', 'Tailwind CSS', 'Framer Motion', 'JsPDF'],
     github: 'https://github.com/CoderPartha012/Expenso',
     live: 'https://expensobypartha.netlify.app/',
@@ -56,7 +56,7 @@ const projects = [
   {
     title: 'CaseKaro Automation',
     description: 'Developed an end-to-end automation testing framework for casekaro.com using Java, Playwright, Cucumber, and JUnit following the BDD approach. Automated product search, cart validation, and multi-variant shopping workflows with robust UI validations, thread-safe browser management, screenshot capture on failure, and detailed test reporting using Maven-based execution.',
-    image: 'https://i.postimg.cc/d1JHx4xy/asd.png',
+    image: '/images/casekaro.png',
     technologies: ['Java', 'Playwright', 'Cucumber (BDD)', 'JUnit', 'Maven', 'Git', 'Chromium Browser'],
     github: 'https://github.com/CoderPartha012/casekaro-automation',
     live: 'https://casekaro.com/',
@@ -66,7 +66,7 @@ const projects = [
   {
     title: 'Zynerd Booking Automation',
     description: 'Developed an end-to-end automation testing framework for the Zynerd booking and Razorpay payment workflow using Java, Selenium WebDriver, and TestNG with the Page Object Model (POM) design pattern. Automated booking flow, payment processing, and form validation scenarios with reusable utilities, config-driven test data, explicit wait handling, and Maven-based test execution.',
-    image: 'https://i.postimg.cc/T277tjqb/Zynerd.png',
+    image: '/images/zynerd.png',
     technologies: ['Java', 'Selenium WebDriver', 'TestNG', 'Maven', 'Page Object Model (POM)', 'SLF4J Logging'],
     github: 'https://github.com/CoderPartha012/zynerd-booking-automation',
     live: 'https://staging.zynerd.co.in/call-guidance-qa',
