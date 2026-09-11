@@ -4,6 +4,21 @@
 # Tool folders
 .bolt/
 .claude/
+.agent/
+.agents/
+.codex/
+.netlify/
+
+# Private credentials and local security files
+*.pem
+*.key
+*.p12
+*.pfx
+.npmrc
+.pypirc
+credentials.json
+service-account*.json
+secrets/
 
 # Vite timestamp cache
 vite.config.ts.timestamp-*.mjs
