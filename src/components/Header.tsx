@@ -62,7 +62,7 @@ export default function Header() {
   }, [menuOpen]);
 
   return (
-    <header className="qa-theme qa-header">
+    <header className="qa-theme qa-header" data-hero={active === 'hero' || undefined}>
       <div className="qa-container qa-header-inner">
         <a href="#hero" className="qa-brand" aria-label="Partha Rakshit, QA Engineer — home" onClick={() => setMenuOpen(false)}><span className="qa-brand-icon"><ShieldCheck size={23} aria-hidden="true" /></span><span><strong>Partha Rakshit<span className="qa-brand-dot">.</span></strong><small>QA ENGINEER / SOFTWARE TESTING</small></span></a>
         <button ref={toggleRef} type="button" className="qa-menu-toggle" aria-label={menuOpen ? 'Close navigation' : 'Open navigation'} aria-expanded={menuOpen} aria-controls="primary-navigation" onClick={() => setMenuOpen(open => !open)}>{menuOpen ? <X size={22} aria-hidden="true" /> : <Menu size={22} aria-hidden="true" />}</button>
