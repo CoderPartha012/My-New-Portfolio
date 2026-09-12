@@ -47,6 +47,22 @@ const CircularGallery = forwardRef<HTMLDivElement, CircularGalleryProps>(
     }, []);
 
     useEffect(() => {
+      const viewport = viewportRef.current;
+      if (!viewport || staticLayout || items.length < 2) return;
+      const cards = Array.from(viewport.querySelectorAll<HTMLElement>('.circular-gallery-item'));
+      const measure = () => {
+        // Layout heights ignore the carousel's perspective transforms. Reserve
+        // only the tallest card plus room for its top offset and lower shadow.
+        const height = Math.max(...cards.map(card => card.offsetHeight), 0);
+        viewport.style.setProperty('--gallery-content-height', `${height + 48}px`);
+      };
+      const observer = new ResizeObserver(measure);
+      cards.forEach(card => observer.observe(card));
+      measure();
+      return () => observer.disconnect();
+    }, [items.length, staticLayout]);
+
+    useEffect(() => {
       if (stopped) return;
       let frame = 0;
       let previous = 0;
@@ -103,7 +119,7 @@ const CircularGallery = forwardRef<HTMLDivElement, CircularGalleryProps>(
             <button type="button" onClick={() => select(active + 1)} disabled={items.length < 2} aria-label="Next project"><ArrowRight size={20} /></button>
           </div>
         </div>
-        <div ref={viewportRef} className="circular-gallery-viewport" data-static={staticLayout || undefined}
+        <div ref={viewportRef} className="circular-gallery-viewport" data-static={staticLayout || items.length < 2 || undefined}
           onMouseEnter={() => setHovered(true)} onMouseLeave={() => setHovered(false)}>
           <div className="circular-gallery-orbit" aria-hidden="true" />
           <div className="circular-gallery-track" style={{ transform: `translateZ(${-effectiveRadius}px) rotateY(${rotation}deg)` }}>

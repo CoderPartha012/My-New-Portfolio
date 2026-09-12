@@ -1,267 +1,93 @@
-import { useEffect, useState } from 'react';
+﻿import { useEffect, useRef, useState } from 'react';
+import { ArrowUpRight } from 'lucide-react';
+import './loader.css';
 
-const DURATION = 5000; // ms before loader exits
+const INTRO_VIDEO = 'https://d8j0ntlcm91z4.cloudfront.net/user_38xzZboKViGWJOttwIXH07lWA1P/hf_20260808_112712_da9d53df-6d27-4b12-bdf6-aa9dc2622bdf.mp4';
 
-const Loader = ({ onDone }: { onDone: () => void }) => {
-  const [progress, setProgress] = useState(0);
-  const [phase, setPhase] = useState<'loading' | 'done'>('loading');
-  const [glitch, setGlitch] = useState(false);
+export default function Loader({ onComplete }: { onComplete: () => void }) {
+  const videoRef = useRef<HTMLVideoElement>(null);
+  const skipRef = useRef<HTMLButtonElement>(null);
+  const [leaving, setLeaving] = useState(false);
+  const finishRef = useRef<() => void>(() => {});
 
-  /* ── progress bar ── */
   useEffect(() => {
-    const start = performance.now();
-    let raf: number;
+    const video = videoRef.current;
+    const content = document.getElementById('portfolio-content');
+    const motion = window.matchMedia('(prefers-reduced-motion: reduce)');
+    const previousOverflow = document.body.style.overflow;
+    const previousFocus = document.activeElement as HTMLElement | null;
+    let dismissed = false;
+    let disposed = false;
+    let playbackTimer: ReturnType<typeof setTimeout> | undefined;
+    let exitTimer: ReturnType<typeof setTimeout> | undefined;
 
-    const tick = (now: number) => {
-      const elapsed = now - start;
-      const pct = Math.min((elapsed / DURATION) * 100, 100);
-      setProgress(pct);
-      if (pct < 100) {
-        raf = requestAnimationFrame(tick);
-      } else {
-        setPhase('done');
-        setTimeout(onDone, 600); // wait for fade-out
-      }
+    const finish = () => {
+      if (dismissed || disposed) return;
+      dismissed = true;
+      clearTimeout(playbackTimer);
+      clearTimeout(limitTimer);
+      video?.pause();
+      setLeaving(true);
+      exitTimer = setTimeout(onComplete, motion.matches ? 0 : 450);
+    };
+    finishRef.current = finish;
+    const playing = () => {
+      // Give the cinematic intro a short viewing window, without fake progress.
+      if (!playbackTimer) playbackTimer = setTimeout(finish, 2600);
+    };
+    const motionChanged = () => { if (motion.matches) finish(); };
+    const escape = (event: KeyboardEvent) => { if (event.key === 'Escape') finish(); };
+    const trapFocus = (event: KeyboardEvent) => {
+      if (event.key === 'Tab') { event.preventDefault(); skipRef.current?.focus(); }
     };
 
-    raf = requestAnimationFrame(tick);
-    return () => cancelAnimationFrame(raf);
-  }, [onDone]);
+    document.body.style.overflow = 'hidden';
+    if (content) content.inert = true;
+    skipRef.current?.focus({ preventScroll: true });
+    document.addEventListener('keydown', escape);
+    document.addEventListener('keydown', trapFocus);
+    motion.addEventListener('change', motionChanged);
+    video?.addEventListener('playing', playing);
+    video?.addEventListener('error', finish);
+    // Even when the CDN stalls, the portfolio is available within six seconds.
+    const limitTimer = setTimeout(finish, 6000);
+    if (motion.matches) finish();
+    else if (video) {
+      video.src = INTRO_VIDEO;
+      void video.play().catch(finish);
+    }
 
-  /* ── random glitch flashes ── */
-  useEffect(() => {
-    const id = setInterval(() => {
-      setGlitch(true);
-      setTimeout(() => setGlitch(false), 120);
-    }, 900);
-    return () => clearInterval(id);
-  }, []);
-
-  const checks = [
-    { label: 'Initializing environment',  threshold: 15 },
-    { label: 'Loading components',         threshold: 40 },
-    { label: 'Mounting portfolio',         threshold: 65 },
-    { label: 'Applying cyber theme',       threshold: 85 },
-    { label: 'Ready',                      threshold: 100 },
-  ];
-
-  return (
-    <div
-      className="fixed inset-0 z-[9999] flex flex-col items-center justify-center overflow-hidden"
-      style={{
-        background: '#020b18',
-        opacity: phase === 'done' ? 0 : 1,
-        transition: 'opacity 0.6s ease',
-        pointerEvents: phase === 'done' ? 'none' : 'all',
-      }}
-    >
-      {/* ── Cyber grid ── */}
-      <div className="absolute inset-0 cyber-grid opacity-30 pointer-events-none" />
-
-      {/* ── Scan line ── */}
-      <div className="scan-line" />
-
-      {/* ── Corner accents ── */}
-      {['top-4 left-4', 'top-4 right-4', 'bottom-4 left-4', 'bottom-4 right-4'].map((pos, i) => (
-        <div key={i} className={`absolute ${pos} w-8 h-8 pointer-events-none`}>
-          <div
-            className="absolute inset-0"
-            style={{
-              borderTop: i < 2 ? '2px solid rgba(0,212,255,0.5)' : 'none',
-              borderBottom: i >= 2 ? '2px solid rgba(0,212,255,0.5)' : 'none',
-              borderLeft: i % 2 === 0 ? '2px solid rgba(0,212,255,0.5)' : 'none',
-              borderRight: i % 2 === 1 ? '2px solid rgba(0,212,255,0.5)' : 'none',
-            }}
-          />
-        </div>
-      ))}
-
-      {/* ── Ambient orbs ── */}
-      <div className="absolute top-1/4 left-1/4 w-64 h-64 bg-cyan-500/6 rounded-full blur-3xl orb-float pointer-events-none" />
-      <div className="absolute bottom-1/4 right-1/4 w-64 h-64 bg-emerald-500/6 rounded-full blur-3xl orb-float-delayed pointer-events-none" />
-
-      {/* ── Main content ── */}
-      <div className="relative z-10 flex flex-col items-center w-full max-w-md px-8">
-
-        {/* Logo mark */}
-        <div className="relative mb-8">
-          {/* Outer ring */}
-          <div
-            className="w-24 h-24 rounded-full flex items-center justify-center"
-            style={{
-              border: '1px solid rgba(0,212,255,0.2)',
-              boxShadow: '0 0 40px rgba(0,212,255,0.15)',
-              animation: 'spin 8s linear infinite',
-            }}
-          >
-            {/* Inner ring (counter-spin) */}
-            <div
-              className="w-16 h-16 rounded-full flex items-center justify-center"
-              style={{
-                border: '1px solid rgba(16,185,129,0.3)',
-                animation: 'spin 4s linear infinite reverse',
-              }}
-            >
-              {/* Center initials */}
-              <span
-                className="text-2xl font-black heading-font"
-                style={{
-                  background: 'linear-gradient(135deg,#00d4ff,#10b981)',
-                  WebkitBackgroundClip: 'text',
-                  WebkitTextFillColor: 'transparent',
-                }}
-              >
-                PR
-              </span>
-            </div>
-          </div>
-
-          {/* Rotating arc dots */}
-          {[0, 90, 180, 270].map((deg) => (
-            <div
-              key={deg}
-              className="absolute inset-0 flex items-center justify-center pointer-events-none"
-              style={{ transform: `rotate(${deg}deg)` }}
-            >
-              <div
-                className="w-2 h-2 rounded-full"
-                style={{
-                  background: deg === 0 || deg === 180 ? '#00d4ff' : '#10b981',
-                  transform: 'translateY(-48px)',
-                  boxShadow: `0 0 8px ${deg === 0 || deg === 180 ? '#00d4ff' : '#10b981'}`,
-                }}
-              />
-            </div>
-          ))}
-        </div>
-
-        {/* Name with glitch */}
-        <div className="relative mb-2 text-center overflow-hidden">
-          <h1
-            className="text-3xl md:text-4xl font-black heading-font text-white tracking-wider"
-            style={{
-              textShadow: glitch
-                ? '2px 0 #00d4ff, -2px 0 #10b981'
-                : '0 0 20px rgba(0,212,255,0.3)',
-              transform: glitch ? `translateX(${Math.random() > 0.5 ? 2 : -2}px)` : 'none',
-            }}
-          >
-            PARTHA RAKSHIT
-          </h1>
-          {/* Glitch duplicate layers */}
-          {glitch && (
-            <>
-              <h1
-                className="absolute inset-0 text-3xl md:text-4xl font-black heading-font tracking-wider"
-                style={{ color: '#00d4ff', opacity: 0.4, clipPath: 'inset(30% 0 50% 0)', transform: 'translateX(3px)' }}
-              >
-                PARTHA RAKSHIT
-              </h1>
-              <h1
-                className="absolute inset-0 text-3xl md:text-4xl font-black heading-font tracking-wider"
-                style={{ color: '#10b981', opacity: 0.4, clipPath: 'inset(60% 0 20% 0)', transform: 'translateX(-3px)' }}
-              >
-                PARTHA RAKSHIT
-              </h1>
-            </>
-          )}
-        </div>
-
-        <p className="text-slate-500 text-xs tracking-[0.3em] uppercase body-font mb-10">
-          Quality Analyst · Software Tester
-        </p>
-
-        {/* Progress bar */}
-        <div className="w-full mb-5">
-          <div
-            className="w-full h-0.5 rounded-full overflow-hidden"
-            style={{ background: 'rgba(255,255,255,0.06)' }}
-          >
-            <div
-              className="h-full rounded-full transition-all duration-100"
-              style={{
-                width: `${progress}%`,
-                background: 'linear-gradient(90deg,#0284c7,#00d4ff,#10b981)',
-                boxShadow: '0 0 12px rgba(0,212,255,0.6)',
-              }}
-            />
-          </div>
-        </div>
-
-        {/* Check list */}
-        <div className="w-full space-y-2">
-          {checks.map((item) => {
-            const done = progress >= item.threshold;
-            const active = progress < item.threshold &&
-              progress >= (checks[checks.indexOf(item) - 1]?.threshold ?? 0);
-            return (
-              <div
-                key={item.label}
-                className="flex items-center gap-3 transition-all duration-300"
-                style={{ opacity: done ? 1 : active ? 0.6 : 0.2 }}
-              >
-                {/* Status icon */}
-                <div
-                  className="w-4 h-4 rounded-full flex items-center justify-center flex-shrink-0 text-xs"
-                  style={{
-                    border: `1px solid ${done ? '#10b981' : active ? '#00d4ff' : 'rgba(255,255,255,0.15)'}`,
-                    background: done ? 'rgba(16,185,129,0.15)' : 'transparent',
-                    boxShadow: done ? '0 0 8px rgba(16,185,129,0.4)' : active ? '0 0 8px rgba(0,212,255,0.3)' : 'none',
-                  }}
-                >
-                  {done && <span style={{ color: '#10b981' }}>✓</span>}
-                  {active && (
-                    <span
-                      className="w-1.5 h-1.5 rounded-full bg-cyan-400"
-                      style={{ animation: 'pulse 1s ease-in-out infinite' }}
-                    />
-                  )}
-                </div>
-
-                <span
-                  className="text-xs body-font tracking-wide"
-                  style={{ color: done ? '#10b981' : active ? '#00d4ff' : '#334155' }}
-                >
-                  {item.label}
-                  {active && <span className="ml-1 animate-pulse">...</span>}
-                </span>
-
-                {done && (
-                  <span className="ml-auto text-xs" style={{ color: '#10b981' }}>
-                    OK
-                  </span>
-                )}
-              </div>
-            );
-          })}
-        </div>
-
-        {/* Bottom percentage */}
-        <div className="mt-8 flex items-center gap-3">
-          <div className="h-px flex-1" style={{ background: 'linear-gradient(90deg,transparent,rgba(0,212,255,0.3))' }} />
-          <span
-            className="text-sm font-black heading-font tabular-nums"
-            style={{
-              background: 'linear-gradient(135deg,#00d4ff,#10b981)',
-              WebkitBackgroundClip: 'text',
-              WebkitTextFillColor: 'transparent',
-            }}
-          >
-            {Math.floor(progress)}%
-          </span>
-          <div className="h-px flex-1" style={{ background: 'linear-gradient(90deg,rgba(0,212,255,0.3),transparent)' }} />
-        </div>
-      </div>
-
-      {/* Spin keyframe injected inline */}
-      <style>{`
-        @keyframes spin {
-          from { transform: rotate(0deg); }
-          to   { transform: rotate(360deg); }
+    return () => {
+      disposed = true;
+      clearTimeout(playbackTimer);
+      clearTimeout(exitTimer);
+      clearTimeout(limitTimer);
+      document.removeEventListener('keydown', escape);
+      document.removeEventListener('keydown', trapFocus);
+      motion.removeEventListener('change', motionChanged);
+      video?.removeEventListener('playing', playing);
+      video?.removeEventListener('error', finish);
+      video?.pause();
+      video?.removeAttribute('src');
+      video?.load();
+      document.body.style.overflow = previousOverflow;
+      if (content) content.inert = false;
+      if (dismissed) {
+        const target = document.getElementById(window.location.hash.slice(1)) ?? document.getElementById('main-content');
+        if (target) {
+          const priorTabIndex = target.getAttribute('tabindex');
+          if (priorTabIndex === null) target.setAttribute('tabindex', '-1');
+          target.focus({ preventScroll: true });
+          if (priorTabIndex === null) target.removeAttribute('tabindex');
         }
-      `}</style>
-    </div>
-  );
-};
+      } else previousFocus?.focus({ preventScroll: true });
+    };
+  }, [onComplete]);
 
-export default Loader;
+  return <div className={`portfolio-loader${leaving ? ' portfolio-loader-leaving' : ''}`} role="dialog" aria-modal="true" aria-labelledby="intro-title" aria-describedby="intro-status">
+    <div className="intro-plate" aria-hidden="true"><video ref={videoRef} className="intro-video" muted loop playsInline preload="auto" tabIndex={-1} /></div>
+    <div className="intro-topbar"><span className="intro-name">Partha Rakshit</span><button ref={skipRef} className="intro-skip" type="button" onClick={() => finishRef.current()}>Skip intro <ArrowUpRight size={17} aria-hidden="true" /></button></div>
+    <div className="intro-copy"><p className="intro-eyebrow">QA ENGINEER / SOFTWARE TESTING</p><h1 id="intro-title">Thoughtful testing.<br /><span>Software people<br className="intro-mobile-break" /> can rely on.</span></h1></div>
+    <div className="intro-bottom"><p id="intro-status" role="status">Opening portfolio<span aria-hidden="true"> / </span><span className="intro-status-note">Please wait a moment</span></p><span className="intro-escape">ESC TO SKIP</span></div>
+  </div>;
+}

@@ -7,12 +7,12 @@
 .circular-gallery-buttons button:hover { background: #1c3847; border-color: var(--qa-cyan); }
 .circular-gallery-buttons button:disabled { opacity: .35; cursor: default; }
 .circular-gallery button:focus-visible { outline: 2px solid var(--qa-cyan); outline-offset: 4px; }
-.circular-gallery-viewport { position: relative; height: 800px; overflow: hidden; perspective: 2000px; perspective-origin: 50% 40%; }
+.circular-gallery-viewport { position: relative; height: var(--gallery-content-height, 720px); overflow: hidden; perspective: 2000px; perspective-origin: 50% 40%; }
 .circular-gallery-track { position: relative; height: 100%; width: 100%; transform-style: preserve-3d; }
 .circular-gallery[data-paused] .circular-gallery-track { transition: transform .65s cubic-bezier(.22, 1, .36, 1); }
 .circular-gallery-item { position: absolute; width: 440px; top: 24px; left: calc(50% - 220px); backface-visibility: hidden; transition: opacity .3s; }
 .circular-gallery-item[data-active="false"] { pointer-events: none; }
-.circular-gallery .circular-gallery-item .qa-project-card { min-height: 718px; background: linear-gradient(145deg, #172b3a, #0b1723 75%); border-radius: 18px; box-shadow: 0 28px 60px #0006; animation: none; }
+.circular-gallery .circular-gallery-item .qa-project-card { min-height: 0; background: linear-gradient(145deg, #172b3a, #0b1723 75%); border-radius: 18px; box-shadow: 0 28px 60px #0006; animation: none; }
 .circular-gallery .qa-project-card:hover { transform: none; }
 .circular-gallery-item[data-active="true"] .qa-project-card { border-color: #467583; box-shadow: 0 28px 60px #0006, 0 0 32px #52d4cf0d; }
 .circular-gallery .qa-project-image { flex-shrink: 0; }

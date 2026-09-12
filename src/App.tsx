@@ -1,4 +1,6 @@
-﻿import Header       from './components/Header';
+import { useCallback, useState } from 'react';
+import Loader from './components/Loader';
+import Header       from './components/Header';
 import Hero         from './components/Hero';
 
 import About        from './components/About';
@@ -12,8 +14,12 @@ import Footer       from './components/Footer';
 import QAMotion     from './components/QAMotion';
 
 function App() {
+  const [loading, setLoading] = useState(true);
+  const finishLoading = useCallback(() => setLoading(false), []);
   return (
-    <div className="min-h-screen bg-black">
+    <>
+    {loading && <Loader onComplete={finishLoading} />}
+    <div id="portfolio-content" className="min-h-screen bg-black">
       <a href="#main-content" className="qa-skip-link">Skip to main content</a>
       <QAMotion />
       <Header />
@@ -30,6 +36,7 @@ function App() {
       </main>
       <Footer />
     </div>
+    </>
   );
 }
 

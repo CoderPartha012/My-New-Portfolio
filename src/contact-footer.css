@@ -1,6 +1,7 @@
 ﻿/* Contact and footer: the supplied Kresna art direction, with portfolio copy. */
 .portfolio-footer,.qa-contact.contact-redesign { font-family: 'DM Sans',sans-serif; color:#2d3148; background:#fff; }
-.footer-section,.qa-contact.contact-redesign { padding:48px 24px; }
+.footer-section { padding:48px 24px 12px; }
+.qa-contact.contact-redesign { padding:48px 24px 24px; }
 .footer-section *, .footer-section *::before,.footer-section *::after { box-sizing:border-box; margin:0; padding:0; }
 .footer-section a { text-decoration:none; }
 .footer-wrapper { max-width:1150px; margin:auto; display:grid; grid-template-columns:350px minmax(0,1fr); gap:16px; align-items:stretch; position:relative; z-index:1; }
@@ -13,7 +14,7 @@
 .footer-logo small { display:block; font-size:8px; letter-spacing:.08em; margin-top:4px; }
 .footer-tagline { margin-top:auto; margin-bottom:28px; padding-top:56px; font-size:19px; line-height:1.45; color:#fff; }
 .footer-tagline span { color:#ffffffa6; }
-.footer-social-row { display:flex; align-items:center; justify-content:space-between; gap:12px; }
+.footer-social-row { display:flex; flex-wrap:wrap; align-items:center; justify-content:space-between; gap:12px; }
 .footer-social-label { font-family:'Caveat',cursive; font-size:20px; font-weight:600; color:#ffffffe6; }
 .footer-social-icons { display:flex; gap:7px; }
 .footer-social-icons a { display:grid; place-items:center; width:36px; height:36px; border-radius:9px; color:white; background:#0e1014; box-shadow:0 6px 18px #0005,0 2px 6px #0003; transition:background .2s,transform .15s,box-shadow .2s; }
@@ -43,7 +44,7 @@
 .footer-watermark text { font-family:'DM Sans',sans-serif; font-weight:700; letter-spacing:-.03em; fill:rgba(0,0,0,.04); }
 .footer-section a:focus-visible { outline:3px solid #1f65d6; outline-offset:5px; }
 .footer-left a:focus-visible { outline-color:#fff; }
-.qa-contact.contact-redesign { --qa-text:#2d3148; --qa-muted:#626a79; --qa-accent:#1f65d6; border:0; padding-top:80px; }
+.qa-contact.contact-redesign { --qa-text:#2d3148; --qa-muted:#626a79; --qa-accent:#1f65d6; border:0; padding-top:48px; }
 .qa-contact.contact-redesign::after { display:none; }
 .contact-redesign .qa-container { max-width:1150px; width:100%; padding:0; }
 .mf-section.contact-redesign .qa-contact-grid { gap:16px; align-items:stretch; }
@@ -65,5 +66,5 @@
 .mf-section.contact-redesign .qa-status-dot { background:#1f65d6; }
 @media(max-width:1100px) { .footer-bottom { flex-direction:column-reverse; align-items:flex-start; } .footer-copyright { max-width:none; } .footer-nav-cols { gap:28px; padding-right:95px; } }
 @media(max-width:860px) { .footer-wrapper { grid-template-columns:1fr; gap:60px; } .footer-left { min-height:auto; gap:40px; } .footer-tagline { padding-top:0; margin-bottom:0; } .footer-bottom { flex-direction:row; } .footer-nav-cols { gap:72px; } .mf-section.contact-redesign .qa-contact-grid { grid-template-columns:1fr; } }
-@media(max-width:560px) { .footer-section,.qa-contact.contact-redesign { padding:48px 20px; } .footer-right { padding:24px; } .footer-left { padding:28px; } .footer-nav-cols { gap:28px; padding-right:0; padding-top:80px; } .footer-bottom { flex-direction:column; align-items:flex-start; gap:24px; } .footer-cta-mini { width:100%; } .footer-lucky-graphic { right:12px; top:-28px; } .lucky-cube { width:72px; height:72px; } .lucky-cube span { font-size:32px; } .footer-watermark { margin:0 auto; } .mf-section.contact-redesign .qa-contact-copy { padding:0 4px 24px; } .mf-section.contact-redesign .qa-contact-form { padding:24px; } }
+@media(max-width:560px) { .footer-section { padding:48px 20px 8px; } .qa-contact.contact-redesign { padding:36px 20px 24px; } .footer-right { padding:24px; } .footer-left { padding:28px; } .footer-nav-cols { gap:28px; padding-right:0; padding-top:80px; } .footer-bottom { flex-direction:column; align-items:flex-start; gap:24px; } .footer-cta-mini { width:100%; } .footer-lucky-graphic { right:12px; top:-28px; } .lucky-cube { width:72px; height:72px; } .lucky-cube span { font-size:32px; } .footer-watermark { margin:0 auto; } .mf-section.contact-redesign .qa-contact-copy { padding:0 4px 24px; } .mf-section.contact-redesign .qa-contact-form { padding:24px; } }
 @media(prefers-reduced-motion:reduce) { .footer-section *, .contact-redesign * { transition:none!important; animation:none!important; } }

@@ -23,3 +23,4 @@ createRoot(document.getElementById('root')!).render(
 );
 
 import './contact-footer.css';
+import './layout-responsive.css';

@@ -1,0 +1,57 @@
+/* Final layout rules: shared gutters, compact section rhythm, and safe wrapping. */
+#hero.hero-mainframe { min-height:min(100svh, 900px); padding-top:112px; padding-bottom:28px; }
+.mf-toolbelt { margin-top:28px; gap:16px; }
+.mf-availability { margin-bottom:24px; max-width:100%; }
+.mf-about :is(.mf-about-heading,.mf-about-grid) > *,
+.mf-section :is(.qa-heading-row,.qa-skill-grid,.qa-education-journey,.qa-career-stop,.qa-contact-grid) > * { min-width:0; }
+.mf-section :is(.qa-role-heading > div,.qa-role-tools,.qa-project-body,.qa-cert-card > *) { min-width:0; }
+.mf-section :is(.qa-skill-chips li,.qa-experience-chip) { max-width:100%; white-space:normal; overflow-wrap:anywhere; }
+.mf-section :is(.qa-role-heading h4,.qa-cert-card h3,.qa-project-body h3,.qa-school-name) { overflow-wrap:anywhere; }
+.mf-section .qa-role-heading img,.mf-section .qa-experience-chip > span { flex-shrink:0; }
+.mf-section .qa-project-links { flex-wrap:wrap; gap:12px; }
+.mf-section .qa-career-next { gap:16px; }
+.mf-section.contact-redesign .qa-contact-copy { padding:24px; }
+.mf-section.contact-redesign .qa-contact-email { font-size:clamp(13px,1.35vw,18px); gap:8px; }
+.mf-section.contact-redesign .qa-contact-availability { line-height:1.5; }
+@media(min-width:801px) and (max-width:1000px) {
+  .mf-section .qa-education-journey .qa-education-card { padding:18px; }
+  .mf-section .qa-academic-score strong { font-size:30px; }
+  .mf-section .qa-education-journey .qa-academic-score { flex-wrap:wrap; gap:4px; }
+}
+@media(max-width:860px) {
+  .mf-section.contact-redesign .qa-contact-copy { padding:0 0 16px; }
+  .mf-section.contact-redesign .qa-contact-grid { gap:16px; }
+}
+@media(max-width:767px) {
+  #hero.hero-mainframe { min-height:auto; padding-top:104px; padding-bottom:28px; }
+  .mf-toolbelt { margin-top:24px; padding-top:16px; }
+  .mf-section .qa-heading-row { gap:16px; }
+  .mf-section .qa-education-journey .qa-education-card { padding:24px; }
+  .mf-section .qa-career-roadmap { gap:28px; }
+  .mf-section .qa-career-stop { gap:16px; }
+  .mf-section .qa-role-bullets { margin-block:20px; gap:10px; }
+  .mf-about-heading,.mf-about-grid { gap:20px; }
+}
+@media(max-width:560px) {
+  .mf-section .qa-skill-card { padding:20px; }
+  .mf-section .qa-education-journey .qa-education-card { padding:20px; }
+  .mf-section .qa-career-card .qa-role-body { padding:20px; }
+  .mf-section .qa-skills-bottom { margin-top:20px; padding-top:20px; gap:12px; }
+  .mf-section .qa-cert-card { padding-block:20px; }
+  .mf-about-portrait figcaption { padding-top:12px; }
+  .mf-about-specialty:last-child { padding-bottom:0; }
+  .mf-section.contact-redesign .qa-contact-form { padding:20px; }
+  .mf-section.contact-redesign .qa-form-fields { gap:16px; }
+  .mf-section .qa-contact-socials { gap:8px; }
+  .qa-header.mf-header .qa-header-inner { gap:12px; }
+  .qa-header.mf-header .qa-brand { min-width:0; }
+  .qa-header.mf-header .qa-menu-toggle { flex-shrink:0; }
+}
+@media(max-width:360px) {
+  .mf-actions .mf-pill { width:100%; }
+  .mf-section .qa-section-heading h2,.mf-about-heading h2 { font-size:30px; }
+  .mf-section .qa-skill-filters button { padding-inline:12px; }
+  .mf-section .qa-role-heading { flex-wrap:wrap; }
+  .intro-topbar { left:16px; right:16px; gap:10px; }
+  .intro-name { font-size:13px; }
+}
