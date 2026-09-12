@@ -71,7 +71,7 @@ const chapters = [
 
 export default function Experience() {
   return (
-    <section id="experience" className="qa-theme qa-work" aria-labelledby="work-title">
+    <section id="experience" className="qa-theme mf-section qa-work" aria-labelledby="work-title">
       <QAReveal className="qa-container">
         <div className="qa-section-heading qa-heading-row">
           <div><p className="qa-eyebrow">04 / WORK HISTORY</p><h2 id="work-title">My journey in QA.<br /><span className="qa-gradient-text">From learning to ownership.</span></h2></div>

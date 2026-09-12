@@ -10,7 +10,6 @@ Personal portfolio showcasing Partha Rakshit's software testing experience, educ
 - Project search by title, description, or technology, plus category filters for test automation and web applications.
 - Certification cards with credential links.
 - Contact form with validation, inline feedback, and automatic field reset after success.
-- Floating Gemini chatbot for questions about the portfolio.
 - Keyboard-accessible controls and a skip link that appears only when focused, without a startup text flash.
 
 Clicking a section link adds its hash to the URL. Refreshing clears the hash without adding a history entry; direct section links and browser back/forward navigation remain supported.
@@ -25,7 +24,6 @@ Clicking a section link adds its hash to the URL. Refreshing clears the hash wit
 | Motion | CSS keyframes, transitions, IntersectionObserver |
 | Icons | Lucide React |
 | Email delivery | EmailJS browser SDK |
-| Chat assistant | Gemini API integration |
 
 ## Run locally
 
@@ -89,18 +87,6 @@ Configure the recipient address in the EmailJS template and use `from_email` for
 
 When all three settings are present, the form attempts EmailJS delivery. A successful response clears the fields and shows a sent confirmation. A failed request retains the entered details and displays an error.
 
-## Chat assistant
-
-`src/components/ChatBot.tsx` contains the assistant prompt, suggestion buttons, and Gemini request logic. It currently references the `gemini-2.0-flash` model endpoint; availability depends on the configured API account.
-
-The existing client integration reads:
-
-```env
-VITE_GEMINI_API_KEY=
-```
-
-Variables prefixed with `VITE_` are included in the browser bundle. They are not secret storage; a private AI API key should be used through a server-side endpoint before enabling public production chat. The current chatbot calls Gemini directly; the separate `netlify/functions/claude-chat.js` function is not connected to this component.
-
 ## Main files
 
 ```text
@@ -116,7 +102,6 @@ src/
     Certifications.tsx  Credential cards
     Contact.tsx         Contact details and form behavior
     Footer.tsx          Footer navigation and social links
-    ChatBot.tsx         Gemini assistant
     QAReveal.tsx        One-time section reveal observer
     QAMotion.tsx        Scroll progress and in-view motion tracking
   App.tsx               Page composition
@@ -145,8 +130,6 @@ The repository includes `netlify.toml` with:
 
 - Build command: `npm run build`
 - Published directory: `dist`
-- Functions directory: `netlify/functions`
-- `/api/*` rewrites to the corresponding Netlify function
 
 Set any required integration variables in the hosting environment before building. The generated `dist/` directory contains the static portfolio.
 

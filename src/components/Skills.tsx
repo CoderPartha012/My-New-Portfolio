@@ -17,7 +17,7 @@ export default function Skills() {
   const [filter, setFilter] = useState('all');
   const visible = categories.filter(category => filter === 'all' || category.group === filter);
   return (
-    <section id="skills" className="qa-theme qa-skills" aria-labelledby="skills-title">
+    <section id="skills" className="qa-theme mf-section qa-skills" aria-labelledby="skills-title">
       <QAReveal className="qa-container">
         <div className="qa-section-heading qa-heading-row"><div><p className="qa-eyebrow">02 / SKILLS & EXPERTISE</p><h2 id="skills-title">The toolkit behind<br /><span className="qa-gradient-text">reliable software.</span></h2></div><p className="qa-section-summary">From exploratory testing to automated checks, the tools I use to investigate, validate, and improve software quality.</p></div>
         <div className="qa-skill-filters" role="group" aria-label="Filter skill categories">{filters.map(item => <button key={item.id} type="button" aria-pressed={filter === item.id} aria-controls="qa-skill-results" onClick={() => setFilter(item.id)}>{item.label}</button>)}</div>

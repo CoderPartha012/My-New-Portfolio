@@ -1,7 +1,8 @@
-import { useState } from 'react';
-import { Github, ArrowUpRight, Search, FolderGit2 } from 'lucide-react';
+import { useMemo, useState } from 'react';
+import { Github, ArrowUpRight, FolderGit2, Code2, ShieldCheck } from 'lucide-react';
 import QAReveal from './QAReveal';
 import { CircularGallery } from './ui/circular-gallery';
+import { ActionSearchBar } from './ui/action-search-bar';
 
 const projects = [
   {
@@ -79,10 +80,21 @@ const projects = [
 export default function Projects() {
   const [filter, setFilter] = useState('all');
   const [search, setSearch] = useState('');
+  const searchActions = useMemo(() => [...projects]
+    .sort((a, b) => Number(b.category === 'testing') - Number(a.category === 'testing'))
+    .filter(project => filter === 'all' || project.category === filter)
+    .map(project => ({
+      id: project.title,
+      label: project.title,
+      description: project.technologies.slice(0, 2).join(' / '),
+      keywords: [project.description, ...project.technologies].join(' '),
+      icon: project.category === 'testing' ? <ShieldCheck size={16} /> : <Code2 size={16} />,
+      end: project.category === 'testing' ? 'Test automation' : 'Web application',
+    })), [filter]);
   const filtered = [...projects].sort((a, b) => Number(b.category === 'testing') - Number(a.category === 'testing')).filter(project => (filter === 'all' || project.category === filter) && [project.title, project.description, ...project.technologies].join(' ').toLowerCase().includes(search.trim().toLowerCase()));
-  return <section id="projects" className="qa-theme qa-projects" aria-labelledby="projects-title"><QAReveal className="qa-container">
+  return <section id="projects" className="qa-theme mf-section qa-projects" aria-labelledby="projects-title"><QAReveal className="qa-container">
     <div className="qa-section-heading qa-heading-row"><div><p className="qa-eyebrow">05 / PROJECTS</p><h2 id="projects-title">Built to learn.<br /><span className="qa-gradient-text">Tested to understand.</span></h2></div><p className="qa-section-summary">Automation frameworks and applications that put my testing and engineering skills into practice.</p></div>
-    <div className="qa-project-controls"><div className="qa-skill-filters" role="group" aria-label="Filter projects">{[['all', 'All projects'], ['testing', 'Test automation'], ['web', 'Web applications']].map(([id, label]) => <button type="button" aria-pressed={filter === id} key={id} onClick={() => setFilter(id)}>{label}</button>)}</div><label className="qa-project-search"><Search size={17} aria-hidden="true" /><span className="sr-only">Search projects</span><input type="search" value={search} onChange={event => setSearch(event.target.value)} placeholder="Search projects or tools" /></label></div>
+    <div className="qa-project-controls"><div className="qa-skill-filters" role="group" aria-label="Filter projects">{[['all', 'All projects'], ['testing', 'Test automation'], ['web', 'Web applications']].map(([id, label]) => <button type="button" aria-pressed={filter === id} key={id} onClick={() => setFilter(id)}>{label}</button>)}</div><ActionSearchBar actions={searchActions} value={search} onValueChange={setSearch} /></div>
     <p className="sr-only" role="status">{filtered.length} projects found.</p>
     <CircularGallery key={filtered.map(project => project.title).join('|')} items={filtered.map(project => ({ common: project.title, binomial: project.category, photo: { url: project.image, text: project.title + ' preview' }, content: (<article key={project.title} className="qa-project-card"><div className="qa-project-image"><img src={project.image} alt={project.title + ' preview'} width={640} height={360} loading="lazy" /><span>{project.category === 'testing' ? 'TEST AUTOMATION' : 'WEB APPLICATION'}</span></div><div className="qa-project-body"><h3>{project.title}</h3><p>{project.description}</p><ul className="qa-skill-chips">{project.technologies.map(tool => <li key={tool}>{tool}</li>)}</ul><div className="qa-project-links"><a href={project.github} target="_blank" rel="noopener noreferrer" aria-label={'View code for ' + project.title}><Github size={17} aria-hidden="true" />View code</a><a href={project.live} target="_blank" rel="noopener noreferrer" aria-label={(project.category === 'testing' ? 'View test target for ' : 'Open demo for ') + project.title}>{project.category === 'testing' ? 'Test target' : 'Live demo'}<ArrowUpRight size={17} aria-hidden="true" /></a></div></div></article>) }))} />
     {filtered.length === 0 && <div className="qa-project-empty"><FolderGit2 size={30} aria-hidden="true" /><h3>No matching projects</h3><p>Try another tool or clear the filters.</p><button className="qa-button qa-button-secondary" onClick={() => { setFilter('all'); setSearch(''); }}>Show all projects</button></div>}

@@ -3,6 +3,7 @@ import { createRoot } from 'react-dom/client';
 import App from './App.tsx';
 import './index.css';
 import './qa-premium.css';
+import './sections-light.css';
 
 // Clear the previous section from the address on refresh, without adding history.
 // Keep direct section links and back/forward navigation intact.
@@ -20,3 +21,5 @@ createRoot(document.getElementById('root')!).render(
     <App />
   </StrictMode>
 );
+
+import './contact-footer.css';

@@ -15,7 +15,7 @@ const certifications = [
 ];
 
 export default function Certifications() {
-  return <section id="certifications" className="qa-theme qa-certifications" aria-labelledby="certifications-title"><QAReveal className="qa-container">
+  return <section id="certifications" className="qa-theme mf-section qa-certifications" aria-labelledby="certifications-title"><QAReveal className="qa-container">
     <div className="qa-section-heading qa-heading-row"><div><p className="qa-eyebrow">06 / CERTIFICATIONS</p><h2 id="certifications-title">Learning that supports<br /><span className="qa-gradient-text">the work I do.</span></h2></div><p className="qa-section-summary">Five credentials across software testing, automation, APIs, and programming.</p></div>
     <div className="qa-cert-grid">{certifications.map(cert => <a className="qa-cert-card" key={cert.id} href={cert.url} target="_blank" rel="noopener noreferrer" aria-label={'View certificate: ' + cert.title}><div className="qa-cert-top"><span className="qa-cert-seal"><Award size={27} aria-hidden="true" /></span><span className="qa-card-index">{cert.id} / 05</span></div><p className="qa-cert-issuer">{cert.issuer}</p><h3>{cert.title}</h3><p className="qa-cert-date"><Calendar size={14} aria-hidden="true" />{cert.date}</p><div className="qa-cert-link">View certificate<ArrowUpRight size={18} aria-hidden="true" /></div></a>)}</div>
   </QAReveal></section>;

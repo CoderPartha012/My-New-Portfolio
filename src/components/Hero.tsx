@@ -95,13 +95,17 @@ export default function Hero() {
               <a className="mf-pill" href="#projects">Explore my work <span aria-hidden="true">&#8599;</span></a>
               <a className="mf-pill mf-pill-outline" href={RESUME_URL} target="_blank" rel="noopener noreferrer">View resume <span aria-hidden="true">&#8599;</span></a>
             </div>
+          <details className="mf-approach">
+            <summary><span>My approach</span><span className="mf-approach-plus" aria-hidden="true">+</span></summary>
+            <pre className="mf-approach-json" tabIndex={0} aria-label="My approach in JSON format"><code>{JSON.stringify({
+              title: 'Confidence before release.',
+              description: 'From the first requirement to the final check.',
+              workflow: workflow.map(([step, title, description]) => ({ step, title, description })),
+              mindset: 'Question. Validate. Improve.',
+            }, null, 2)}</code></pre>
+          </details>
           </div>
-          <aside className="mf-workflow" aria-labelledby="workflow-title">
-            <div className="mf-panel-top"><span> quality / workflow</span><span className="mf-panel-tag">MY APPROACH</span></div>
-            <div className="mf-workflow-heading"><div><h2 id="workflow-title">Confidence before release.</h2><p>From the first requirement to the final check.</p></div></div>
-            <ol className="mf-workflow-list">{workflow.map(([number, title, description]) => <li key={number}><span className="mf-step-number">{number}</span><div><h3>{title}</h3><p>{description}</p></div><span aria-hidden="true">&#10003;</span></li>)}</ol>
-            <div className="mf-workflow-footer"><span className="mf-code">mindset</span><span>Question. Validate. Improve.</span></div>
-          </aside>
+
         </div>
         <div className="mf-toolbelt"><span className="mf-eyebrow">MY TESTING TOOLKIT</span><div>{['Selenium', 'Playwright', 'Java', 'TestNG', 'Postman', 'Jira'].map(tool => <span key={tool}>{tool}</span>)}</div><a href="#about">Meet the tester <span aria-hidden="true">&#8595;</span></a></div>
       </div>
