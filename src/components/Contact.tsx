@@ -18,8 +18,7 @@ export default function Contact() {
     const templateId = import.meta.env.VITE_EMAILJS_TEMPLATE_ID;
     const publicKey = import.meta.env.VITE_EMAILJS_PUBLIC_KEY;
     if (!serviceId || !templateId || !publicKey) {
-      setStatus({ type: 'success', message: 'Thank you for getting in touch! Your details are complete. This form is currently in demo mode, so no email has been sent. Please use the email link to contact me directly.' });
-      setForm({ name: '', email: '', message: '' });
+      setStatus({ type: 'error', message: 'Email delivery is currently unavailable. Your message has not been sent. Please use the email link to contact me directly; your draft has been kept here.' });
       return;
     }
     setSubmitting(true);

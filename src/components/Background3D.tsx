@@ -5,7 +5,8 @@ const Background3D = () => {
   const mountRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
-    if (!mountRef.current) return;
+    const mount = mountRef.current;
+    if (!mount) return;
 
     // Scene setup
     const scene = new THREE.Scene();
@@ -21,7 +22,7 @@ const Background3D = () => {
     });
     renderer.setSize(window.innerWidth, window.innerHeight);
     renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
-    mountRef.current.appendChild(renderer.domElement);
+    mount.appendChild(renderer.domElement);
 
     // Create gradient mesh
     const geometry = new THREE.PlaneGeometry(5, 5, 32, 32);
@@ -80,6 +81,7 @@ const Background3D = () => {
 
     // Animation
     const clock = new THREE.Clock();
+    let animationFrame = 0;
     const animate = () => {
       const elapsedTime = clock.getElapsedTime();
       
@@ -95,7 +97,7 @@ const Background3D = () => {
       mesh.position.x = Math.cos(elapsedTime * 0.5) * 0.1;
 
       renderer.render(scene, camera);
-      requestAnimationFrame(animate);
+      animationFrame = requestAnimationFrame(animate);
     };
 
     animate();
@@ -112,13 +114,13 @@ const Background3D = () => {
 
     // Cleanup
     return () => {
-      if (mountRef.current) {
-        mountRef.current.removeChild(renderer.domElement);
-      }
+      cancelAnimationFrame(animationFrame);
+      renderer.domElement.remove();
       window.removeEventListener('resize', handleResize);
       document.removeEventListener('mousemove', handleMouseMove);
       geometry.dispose();
       material.dispose();
+      renderer.dispose();
     };
   }, []);
 

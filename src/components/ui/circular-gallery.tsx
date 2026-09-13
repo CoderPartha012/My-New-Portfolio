@@ -41,6 +41,10 @@ const CircularGallery = forwardRef<HTMLDivElement, CircularGalleryProps>(
     useEffect(() => {
       const viewport = viewportRef.current;
       if (!viewport) return;
+      if (typeof IntersectionObserver === 'undefined') {
+        setVisible(true);
+        return;
+      }
       const observer = new IntersectionObserver(([entry]) => setVisible(entry.isIntersecting), { threshold: 0.15 });
       observer.observe(viewport);
       return () => observer.disconnect();
@@ -56,6 +60,11 @@ const CircularGallery = forwardRef<HTMLDivElement, CircularGalleryProps>(
         const height = Math.max(...cards.map(card => card.offsetHeight), 0);
         viewport.style.setProperty('--gallery-content-height', `${height + 48}px`);
       };
+      if (typeof ResizeObserver === 'undefined') {
+        measure();
+        window.addEventListener('resize', measure);
+        return () => window.removeEventListener('resize', measure);
+      }
       const observer = new ResizeObserver(measure);
       cards.forEach(card => observer.observe(card));
       measure();

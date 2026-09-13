@@ -36,12 +36,12 @@ export function SlideTabs({ tabs, activeId, onNavigate }: SlideTabsProps) {
       setPosition({ left: target.left - bounds.left - list.clientLeft, top: target.top - bounds.top - list.clientTop, width: target.width, height: target.height, opacity: 1 });
     };
     measure();
-    const observer = new ResizeObserver(measure);
-    if (listRef.current) observer.observe(listRef.current);
-    tabsRef.current.forEach(tab => observer.observe(tab));
+    const observer = typeof ResizeObserver === 'undefined' ? null : new ResizeObserver(measure);
+    if (listRef.current) observer?.observe(listRef.current);
+    tabsRef.current.forEach(tab => observer?.observe(tab));
     void document.fonts.ready.then(() => { if (!disposed) measure(); });
     window.addEventListener('resize', measure);
-    return () => { disposed = true; observer.disconnect(); window.removeEventListener('resize', measure); };
+    return () => { disposed = true; observer?.disconnect(); window.removeEventListener('resize', measure); };
   }, [highlighted, tabs]);
 
   return <ul className="slide-tabs" ref={listRef}

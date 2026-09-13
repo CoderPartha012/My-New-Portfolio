@@ -1,4 +1,8 @@
-.mf-about {
+.qa-theme.mf-about {
+  --qa-bg: #eff1e9;
+  --qa-text: #17241c;
+  --qa-muted: #526052;
+  --qa-accent: #346347;
   position: relative;
   background: #eff1e9;
   color: #17241c;
